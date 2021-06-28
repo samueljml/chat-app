@@ -18,7 +18,7 @@ export const ChatForm = ({ selectedConversation, onMessageSubmitted }: any) => {
 	if (selectedConversation) {
 		formContents = (
 			<>
-				<AttachmentIcon />
+				{/* <AttachmentIcon /> */}
 				<input
 					type="text"
 					placeholder="type a message"
