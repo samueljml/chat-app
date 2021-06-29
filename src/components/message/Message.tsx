@@ -3,6 +3,7 @@ import { MessageProps } from "../../App";
 import dafaultImage from "../../images/profiles/default.png";
 
 export const Message = ({ message }:any) => {
+
 	const imageThumbnail = message.isMyMessage ? null : (
 		<img
 			src={!message.imageUrl ? dafaultImage : ""}
@@ -12,6 +13,8 @@ export const Message = ({ message }:any) => {
 
 	return (
 		<div
+		id="message-block"
+		onClick={()=> console.log("ok")}
 			className={`message-row ${
 				message.isMyMessage ? "you-message" : "other-message"
 			}`}

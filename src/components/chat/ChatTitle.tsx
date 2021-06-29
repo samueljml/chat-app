@@ -1,4 +1,5 @@
 import React from "react";
+import { hasNoSelectedConversation } from "../../App";
 import { TrashIcon } from "../../images/Icons/TrashIcon";
 
 export const ChatTitle = ({ chatTitle, selectedConversation, deleteUserData }: any) => {
@@ -7,14 +8,14 @@ export const ChatTitle = ({ chatTitle, selectedConversation, deleteUserData }: a
 	if (selectedConversation) {
 		chatTitleContents = (
 			<>
-				<span>{(selectedConversation !== -1) ? chatTitle() : "Chat aplication - Select a contact to chat with"}</span>
+				<span>{hasNoSelectedConversation(selectedConversation) ? "Chat aplication - Select a contact to chat with" : chatTitle()}</span>
+				{!hasNoSelectedConversation(selectedConversation) && <TrashIcon />}
 				<div
 					onClick={() => {
 						deleteUserData(selectedConversation);
 					}}
 					title="Delete Conversation"
 				>
-					<TrashIcon />
 				</div>
 			</>
 		);
