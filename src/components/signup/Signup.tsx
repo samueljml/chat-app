@@ -2,9 +2,9 @@ import React from "react";
 import "./style.css";
 import perfilIcon from "../../images/profiles/default.png";
 import backIcon from "../../images/Icons/icon-back-arrow.png";
-import { InputProps } from "../Form/Signin/FormSignIn";
+import { Input } from "../Form/Signin/FormSignIn";
 
-const inputs: InputProps[] = [
+const inputs: Input[] = [
 	{ id: "input-name", type: "text", required: true, value: "Name" },
 ];
 
