@@ -1,0 +1,167 @@
+.container {
+	display: flex;
+	flex-direction: column;
+	min-width: 1000px;
+	max-width: 1000px;
+	max-height: 800px;
+	width: 100%;
+	height: 95vh;
+}
+
+.container-title {
+	display: flex;
+	justify-content: center;
+	height: 200px;
+	min-height: 100px;
+	background: #b5b5b5;
+	box-shadow: 0px 5px rgba(0, 0, 0, 0.7);
+	z-index: 1;
+	border-top-left-radius: 10px;
+	border-top-right-radius: 10px;
+}
+
+.container-about {
+	background-color: #0048aa;
+	border-bottom-left-radius: 10px;
+}
+
+.container-acess {
+	background-color: #ffffff;
+	border-bottom-right-radius: 10px;
+}
+
+.title {
+	font-size: 45pt;
+	font-weight: bold;
+	text-align: center;
+}
+
+.container-content {
+	height: 100%;
+	min-height: 544px;
+}
+
+.container-form,
+.container-title,
+.contibutor,
+.container-sign-up {
+	align-items: center;
+}
+
+.flex-row {
+	display: flex;
+	flex-direction: row;
+}
+
+.flex-column {
+	display: flex;
+	flex-direction: column;
+}
+
+
+.container-about,
+.container-acess,
+.container-form,
+.container-sign-up {
+	flex: 1;
+	justify-content: space-evenly;
+}
+
+.container-about,
+.container-acess {
+	height: 100%;
+	padding: 15px;
+}
+
+.container-form,
+.container-sign-up {
+	display: flex;
+	flex-direction: column;
+}
+
+.row {
+	width: 100%;
+	justify-content: space-evenly;
+	display: flex;
+	flex-direction: row;
+}
+
+.contibutor {
+	display: flex;
+	flex-direction: column;
+}
+
+h2 {
+	font-size: 35pt;
+	font-weight: bold;
+	text-align: center;
+}
+
+.container-acess h2 {
+	font-size: 25pt;
+}
+
+p {
+	font-size: 23pt;
+	text-align: justify;
+}
+
+.name {
+	font-weight: bold;
+}
+
+button {
+	cursor: pointer;
+	height: 50px;
+	width: 400px;
+	font-size: 15pt;
+	background-color: #b5b5b5;
+	border: none;
+	border-radius: 4px;
+	box-shadow: 0px 2px rgba(0, 0, 0, 0.5);
+}
+
+button:hover {
+	background-color: #9c9c9c;
+}
+
+.inputbox {
+	position: relative;
+	width: 365px;
+	height: 50px;
+}
+
+.inputbox input {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	border: 2px solid #000;
+	outline: none;
+	padding: 10px;
+	font-size: 15px;
+	border-radius: 10px;
+}
+
+.inputbox span {
+	position: absolute;
+	top: 10px;
+	left: 13px;
+	font-size: 1.6em;
+	transition: 0.6s;
+}
+
+.inputbox input:focus ~ span,
+.inputbox input:valid ~ span {
+	transform: translateX(-10px) translateY(-32px);
+	font-size: 1.55em;
+}
+
+.inputbox [type="button"] {
+	cursor: pointer;
+	background: rgb(24, 118, 212);
+	color: #fff;
+}
+.inputbox:hover [type="button"] {
+	background: rgb(14, 82, 151);
+}
