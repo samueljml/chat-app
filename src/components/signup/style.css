@@ -1,0 +1,100 @@
+.container {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	min-width: 1000px;
+	max-width: 1000px;
+	max-height: 800px;
+	width: 100%;
+	height: 95vh;
+	background-color: #0048aa;
+	border-radius: 10px;
+}
+
+.form {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	align-items: center;
+	width: 300pt;
+	height: 300pt;
+	background-color: #ffffff;
+	border-radius: 5px;
+	padding: 13.8px;
+}
+
+h1 {
+	font-size: 18pt;
+}
+
+.inputbox {
+	display: flex;
+	flex-direction: column;
+	position: relative;
+	width: 300px;
+	height: 50px;
+}
+
+.inputbox input {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	border: 2px solid #000;
+	outline: none;
+	background: none;
+	padding: 10px;
+	font-size: 15px;
+	border-radius: 10px;
+}
+.inputbox:last-child {
+	margin-bottom: 0;
+}
+
+.inputbox span {
+	position: absolute;
+	top: 10px;
+	left: 13px;
+	font-size: 1.5em;
+	transition: 0.6s;
+	font-family: sans-serif;
+}
+
+.inputbox input:focus ~ span,
+.inputbox input:valid ~ span {
+	transform: translateX(-10px) translateY(-28px);
+	font-size: 1.5em;
+}
+
+.inputbox [type="button"] {
+	cursor: pointer;
+	background: dodgerblue;
+	color: #fff;
+}
+.inputbox:hover [type="button"] {
+	background: rgb(25, 117, 209);
+}
+
+p {
+	cursor: pointer;
+	font-size: 15pt;
+	text-align: center;
+}
+
+.form-absolute {
+	position: absolute;
+	width: 205pt;
+	height: 275.8pt;
+	max-width: 250pt;
+}
+
+#back-arrow {
+	cursor: pointer;
+}
+
+#back-arrow {
+	position: absolute;
+	left: 5px;
+	top: 5px;
+}
