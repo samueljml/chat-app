@@ -2,13 +2,18 @@ import React from "react";
 import "./style.css";
 import perfilIcon from "../../images/profiles/default.png";
 import backIcon from "../../images/Icons/icon-back-arrow.png";
-import { Input } from "../Form/Signin/FormSignIn";
+import { InputAttribute } from "../Form/Signin/FormSignIn";
 
-const inputs: Input[] = [
-	{ id: "input-name", type: "text", required: true, value: "Name" },
+const inputAttributes: InputAttribute[] = [
+	{
+		id: "input-name",
+		type: "text",
+		required: true,
+		value: "Name",
+	},
 ];
 
-export const Signup = () => (
+export const SignUp = () => (
 	<div className="container">
 		<form className="form">
 			<img id="back-arrow" src={backIcon} alt="Icon back arrow" />
@@ -16,24 +21,20 @@ export const Signup = () => (
 			<h1>Create your account</h1>
 			<img src={perfilIcon} alt="contributors photo" />
 
-			{inputs.map((input: any) => (
-				<div className="inputbox">
-					<input
-						id={input.id}
-						type={input.type}
-						required={input.required}
-					/>
-					<span>{input.value}</span>
-				</div>
-			))}
+			{inputAttributes.map(
+				({ id, type, required, value }: InputAttribute) => (
+					<div className="inputbox">
+						<input id={id} type={type} required={required} />
+						<span>{value}</span>
+					</div>
+				)
+			)}
 
 			<div className="inputbox">
 				<input type="button" value="Continue" />
 			</div>
 
-			<a>
-				<p>Already have an account?</p>
-			</a>
+			<p>Already have an account?</p>
 		</form>
 	</div>
 );

@@ -2,14 +2,14 @@ import React from "react";
 import perfilIcon from "../../images/profiles/default.png";
 import backIcon from "../../images/Icons/icon-back-arrow.png";
 
-export interface Input {
+export interface InputAttribute {
 	id: string;
 	type: string;
 	required: boolean;
 	value: string;
 }
 
-const inputs: Input[] = [
+const inputAttributes: InputAttribute[] = [
 	{
 		id: "input-name",
 		type: "text",
@@ -18,16 +18,18 @@ const inputs: Input[] = [
 	},
 ];
 
-export const FormSignin = () => (
+export const FormSignIn = () => (
 	<form className="container-form flex-column">
 		<h2>Login and start to chat!</h2>
 
-		{inputs.map(({ id, type, required, value }: Input) => (
-			<div className="inputbox">
-				<input id={id} type={type} required={required} />
-				<span>{value}</span>
-			</div>
-		))}
+		{inputAttributes.map(
+			({ id, type, required, value }: InputAttribute) => (
+				<div className="inputbox">
+					<input id={id} type={type} required={required} />
+					<span>{value}</span>
+				</div>
+			)
+		)}
 
 		<div className="inputbox flex-column">
 			<input type="button" id="btn-signin" value="Sign in" />

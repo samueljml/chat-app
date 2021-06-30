@@ -1,7 +1,23 @@
 import React from "react";
 import "./style.css";
-import perfilIcon from "../../images/profiles/default.png";
-import { FormSignin } from "../Form/Signin/FormSignIn";
+import profileIcon from "../../images/profiles/default.png";
+import { FormSignIn } from "../Form/Signin/FormSignIn";
+
+interface Contribuitor {
+	name: string;
+	gitHubUrl: string;
+}
+
+const contribuitors: Contribuitor[] = [
+	{
+		name: "Samuel",
+		gitHubUrl: "https://github.com/samueljml",
+	},
+	{
+		name: "Fabio",
+		gitHubUrl: "https://github.com/FabioUmpierre",
+	},
+];
 
 export const Initial = () => (
 	<div className="container">
@@ -18,23 +34,22 @@ export const Initial = () => (
 				</p>
 				<h2>Contributors</h2>
 				<div className="row">
-					<div className="contibutor">
-						<a href="https://github.com/samueljml">
-							<img src={perfilIcon} alt="contributors photo" />
-						</a>
-						<p className="name">Samuel</p>
-					</div>
-					<div className="contibutor">
-						<a href="https://github.com/FabioUmpierre">
-							<img src={perfilIcon} alt="contributors photo" />
-						</a>
-						<p className="name">Fabio</p>
-					</div>
+					{contribuitors.map(({ name, gitHubUrl }: Contribuitor) => (
+						<div className="contibutor">
+							<a href={gitHubUrl}>
+								<img
+									src={profileIcon}
+									alt="contributors photo"
+								/>
+							</a>
+							<p className="name">{name}</p>
+						</div>
+					))}
 				</div>
 			</div>
 
 			<div className="container-acess flex-column">
-				<FormSignin />
+				<FormSignIn />
 				<div className="container-sign-up">
 					<h2>Don't have an account? Create now!</h2>
 					<div className="inputbox">
