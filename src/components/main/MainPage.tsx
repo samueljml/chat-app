@@ -7,10 +7,10 @@ import { ConversationList } from "../conversation/ConversationInput";
 import ConversationSearch from "../conversation/ConversationSearch";
 import { NewConversation } from "../conversation/new-conversation/NewConversation";
 import { isArraysDifferents, executePromise } from "../../common/Utils";
-import { ChatTitle } from "../chat/ChatTitle";
+import { ChatTitle as ChatTitle } from "../chat/ChatTitle";
 import { useParams } from "react-router-dom";
 
-export interface MessageProps {
+export interface ConversationMessageProps {
 	imageUrl: string;
 	imageAlt: string;
 	messageText: string;
@@ -18,22 +18,22 @@ export interface MessageProps {
 	isMyMessage: boolean;
 }
 
-export interface ConversationProps {
+export interface Conversation {
 	id: number;
 	imageUrl: string;
 	imageAlt: string;
 	title: string;
 	createdAt: string;
 	latestMessageText: string;
-	messages: MessageProps[];
+	messages: ConversationMessageProps[];
 }
 
-export interface UserIdProps {
+export interface User {
 	loggedUserId: string;
 }
 
-const varConversations: ConversationProps[] = [];
-const varMessages: MessageProps[] = [];
+const varConversations: Conversation[] = [];
+const varMessages: ConversationMessageProps[] = [];
 const noSelectedConversation = -1;
 const reloadInterval = 1000;
 
@@ -53,7 +53,7 @@ export const MainPage = () => {
 	const [selectedConversationId, setSelectedConversationId] = useState(
 		noSelectedConversation
 	);
-	const { loggedUserId }: UserIdProps = useParams();
+	const { loggedUserId }: User = useParams();
 
 	const get = async (data: any, setUpdate: any, uri: string) => {
 		const [response, errors] = await executePromise(() => api.get(uri));
@@ -88,7 +88,7 @@ export const MainPage = () => {
 		setMessageContent(varMessages);
 	};
 
-	const deleteUserData = (userId: number) => {
+	const onDeleteUser = (userId: number) => {
 		tempId = noSelectedConversation;
 		setConversations(
 			conversations.filter((conversation) => conversation.id != userId)
@@ -102,7 +102,7 @@ export const MainPage = () => {
 			(conversation) => conversation.id === selectedConversationId
 		)[0].title;
 
-	const onMessageSubmitted = (message: MessageProps) => {};
+	const onMessageSubmitted = (message: ConversationMessageProps) => {};
 
 	return (
 		<div id="chat-container">
@@ -117,14 +117,14 @@ export const MainPage = () => {
 			</div>
 
 			<ChatTitle
-				chatTitle={getUserTitle}
+				title={getUserTitle}
 				selectedConversation={selectedConversationId}
-				deleteUserData={deleteUserData}
+				deleteUserData={onDeleteUser}
 			/>
 
 			<div id="chat-message-list">
-				{messageContent.map((message) => (
-					<Message message={message} />
+				{messageContent.map((msg) => (
+					<Message {...msg} />
 				))}
 			</div>
 
