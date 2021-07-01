@@ -1,8 +1,7 @@
 import React from "react";
-
 import { ConversationItem } from "../item/ConversationItem";
 import "./ConversationList.scss";
-import { Message } from "../../message/Message";
+
 
 export const ConversationList = ({
 	conversations,
