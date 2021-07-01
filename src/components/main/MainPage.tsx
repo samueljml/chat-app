@@ -8,6 +8,7 @@ import ConversationSearch from "../conversation/ConversationSearch";
 import { NewConversation } from "../conversation/new-conversation/NewConversation";
 import { isArraysDifferents, executePromise } from "../../common/Utils";
 import { ChatTitle } from "../chat/ChatTitle";
+import { useParams } from "react-router-dom";
 
 export interface MessageProps {
 	imageUrl: string;
@@ -25,6 +26,10 @@ export interface ConversationProps {
 	createdAt: string;
 	latestMessageText: string;
 	messages: MessageProps[];
+}
+
+export interface UserIdProps {
+	loggedUserId: string;
 }
 
 const varConversations: ConversationProps[] = [];
@@ -48,6 +53,7 @@ export const MainPage = () => {
 	const [selectedConversationId, setSelectedConversationId] = useState(
 		noSelectedConversation
 	);
+	const { loggedUserId }: UserIdProps = useParams();
 
 	const get = async (data: any, setUpdate: any, uri: string) => {
 		const [response, errors] = await executePromise(() => api.get(uri));
