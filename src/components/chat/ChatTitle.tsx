@@ -1,5 +1,5 @@
 import React from "react";
-import { hasNoSelectedConversation } from "../../App";
+import { hasNoSelectedConversation } from "../main/MainPage";
 import { TrashIcon } from "../../images/Icons/TrashIcon";
 
 export const ChatTitle = ({ chatTitle, selectedConversation, deleteUserData }: any) => {

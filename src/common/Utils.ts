@@ -1,4 +1,4 @@
-import { ConversationProps } from "../App";
+import { ConversationProps } from "../components/main/MainPage";
 let _ = require("lodash");
 
 // export const getAllConversations = () => [

@@ -1,0 +1,131 @@
+import React, { useState, useEffect } from "react";
+import api from "../../api";
+import "../../App.css";
+import { ChatForm } from "../chat/form/ChatForm";
+import { Message } from "../message/Message";
+import { ConversationList } from "../conversation/ConversationInput";
+import ConversationSearch from "../conversation/ConversationSearch";
+import { NewConversation } from "../conversation/new-conversation/NewConversation";
+import { isArraysDifferents, executePromise } from "../../common/Utils";
+import { ChatTitle } from "../chat/ChatTitle";
+
+export interface MessageProps {
+	imageUrl: string;
+	imageAlt: string;
+	messageText: string;
+	createdAt: string;
+	isMyMessage: boolean;
+}
+
+export interface ConversationProps {
+	id: number;
+	imageUrl: string;
+	imageAlt: string;
+	title: string;
+	createdAt: string;
+	latestMessageText: string;
+	messages: MessageProps[];
+}
+
+const varConversations: ConversationProps[] = [];
+const varMessages: MessageProps[] = [];
+const noSelectedConversation = -1;
+const reloadInterval = 1000;
+
+export const hasNoSelectedConversation = (selectedConversationId: number) =>
+	selectedConversationId === noSelectedConversation;
+
+const uri = {
+	conversations: "conversations",
+	messages: "messages",
+};
+
+let tempId = noSelectedConversation;
+
+export const MainPage = () => {
+	const [conversations, setConversations] = useState(varConversations);
+	const [messageContent, setMessageContent] = useState(varMessages);
+	const [selectedConversationId, setSelectedConversationId] = useState(
+		noSelectedConversation
+	);
+
+	const get = async (data: any, setUpdate: any, uri: string) => {
+		const [response, errors] = await executePromise(() => api.get(uri));
+
+		if (response && isArraysDifferents(response.data, data)) {
+			if (data) {
+				setUpdate(response.data);
+			}
+		}
+
+		if (errors) {
+			console.log(uri + " not found");
+		}
+	};
+
+	useEffect(() => {
+		setInterval(() => {
+			get(conversations, setConversations, uri.conversations);
+			if (tempId !== noSelectedConversation) {
+				get(
+					messageContent,
+					setMessageContent,
+					`/${uri.messages}/${tempId}`
+				);
+			}
+		}, reloadInterval);
+	}, conversations);
+
+	const updateSelectedConversation = (id: number) => {
+		tempId = id;
+		setSelectedConversationId(id);
+		setMessageContent(varMessages);
+	};
+
+	const deleteUserData = (userId: number) => {
+		tempId = noSelectedConversation;
+		setConversations(
+			conversations.filter((conversation) => conversation.id != userId)
+		);
+		setSelectedConversationId(noSelectedConversation);
+		setMessageContent(varMessages);
+	};
+
+	const getUserTitle = () =>
+		conversations?.filter(
+			(conversation) => conversation.id === selectedConversationId
+		)[0].title;
+
+	const onMessageSubmitted = (message: MessageProps) => {};
+
+	return (
+		<div id="chat-container">
+			<ConversationSearch conversations={conversations} />
+			<ConversationList
+				setSelectedConversationId={updateSelectedConversation}
+				selectedConversationId={selectedConversationId}
+				conversations={conversations}
+			/>
+			<div id="new-message-container">
+				<NewConversation />
+			</div>
+
+			<ChatTitle
+				chatTitle={getUserTitle}
+				selectedConversation={selectedConversationId}
+				deleteUserData={deleteUserData}
+			/>
+
+			<div id="chat-message-list">
+				{messageContent.map((message) => (
+					<Message message={message} />
+				))}
+			</div>
+
+			<ChatForm
+				selectedConversation={selectedConversationId}
+				onMessageSubmitted={onMessageSubmitted}
+			/>
+		</div>
+	);
+};

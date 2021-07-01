@@ -1,5 +1,5 @@
 import React from "react";
-import { MessageProps, ConversationProps } from "../../../App";
+import { MessageProps, ConversationProps } from "../../../components/main/MainPage";
 import dafaultImage from "../../../images/profiles/default.png";
 
 export interface ConversationItemProps {
