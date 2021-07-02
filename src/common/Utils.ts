@@ -93,3 +93,12 @@ export const isArraysDifferents = (
 
 	return false;
 };
+
+/**
+ * Returns true if value contains the characters of the subValue. otherwise, returns false.
+ * @param value
+ * @param subValue
+ */
+export const containsSubstring = (value: string, subValue: string) => {
+	return value.toLowerCase().includes(subValue.toLowerCase());
+};

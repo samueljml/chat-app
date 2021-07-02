@@ -47,12 +47,15 @@ const uri = {
 
 let tempId = noSelectedConversation;
 
+export type updateSelectedConversationFn = (id: number) => void;
+
 export const MainPage = () => {
 	const [conversations, setConversations] = useState(varConversations);
 	const [messageContent, setMessageContent] = useState(varMessages);
 	const [selectedConversationId, setSelectedConversationId] = useState(
 		noSelectedConversation
 	);
+	const [seachInputValue, setSearchInputValue] = useState("");
 	const { loggedUserId }: User = useParams();
 
 	const get = async (data: any, setUpdate: any, uri: string) => {
@@ -106,11 +109,16 @@ export const MainPage = () => {
 
 	return (
 		<div id="chat-container">
-			<ConversationSearch conversations={conversations} />
+			<ConversationSearch
+				conversations={conversations}
+				inputValue={seachInputValue}
+				setSearchInputValue={setSearchInputValue}
+			/>
 			<ConversationList
 				setSelectedConversationId={updateSelectedConversation}
 				selectedConversationId={selectedConversationId}
 				conversations={conversations}
+				searchInputValue={seachInputValue}
 			/>
 			<div id="new-message-container">
 				<NewConversation />

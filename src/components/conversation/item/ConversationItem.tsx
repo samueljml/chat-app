@@ -1,12 +1,12 @@
 import React from "react";
-import { Conversation } from "../../../components/main/MainPage";
+import { Conversation, updateSelectedConversationFn } from "../../../components/main/MainPage";
 import dafaultImage from "../../../images/profiles/default.png";
 
 export interface ConversationItemProps {
 	key: number;
 	conversation: Conversation;
 	isActive: boolean;
-	setSelectedConversationId: React.Dispatch<React.SetStateAction<number>>;
+	setSelectedConversationId: updateSelectedConversationFn;
 }
 
 export const ConversationItem = ({
