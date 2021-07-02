@@ -1,4 +1,4 @@
-import { ConversationProps } from "../App";
+import { Conversation } from "../components/main/MainPage";
 let _ = require("lodash");
 
 // export const getAllConversations = () => [
@@ -92,4 +92,13 @@ export const isArraysDifferents = (
 	}
 
 	return false;
+};
+
+/**
+ * Returns true if value contains the characters of the subValue. otherwise, returns false.
+ * @param value
+ * @param subValue
+ */
+export const containsSubstring = (value: string, subValue: string) => {
+	return value.toLowerCase().includes(subValue.toLowerCase());
 };

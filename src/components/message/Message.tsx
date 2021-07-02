@@ -1,5 +1,5 @@
 import React from "react";
-import { MessageProps } from "../../App";
+import { ConversationMessageProps } from "../../components/main/MainPage";
 import dafaultImage from "../../images/profiles/default.png";
 
 export const Message = ({ message }:any) => {

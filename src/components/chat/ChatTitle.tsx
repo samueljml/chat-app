@@ -1,14 +1,14 @@
 import React from "react";
-import { hasNoSelectedConversation } from "../../App";
+import { hasNoSelectedConversation } from "../main/MainPage";
 import { TrashIcon } from "../../images/Icons/TrashIcon";
 
-export const ChatTitle = ({ chatTitle, selectedConversation, deleteUserData }: any) => {
+export const ChatTitle = ({ title, selectedConversation, deleteUserData }: any) => {
 	let chatTitleContents = null;
 
 	if (selectedConversation) {
 		chatTitleContents = (
 			<>
-				<span>{hasNoSelectedConversation(selectedConversation) ? "Chat aplication - Select a contact to chat with" : chatTitle()}</span>
+				<span>{hasNoSelectedConversation(selectedConversation) ? "Chat aplication - Select a contact to chat with" : title()}</span>
 				{!hasNoSelectedConversation(selectedConversation) && <TrashIcon />}
 				<div
 					onClick={() => {
