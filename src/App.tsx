@@ -2,7 +2,7 @@ import React from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { Initial } from "./components/initial/Initial";
 import { MainPage } from "./components/main/MainPage";
-import { SignUp } from "./components/signup/SignUp";
+import { SignUp } from "./components/signup/Signup";
 
 export const App = () => {
 	return (
@@ -19,5 +19,3 @@ export const App = () => {
 		</Router>
 	);
 };
-
-export default App;

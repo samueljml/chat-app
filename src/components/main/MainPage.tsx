@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from "react";
-import api from "../../api";
+import { api } from "../../api";
 import "../../App.css";
 import { ChatForm } from "../chat/form/ChatForm";
 import { Message } from "../message/Message";
 import { ConversationList } from "../conversation/ConversationInput";
-import ConversationSearch from "../conversation/ConversationSearch";
 import { NewConversation } from "../conversation/new-conversation/NewConversation";
 import { isArraysDifferents, executePromise } from "../../common/Utils";
 import { ChatTitle as ChatTitle } from "../chat/ChatTitle";

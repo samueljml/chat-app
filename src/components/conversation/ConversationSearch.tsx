@@ -25,5 +25,3 @@ export const ConversationSearch = ({
 		</div>
 	);
 };
-
-export default ConversationSearch;
