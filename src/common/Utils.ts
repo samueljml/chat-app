@@ -1,5 +1,5 @@
 import { Conversation, Message } from "../components/main/MainPage";
-let _ = require("lodash");
+const _ = require("lodash");
 
 export interface GenericObject {
 	[key: string]: any;
@@ -32,11 +32,11 @@ export const isArraysDifferents = (
 	array1: Conversation[] | Message[],
 	array2: Conversation[] | Message[]
 ) => {
-	if (_.differenceWith(array1, array2, _.isEqual).length > 0) {
-		return true;
+	if (_.differenceWith(array1, array2, _.isEqual).length === 0) {
+		return false;
 	}
 
-	return false;
+	return true;
 };
 
 /**
