@@ -7,6 +7,7 @@ import { ConversationList } from "../conversation/ConversationInput";
 import { NewConversation } from "../conversation/new-conversation/NewConversation";
 import { isArraysDifferents, executePromise } from "../../common/Utils";
 import { ChatTitle as ChatTitle } from "../chat/ChatTitle";
+import { ConversationSearch } from "../conversation/ConversationSearch";
 import { useParams } from "react-router-dom";
 
 export interface ConversationMessageProps {
@@ -17,14 +18,28 @@ export interface ConversationMessageProps {
 	isMyMessage: boolean;
 }
 
+export interface Message {
+	name: string;
+	imageUrl: string;
+	sendTime: string;
+	text: string;
+}
+
+interface ApiProps {
+	data: Conversation[] | Message[];
+	updateData:
+		| React.Dispatch<React.SetStateAction<Conversation[]>>
+		| React.Dispatch<React.SetStateAction<Message[]>>;
+	uri: string;
+}
+
 export interface Conversation {
 	id: number;
 	imageUrl: string;
 	imageAlt: string;
 	title: string;
 	createdAt: string;
-	latestMessageText: string;
-	messages: ConversationMessageProps[];
+	latestMessageText: Message;
 }
 
 export interface User {
@@ -32,7 +47,7 @@ export interface User {
 }
 
 const varConversations: Conversation[] = [];
-const varMessages: ConversationMessageProps[] = [];
+const varMessages: Message[] = [];
 const noSelectedConversation = -1;
 const reloadInterval = 1000;
 
@@ -40,8 +55,9 @@ export const hasNoSelectedConversation = (selectedConversationId: number) =>
 	selectedConversationId === noSelectedConversation;
 
 const uri = {
-	conversations: "conversations",
+	users: "users",
 	messages: "messages",
+	contacts: "contacts",
 };
 
 let tempId = noSelectedConversation;
@@ -57,13 +73,11 @@ export const MainPage = () => {
 	const [seachInputValue, setSearchInputValue] = useState("");
 	const { loggedUserId }: User = useParams();
 
-	const get = async (data: any, setUpdate: any, uri: string) => {
+	const getRequest = async ({ data, updateData, uri }: ApiProps) => {
 		const [response, errors] = await executePromise(() => api.get(uri));
 
 		if (response && isArraysDifferents(response.data, data)) {
-			if (data) {
-				setUpdate(response.data);
-			}
+			updateData(response.data);
 		}
 
 		if (errors) {
@@ -73,16 +87,20 @@ export const MainPage = () => {
 
 	useEffect(() => {
 		setInterval(() => {
-			get(conversations, setConversations, uri.conversations);
+			getRequest({
+				data: conversations,
+				updateData: setConversations,
+				uri: `${uri.users}/${loggedUserId}/${uri.contacts}`,
+			});
 			if (tempId !== noSelectedConversation) {
-				get(
-					messageContent,
-					setMessageContent,
-					`/${uri.messages}/${tempId}`
-				);
+				getRequest({
+					data: messageContent,
+					updateData: setMessageContent,
+					uri: `${uri.users}/${loggedUserId}/${uri.messages}/${selectedConversationId}`,
+				});
 			}
 		}, reloadInterval);
-	}, conversations);
+	}, [conversations]);
 
 	const updateSelectedConversation = (id: number) => {
 		tempId = id;
