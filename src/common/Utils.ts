@@ -31,13 +31,7 @@ export const executePromise = async <R>(
 export const isArraysDifferents = (
 	array1: Conversation[] | Message[],
 	array2: Conversation[] | Message[]
-) => {
-	if (_.differenceWith(array1, array2, _.isEqual).length === 0) {
-		return false;
-	}
-
-	return true;
-};
+) => _.differenceWith(array1, array2, _.isEqual).length > 0;
 
 /**
  * Returns true if value contains the characters of the subValue. otherwise, returns false.

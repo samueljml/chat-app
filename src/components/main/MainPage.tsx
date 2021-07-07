@@ -60,9 +60,10 @@ const uri = {
 	contacts: "contacts",
 };
 
-let tempId = noSelectedConversation;
-
 export type updateSelectedConversationFn = (id: number) => void;
+export type getUserTitleFn = () => string;
+export type deleteDataFn = () => void;
+export type deleteRequestFn = (uri: string, deleteData: deleteDataFn) => void;
 
 export const MainPage = () => {
 	const [conversations, setConversations] = useState(varConversations);
@@ -85,6 +86,18 @@ export const MainPage = () => {
 		}
 	};
 
+	const deleteRequest = async (uri: string, onDeleteData: deleteDataFn) => {
+		const [response, errors] = await executePromise(() => api.delete(uri));
+
+		if (response) {
+			onDeleteData();
+		}
+
+		if (errors) {
+			console.log(uri + " not found");
+		}
+	};
+
 	useEffect(() => {
 		setInterval(() => {
 			getRequest({
@@ -92,7 +105,7 @@ export const MainPage = () => {
 				updateData: setConversations,
 				uri: `${uri.users}/${loggedUserId}/${uri.contacts}`,
 			});
-			if (tempId !== noSelectedConversation) {
+			if (selectedConversationId !== noSelectedConversation) {
 				getRequest({
 					data: messageContent,
 					updateData: setMessageContent,
@@ -103,15 +116,15 @@ export const MainPage = () => {
 	}, [conversations]);
 
 	const updateSelectedConversation = (id: number) => {
-		tempId = id;
 		setSelectedConversationId(id);
 		setMessageContent(varMessages);
 	};
 
-	const onDeleteUser = (userId: number) => {
-		tempId = noSelectedConversation;
+	const onDeleteContact = () => {
 		setConversations(
-			conversations.filter((conversation) => conversation.id != userId)
+			conversations.filter(
+				(conversation) => conversation.id != selectedConversationId
+			)
 		);
 		setSelectedConversationId(noSelectedConversation);
 		setMessageContent(varMessages);
@@ -143,8 +156,10 @@ export const MainPage = () => {
 
 			<ChatTitle
 				title={getUserTitle}
+				loggedUserId={loggedUserId}
 				selectedConversation={selectedConversationId}
-				deleteUserData={onDeleteUser}
+				deleteRequest={deleteRequest}
+				onDeleteContact={onDeleteContact}
 			/>
 
 			<div id="chat-message-list">
