@@ -1,53 +1,31 @@
 import React from "react";
-import {
-	deleteDataFn,
-	deleteRequestFn,
-	getUserTitleFn,
-	hasNoSelectedConversation,
-} from "../main/MainPage";
+import { Conversation, hasNoSelectedConversation } from "../main/MainPage";
 import { TrashIcon } from "../../images/Icons/TrashIcon";
 
+type onDeleteFn = () => void;
+
 interface ChatTitleProps {
-	title: getUserTitleFn;
-	loggedUserId: string;
-	selectedConversation: number;
-	onDeleteContact: deleteDataFn;
-	deleteRequest: deleteRequestFn;
+	conversation: Conversation;
+	onDelete: onDeleteFn;
 }
 
-export const ChatTitle = ({
-	title,
-	loggedUserId,
-	selectedConversation,
-	deleteRequest,
-	onDeleteContact,
-}: ChatTitleProps) => {
-	let chatTitleContents = null;
+export const ChatTitle = ({ conversation, onDelete }: ChatTitleProps) => {
+	const defaultTitle = "Chat aplication - Select a contact to chat with";
 
-	if (selectedConversation) {
-		chatTitleContents = (
-			<>
-				<span>
-					{hasNoSelectedConversation(selectedConversation)
-						? "Chat aplication - Select a contact to chat with"
-						: title()}
-				</span>
-				{!hasNoSelectedConversation(selectedConversation) && (
-					<div
-						onClick={() => {
-							deleteRequest(
-								`/users/${loggedUserId}/contacts/${selectedConversation}`,
-								onDeleteContact
-							);
-						}}
-						title="Delete Conversation"
-					>
-						<TrashIcon />
-					</div>
-				)}
-			</>
-		);
-	}
-
-	return <div id="chat-title">{chatTitleContents}</div>;
+	return (
+		<div id="chat-title">
+			{conversation && (
+				<>
+					<span>
+						{conversation ? conversation.title : defaultTitle}
+					</span>
+					{conversation && (
+						<div onClick={onDelete} title="Delete Conversation">
+							<TrashIcon />
+						</div>
+					)}
+				</>
+			)}
+		</div>
+	);
 };

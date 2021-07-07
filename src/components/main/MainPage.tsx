@@ -46,8 +46,6 @@ export interface User {
 	loggedUserId: string;
 }
 
-const varConversations: Conversation[] = [];
-const varMessages: Message[] = [];
 const noSelectedConversation = -1;
 const reloadInterval = 1000;
 
@@ -61,13 +59,10 @@ const uri = {
 };
 
 export type updateSelectedConversationFn = (id: number) => void;
-export type getUserTitleFn = () => string;
-export type deleteDataFn = () => void;
-export type deleteRequestFn = (uri: string, deleteData: deleteDataFn) => void;
 
 export const MainPage = () => {
-	const [conversations, setConversations] = useState(varConversations);
-	const [messageContent, setMessageContent] = useState(varMessages);
+	const [conversations, setConversations] = useState<Conversation[]>([]);
+	const [messageContent, setMessageContent] = useState<Message[]>([]);
 	const [selectedConversationId, setSelectedConversationId] = useState(
 		noSelectedConversation
 	);
@@ -86,11 +81,14 @@ export const MainPage = () => {
 		}
 	};
 
-	const deleteRequest = async (uri: string, onDeleteData: deleteDataFn) => {
+	const onDeleteContact = async () => {
+		const uri = `/users/${loggedUserId}/contacts/${selectedConversationId}`;
 		const [response, errors] = await executePromise(() => api.delete(uri));
 
 		if (response) {
-			onDeleteData();
+			setConversations(getNotSelectedConversations);
+			setSelectedConversationId(noSelectedConversation);
+			setMessageContent([]);
 		}
 
 		if (errors) {
@@ -98,44 +96,39 @@ export const MainPage = () => {
 		}
 	};
 
-	useEffect(() => {
-		setInterval(() => {
-			getRequest({
-				data: conversations,
-				updateData: setConversations,
-				uri: `${uri.users}/${loggedUserId}/${uri.contacts}`,
-			});
-			if (selectedConversationId !== noSelectedConversation) {
-				getRequest({
-					data: messageContent,
-					updateData: setMessageContent,
-					uri: `${uri.users}/${loggedUserId}/${uri.messages}/${selectedConversationId}`,
-				});
-			}
-		}, reloadInterval);
-	}, [conversations]);
-
 	const updateSelectedConversation = (id: number) => {
 		setSelectedConversationId(id);
-		setMessageContent(varMessages);
+		setMessageContent([]);
 	};
 
-	const onDeleteContact = () => {
-		setConversations(
-			conversations.filter(
-				(conversation) => conversation.id != selectedConversationId
-			)
+	const getNotSelectedConversations = () =>
+		conversations.filter(
+			(conversation) => conversation !== getSelectedConversation()
 		);
-		setSelectedConversationId(noSelectedConversation);
-		setMessageContent(varMessages);
-	};
 
-	const getUserTitle = () =>
-		conversations?.filter(
-			(conversation) => conversation.id === selectedConversationId
-		)[0].title;
+	const getSelectedConversation = () =>
+		conversations.filter(({ id }) => id === selectedConversationId)[0];
 
 	const onMessageSubmitted = (message: ConversationMessageProps) => {};
+
+	const requestData = () => {
+		getRequest({
+			data: conversations,
+			updateData: setConversations,
+			uri: `${uri.users}/${loggedUserId}/${uri.contacts}`,
+		});
+		if (selectedConversationId !== noSelectedConversation) {
+			getRequest({
+				data: messageContent,
+				updateData: setMessageContent,
+				uri: `${uri.messages}`,
+			});
+		}
+	};
+
+	useEffect(() => {
+		setInterval(requestData, reloadInterval);
+	}, [conversations]);
 
 	return (
 		<div id="chat-container">
@@ -155,11 +148,8 @@ export const MainPage = () => {
 			</div>
 
 			<ChatTitle
-				title={getUserTitle}
-				loggedUserId={loggedUserId}
-				selectedConversation={selectedConversationId}
-				deleteRequest={deleteRequest}
-				onDeleteContact={onDeleteContact}
+				conversation={getSelectedConversation()}
+				onDelete={onDeleteContact}
 			/>
 
 			<div id="chat-message-list">
