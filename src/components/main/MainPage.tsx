@@ -7,6 +7,7 @@ import { ConversationList } from "../conversation/ConversationInput";
 import { NewConversation } from "../conversation/new-conversation/NewConversation";
 import { isArraysDifferents, executePromise } from "../../common/Utils";
 import { ChatTitle as ChatTitle } from "../chat/ChatTitle";
+import { ConversationSearch } from "../conversation/ConversationSearch";
 import { useParams } from "react-router-dom";
 
 export interface ConversationMessageProps {
@@ -17,22 +18,34 @@ export interface ConversationMessageProps {
 	isMyMessage: boolean;
 }
 
+export interface Message {
+	name: string;
+	imageUrl: string;
+	sendTime: string;
+	text: string;
+}
+
+interface ApiProps {
+	data: Conversation[] | Message[];
+	updateData:
+		| React.Dispatch<React.SetStateAction<Conversation[]>>
+		| React.Dispatch<React.SetStateAction<Message[]>>;
+	uri: string;
+}
+
 export interface Conversation {
 	id: number;
 	imageUrl: string;
 	imageAlt: string;
 	title: string;
 	createdAt: string;
-	latestMessageText: string;
-	messages: ConversationMessageProps[];
+	latestMessageText: Message;
 }
 
 export interface User {
 	loggedUserId: string;
 }
 
-const varConversations: Conversation[] = [];
-const varMessages: ConversationMessageProps[] = [];
 const noSelectedConversation = -1;
 const reloadInterval = 1000;
 
@@ -40,30 +53,27 @@ export const hasNoSelectedConversation = (selectedConversationId: number) =>
 	selectedConversationId === noSelectedConversation;
 
 const uri = {
-	conversations: "conversations",
+	users: "users",
 	messages: "messages",
+	contacts: "contacts",
 };
-
-let tempId = noSelectedConversation;
 
 export type updateSelectedConversationFn = (id: number) => void;
 
 export const MainPage = () => {
-	const [conversations, setConversations] = useState(varConversations);
-	const [messageContent, setMessageContent] = useState(varMessages);
+	const [conversations, setConversations] = useState<Conversation[]>([]);
+	const [messageContent, setMessageContent] = useState<Message[]>([]);
 	const [selectedConversationId, setSelectedConversationId] = useState(
 		noSelectedConversation
 	);
 	const [seachInputValue, setSearchInputValue] = useState("");
 	const { loggedUserId }: User = useParams();
 
-	const get = async (data: any, setUpdate: any, uri: string) => {
+	const getRequest = async ({ data, updateData, uri }: ApiProps) => {
 		const [response, errors] = await executePromise(() => api.get(uri));
 
 		if (response && isArraysDifferents(response.data, data)) {
-			if (data) {
-				setUpdate(response.data);
-			}
+			updateData(response.data);
 		}
 
 		if (errors) {
@@ -71,40 +81,54 @@ export const MainPage = () => {
 		}
 	};
 
-	useEffect(() => {
-		setInterval(() => {
-			get(conversations, setConversations, uri.conversations);
-			if (tempId !== noSelectedConversation) {
-				get(
-					messageContent,
-					setMessageContent,
-					`/${uri.messages}/${tempId}`
-				);
-			}
-		}, reloadInterval);
-	}, conversations);
+	const onDeleteContact = async () => {
+		const uri = `/users/${loggedUserId}/contacts/${selectedConversationId}`;
+		const [response, errors] = await executePromise(() => api.delete(uri));
+
+		if (response) {
+			setConversations(getNotSelectedConversations);
+			setSelectedConversationId(noSelectedConversation);
+			setMessageContent([]);
+		}
+
+		if (errors) {
+			console.log(uri + " not found");
+		}
+	};
 
 	const updateSelectedConversation = (id: number) => {
-		tempId = id;
 		setSelectedConversationId(id);
-		setMessageContent(varMessages);
+		setMessageContent([]);
 	};
 
-	const onDeleteUser = (userId: number) => {
-		tempId = noSelectedConversation;
-		setConversations(
-			conversations.filter((conversation) => conversation.id != userId)
+	const getNotSelectedConversations = () =>
+		conversations.filter(
+			(conversation) => conversation !== getSelectedConversation()
 		);
-		setSelectedConversationId(noSelectedConversation);
-		setMessageContent(varMessages);
-	};
 
-	const getUserTitle = () =>
-		conversations?.filter(
-			(conversation) => conversation.id === selectedConversationId
-		)[0].title;
+	const getSelectedConversation = () =>
+		conversations.filter(({ id }) => id === selectedConversationId)[0];
 
 	const onMessageSubmitted = (message: ConversationMessageProps) => {};
+
+	const requestData = () => {
+		getRequest({
+			data: conversations,
+			updateData: setConversations,
+			uri: `${uri.users}/${loggedUserId}/${uri.contacts}`,
+		});
+		if (selectedConversationId !== noSelectedConversation) {
+			getRequest({
+				data: messageContent,
+				updateData: setMessageContent,
+				uri: `${uri.messages}`,
+			});
+		}
+	};
+
+	useEffect(() => {
+		setInterval(requestData, reloadInterval);
+	}, [conversations]);
 
 	return (
 		<div id="chat-container">
@@ -124,9 +148,8 @@ export const MainPage = () => {
 			</div>
 
 			<ChatTitle
-				title={getUserTitle}
-				selectedConversation={selectedConversationId}
-				deleteUserData={onDeleteUser}
+				conversation={getSelectedConversation()}
+				onDelete={onDeleteContact}
 			/>
 
 			<div id="chat-message-list">

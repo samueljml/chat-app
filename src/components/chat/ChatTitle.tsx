@@ -1,25 +1,31 @@
 import React from "react";
-import { hasNoSelectedConversation } from "../main/MainPage";
+import { Conversation, hasNoSelectedConversation } from "../main/MainPage";
 import { TrashIcon } from "../../images/Icons/TrashIcon";
 
-export const ChatTitle = ({ title, selectedConversation, deleteUserData }: any) => {
-	let chatTitleContents = null;
+type onDeleteFn = () => void;
 
-	if (selectedConversation) {
-		chatTitleContents = (
-			<>
-				<span>{hasNoSelectedConversation(selectedConversation) ? "Chat aplication - Select a contact to chat with" : title()}</span>
-				{!hasNoSelectedConversation(selectedConversation) && <TrashIcon />}
-				<div
-					onClick={() => {
-						deleteUserData(selectedConversation);
-					}}
-					title="Delete Conversation"
-				>
-				</div>
-			</>
-		);
-	}
+interface ChatTitleProps {
+	conversation: Conversation;
+	onDelete: onDeleteFn;
+}
 
-	return <div id="chat-title">{chatTitleContents}</div>;
+export const ChatTitle = ({ conversation, onDelete }: ChatTitleProps) => {
+	const defaultTitle = "Chat aplication - Select a contact to chat with";
+
+	return (
+		<div id="chat-title">
+			{conversation && (
+				<>
+					<span>
+						{conversation ? conversation.title : defaultTitle}
+					</span>
+					{conversation && (
+						<div onClick={onDelete} title="Delete Conversation">
+							<TrashIcon />
+						</div>
+					)}
+				</>
+			)}
+		</div>
+	);
 };

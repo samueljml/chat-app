@@ -24,10 +24,10 @@ export const ConversationItem = ({
 				alt={conversation.imageAlt}
 			/>
 			<div className="title-text">{conversation.title}</div>
-			<div className="created-date">{conversation.createdAt}</div>
+			<div className="created-date">{conversation.latestMessageText.sendTime}</div>
 			<div className="conversation-message">
 				{conversation.latestMessageText ? (
-					conversation.latestMessageText
+					conversation.latestMessageText.text
 				) : (
 					<strong>No messages</strong>
 				)}
