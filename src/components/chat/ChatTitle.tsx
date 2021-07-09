@@ -14,17 +14,12 @@ export const ChatTitle = ({ conversation, onDelete }: ChatTitleProps) => {
 
 	return (
 		<div id="chat-title">
+			<span>{conversation ? conversation.title : defaultTitle}</span>
+
 			{conversation && (
-				<>
-					<span>
-						{conversation ? conversation.title : defaultTitle}
-					</span>
-					{conversation && (
-						<div onClick={onDelete} title="Delete Conversation">
-							<TrashIcon />
-						</div>
-					)}
-				</>
+				<div onClick={onDelete} title="Delete Conversation">
+					<TrashIcon />
+				</div>
 			)}
 		</div>
 	);
