@@ -70,7 +70,7 @@ export const MainPage = () => {
 	const { loggedUserId }: User = useParams();
 	const [isConversationLoading, setIsConversationLoading] = useState(true);
 
-	const getRequest = async ({ data, updateData, uri }: ApiProps) => {
+	const showData = async ({ data, updateData, uri }: ApiProps) => {
 		const [response, errors] = await executePromise(() => api.get(uri));
 
 		if (response && isArraysDifferents(response.data, data)) {
@@ -83,12 +83,11 @@ export const MainPage = () => {
 		}
 	};
 
-	const onDeleteContact = async () => {
+	const onDeleteConversation = async () => {
 		const uri = `/users/${loggedUserId}/contacts/${selectedConversationId}`;
 		const [response, errors] = await executePromise(() => api.delete(uri));
 
 		if (response) {
-			setConversations(getNotSelectedConversations);
 			setSelectedConversationId(noSelectedConversation);
 			setMessageContent([]);
 		}
@@ -98,36 +97,28 @@ export const MainPage = () => {
 		}
 	};
 
-	const updateSelectedConversation = (id: number) => {
-		setSelectedConversationId(id);
-		setMessageContent([]);
+	const getSelectedConversation = () => {
+		return conversations.filter(
+			({ id }) => id === selectedConversationId
+		)[0];
 	};
-
-	const getNotSelectedConversations = () =>
-		conversations.filter(
-			(conversation) => conversation !== getSelectedConversation()
-		);
-
-	const getSelectedConversation = () =>
-		conversations.filter(({ id }) => id === selectedConversationId)[0];
 
 	const onMessageSubmitted = (message: ConversationMessageProps) => {};
 
 	const requestData = () => {
-		getRequest({
+		showData({
 			data: conversations,
 			updateData: setConversations,
 			uri: `${uri.users}/${loggedUserId}/${uri.contacts}`,
 		});
 		if (selectedConversationId !== noSelectedConversation) {
-			getRequest({
+			showData({
 				data: messageContent,
 				updateData: setMessageContent,
 				uri: `${uri.messages}`,
 			});
 		}
 	};
-
 	useEffect(() => {
 		setInterval(requestData, reloadInterval);
 	}, [conversations]);
@@ -140,7 +131,7 @@ export const MainPage = () => {
 				isConversationLoading={isConversationLoading}
 			/>
 			<ConversationList
-				setSelectedConversationId={updateSelectedConversation}
+				setSelectedConversationId={setSelectedConversationId}
 				selectedConversationId={selectedConversationId}
 				conversations={conversations}
 				searchInputValue={seachInputValue}
@@ -152,7 +143,7 @@ export const MainPage = () => {
 
 			<ChatTitle
 				conversation={getSelectedConversation()}
-				onDelete={onDeleteContact}
+				onDelete={onDeleteConversation}
 			/>
 
 			<div id="chat-message-list">

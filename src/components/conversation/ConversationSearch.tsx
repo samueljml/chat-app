@@ -1,11 +1,12 @@
-import React from "react";
-import { SearchLoader } from "../content-loader/SearchLoader";
+import React, { useContext } from "react";
 import { Conversation } from "../main/MainPage";
+import { SearchLoader } from "../content-loader/SearchLoader";
+import { Context } from "../content-loader/LoaderContext";
 
 interface ConversationSearchProps {
 	inputValue: string;
 	setSearchInputValue: React.Dispatch<React.SetStateAction<string>>;
-	isConversationLoading:Boolean;
+	isConversationLoading: Boolean;
 }
 
 export const ConversationSearch = ({
@@ -16,8 +17,8 @@ export const ConversationSearch = ({
 	return (
 		<div id="search-container">
 			{isConversationLoading ? (
-					<SearchLoader />
-				) : (
+				<SearchLoader />
+			) : (
 				<input
 					onChange={(e) => setSearchInputValue(e.target.value)}
 					type="text"

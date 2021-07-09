@@ -40,7 +40,7 @@ export const ConversationList = ({
 					/>
 				);
 			})
-	)
+	);
 
 	return <div id="conversation-list">{conversationItems}</div>;
 };
