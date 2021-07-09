@@ -1,20 +1,23 @@
 import React from "react";
+import { SearchLoader } from "../content-loader/SearchLoader";
 import { Conversation } from "../main/MainPage";
 
 interface ConversationSearchProps {
-	conversations: Conversation[];
 	inputValue: string;
 	setSearchInputValue: React.Dispatch<React.SetStateAction<string>>;
+	isConversationLoading:Boolean;
 }
 
 export const ConversationSearch = ({
-	conversations,
 	inputValue,
 	setSearchInputValue,
+	isConversationLoading,
 }: ConversationSearchProps) => {
 	return (
 		<div id="search-container">
-			{conversations && conversations.length > 0 && (
+			{isConversationLoading ? (
+					<SearchLoader />
+				) : (
 				<input
 					onChange={(e) => setSearchInputValue(e.target.value)}
 					type="text"

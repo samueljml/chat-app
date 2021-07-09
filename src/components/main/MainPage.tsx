@@ -68,12 +68,14 @@ export const MainPage = () => {
 	);
 	const [seachInputValue, setSearchInputValue] = useState("");
 	const { loggedUserId }: User = useParams();
+	const [isConversationLoading, setIsConversationLoading] = useState(true);
 
 	const getRequest = async ({ data, updateData, uri }: ApiProps) => {
 		const [response, errors] = await executePromise(() => api.get(uri));
 
 		if (response && isArraysDifferents(response.data, data)) {
 			updateData(response.data);
+			setIsConversationLoading(false);
 		}
 
 		if (errors) {
@@ -133,15 +135,16 @@ export const MainPage = () => {
 	return (
 		<div id="chat-container">
 			<ConversationSearch
-				conversations={conversations}
 				inputValue={seachInputValue}
 				setSearchInputValue={setSearchInputValue}
+				isConversationLoading={isConversationLoading}
 			/>
 			<ConversationList
 				setSelectedConversationId={updateSelectedConversation}
 				selectedConversationId={selectedConversationId}
 				conversations={conversations}
 				searchInputValue={seachInputValue}
+				isConversationLoading={isConversationLoading}
 			/>
 			<div id="new-message-container">
 				<NewConversation />
