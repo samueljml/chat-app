@@ -74,7 +74,7 @@ body {
 	height: 48px;
 }
 
-.message-row.you-message {
+.message-row.my-message {
 	justify-content: end;
 }
 
@@ -94,7 +94,7 @@ body {
 	supported by Chrome, Edge, Opera and Firefox */
 }
 
-.message-row.you-message > .message-content > .message-text {
+.message-row.my-message > .message-content > .message-text {
 	background: #0048aa;
 	color: #fff;
 	border: 1px solid #0048aa;
@@ -111,18 +111,18 @@ body {
 	color: #777777;
 }
 
-.message-row.you-message > .message-content {
+.message-row.my-message > .message-content {
 	justify-items: end;
 }
 
-.message-row.other-message > .message-content > .message-text {
+.message-row.your-message > .message-content > .message-text {
 	background: #eee;
 	color: #111;
 	border: 1px solid #cccccc;
 	border-radius: 14px 14px 14px 0;
 }
 
-.message-row.other-message > .message-content {
+.message-row.your-message > .message-content {
 	grid-template-columns: 48px 1fr;
 	grid-column-gap: 15px;
 }

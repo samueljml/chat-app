@@ -17,7 +17,7 @@ export const Message = ({message, userName}: ConversationMessageProps) => {
 		id="message-block"
 		onClick={()=> console.log("ok")}
 			className={`message-row ${
-				isMyMessage ? "you-message" : "other-message"
+				isMyMessage ? "my-message" : "your-message"
 			}`}
 		>
 			<div className="message-content">
