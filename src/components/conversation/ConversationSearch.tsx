@@ -1,7 +1,6 @@
 import React, { useContext } from "react";
 import { Conversation } from "../main/MainPage";
 import { SearchLoader } from "../content-loader/SearchLoader";
-import { Context } from "../content-loader/LoaderContext";
 
 interface ConversationSearchProps {
 	inputValue: string;
