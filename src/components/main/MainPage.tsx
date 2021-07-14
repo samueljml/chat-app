@@ -16,10 +16,12 @@ export interface ConversationMessageProps {
 }
 
 export interface Message {
+	id: number;
 	name: string;
 	imageUrl: string;
 	sendTime: string;
 	text: string;
+	status: string;
 }
 
 interface ApiProps {
@@ -157,7 +159,7 @@ export const MainPage = () => {
 
 			<div id="chat-message-list">
 				{messageContent.map((msg) => (
-					<Message message={msg} userName={userDataForTests.name}/>
+					<Message message={msg} userName={userDataForTests.name} />
 				))}
 			</div>
 
