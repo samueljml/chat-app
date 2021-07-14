@@ -41,3 +41,7 @@ export const isArraysDifferents = (
 export const containsSubstring = (value: string, subValue: string) => {
 	return value.toLowerCase().includes(subValue.toLowerCase());
 };
+
+export const setMessageStatus = (message: Message, status: string) => {
+	message.status = status;
+};
