@@ -11,11 +11,8 @@ import { ConversationSearch } from "../conversation/ConversationSearch";
 import { useParams } from "react-router-dom";
 
 export interface ConversationMessageProps {
-	imageUrl: string;
-	imageAlt: string;
-	messageText: string;
-	createdAt: string;
-	isMyMessage: boolean;
+	message: Message;
+	userName: string;
 }
 
 export interface Message {
@@ -44,7 +41,19 @@ export interface Conversation {
 
 export interface User {
 	loggedUserId: string;
+	name: string;
+	userName: string;
+	email: string;
+	imageUrl: string;
 }
+
+let userDataForTests: User = {
+	loggedUserId: "1",
+	name: "Samuel",
+	imageUrl: "",
+	userName: "samueljml",
+	email: "",
+};
 
 const noSelectedConversation = -1;
 const reloadInterval = 1000;
@@ -67,7 +76,7 @@ export const MainPage = () => {
 		noSelectedConversation
 	);
 	const [seachInputValue, setSearchInputValue] = useState("");
-	const { loggedUserId }: User = useParams();
+	userDataForTests.loggedUserId = useParams();
 	const [isConversationLoading, setIsConversationLoading] = useState(true);
 
 	const showData = async ({ data, updateData, uri }: ApiProps) => {
@@ -84,7 +93,7 @@ export const MainPage = () => {
 	};
 
 	const onDeleteConversation = async () => {
-		const uri = `/users/${loggedUserId}/contacts/${selectedConversationId}`;
+		const uri = `/users/${userDataForTests.loggedUserId}/contacts/${selectedConversationId}`;
 		const [response, errors] = await executePromise(() => api.delete(uri));
 
 		if (response) {
@@ -109,13 +118,13 @@ export const MainPage = () => {
 		showData({
 			data: conversations,
 			updateData: setConversations,
-			uri: `${uri.users}/${loggedUserId}/${uri.contacts}`,
+			uri: `${uri.users}/${userDataForTests.loggedUserId}/${uri.contacts}`,
 		});
 		if (selectedConversationId !== noSelectedConversation) {
 			showData({
 				data: messageContent,
 				updateData: setMessageContent,
-				uri: `${uri.messages}`,
+				uri: `${uri.users}/${userDataForTests.loggedUserId}/${uri.messages}/${selectedConversationId}`,
 			});
 		}
 	};
@@ -148,7 +157,7 @@ export const MainPage = () => {
 
 			<div id="chat-message-list">
 				{messageContent.map((msg) => (
-					<Message {...msg} />
+					<Message message={msg} userName={userDataForTests.name}/>
 				))}
 			</div>
 

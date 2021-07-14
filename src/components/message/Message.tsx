@@ -2,12 +2,13 @@ import React from "react";
 import { ConversationMessageProps } from "../../components/main/MainPage";
 import dafaultImage from "../../images/profiles/default.png";
 
-export const Message = ({ message }:any) => {
+export const Message = ({message, userName}: ConversationMessageProps) => {
+	const isMyMessage: boolean = userName === message.name;
 
-	const imageThumbnail = message.isMyMessage ? null : (
+	const imageThumbnail = isMyMessage ? null : (
 		<img
 			src={!message.imageUrl ? dafaultImage : ""}
-			alt={message.imageAlt}
+			alt={message.name}
 		/>
 	);
 
@@ -16,13 +17,13 @@ export const Message = ({ message }:any) => {
 		id="message-block"
 		onClick={()=> console.log("ok")}
 			className={`message-row ${
-				message.isMyMessage ? "you-message" : "other-message"
+				isMyMessage ? "my-message" : "your-message"
 			}`}
 		>
 			<div className="message-content">
 				{imageThumbnail}
-				<div className="message-text">{message.messageText}</div>
-				<div className="message-time">{message.createdAt}</div>
+				<div className="message-text">{message.text}</div>
+				<div className="message-time">{message.sendTime}</div>
 			</div>
 		</div>
 	);
