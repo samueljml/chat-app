@@ -78,6 +78,18 @@ body {
 	justify-content: end;
 }
 
+img.profile {
+	border-radius: 100%;
+	width: 48px;
+	height: 48px;
+}
+
+img.warning-icon {
+	width: 15px;
+	height: 15px;
+	margin-left: 5px;
+}
+
 .message-row {
 	display: grid;
 	grid-template-columns: 70%;
@@ -95,11 +107,24 @@ body {
 }
 
 .message-row.my-message > .message-content > .message-text {
-	background: #0048aa;
 	color: #fff;
-	border: 1px solid #0048aa;
 	border-radius: 14px 14px 0 14px;
 }
+
+.message-content>.sent, .message-content>.sending {
+	background: #0048aa;
+	border: 1px solid #0048aa;
+}
+
+.message-content>.sending {
+	opacity: 0.7;
+}
+
+.message-content>.failed {
+	background-color: #550c0c;
+	border: 1px solid #550c0c;
+}
+
 .message-row > .message-content > .message-text {
 	padding: 9px 14px;
 	font-size: 1.6rem;

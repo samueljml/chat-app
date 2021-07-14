@@ -1,29 +1,54 @@
 import React from "react";
 import { ConversationMessageProps } from "../../components/main/MainPage";
-import dafaultImage from "../../images/profiles/default.png";
+import defaultImage from "../../images/profiles/default.png";
+import warnIcon from "../../images/Icons/warn.png";
 
-export const Message = ({message, userName}: ConversationMessageProps) => {
+enum MessageStatus {
+	SENDING = "sending",
+	SENT = "sent",
+	FAILED = "failed",
+}
+
+const warnToMessage: string = "Not delivered";
+
+export const Message = ({ message, userName }: ConversationMessageProps) => {
 	const isMyMessage: boolean = userName === message.name;
-
-	const imageThumbnail = isMyMessage ? null : (
-		<img
-			src={!message.imageUrl ? dafaultImage : ""}
-			alt={message.name}
-		/>
-	);
+	const showMessageTime: boolean = message.status !== MessageStatus.SENDING;
 
 	return (
 		<div
-		id="message-block"
-		onClick={()=> console.log("ok")}
+			id="message-block"
+			onClick={() => {
+				if (message.status === MessageStatus.FAILED) {
+					message.status = MessageStatus.SENDING;
+				}
+			}}
 			className={`message-row ${
 				isMyMessage ? "my-message" : "your-message"
 			}`}
 		>
 			<div className="message-content">
-				{imageThumbnail}
-				<div className="message-text">{message.text}</div>
-				<div className="message-time">{message.sendTime}</div>
+				{!isMyMessage && (
+					<img
+						src={message.imageUrl || defaultImage}
+						alt={message.name}
+					/>
+				)}
+
+				<div className={`message-text ${message.status}`}>
+					{message.text}
+					{message.status === "failed" && (
+						<img className="warning-icon" src={warnIcon} />
+					)}
+				</div>
+
+				{showMessageTime && (
+					<div className="message-time">
+						{message.status === MessageStatus.SENT
+							? message.sendTime
+							: warnToMessage}
+					</div>
+				)}
 			</div>
 		</div>
 	);
