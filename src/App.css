@@ -78,6 +78,18 @@ body {
 	justify-content: end;
 }
 
+img.profile {
+	border-radius: 100%;
+	width: 48px;
+	height: 48px;
+}
+
+img.warning-icon {
+	width: 15px;
+	height: 15px;
+	margin-left: 5px;
+}
+
 .message-row {
 	display: grid;
 	grid-template-columns: 70%;

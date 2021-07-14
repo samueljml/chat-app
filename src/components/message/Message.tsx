@@ -1,6 +1,7 @@
 import React from "react";
 import { ConversationMessageProps } from "../../components/main/MainPage";
 import dafaultImage from "../../images/profiles/default.png";
+import warnIcon from "../../images/Icons/warn.png";
 import { setMessageStatus } from "../../common/Utils";
 
 enum MessageStatus {
@@ -36,6 +37,9 @@ export const Message = ({ message, userName }: ConversationMessageProps) => {
 
 				<div className={`message-text ${message.status}`}>
 					{message.text}
+					{message.status === "failed" && (
+						<img className="warning-icon" src={warnIcon} />
+					)}
 				</div>
 
 				{showMessageTime && (
