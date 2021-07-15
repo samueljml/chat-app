@@ -3,7 +3,7 @@ import { ConversationMessageProps } from "../../components/main/MainPage";
 import defaultImage from "../../images/profiles/default.png";
 import warnIcon from "../../images/Icons/warn.png";
 
-enum MessageStatus {
+export enum MessageStatus {
 	SENDING = "sending",
 	SENT = "sent",
 	FAILED = "failed",

@@ -41,3 +41,39 @@ export const isArraysDifferents = (
 export const containsSubstring = (value: string, subValue: string) => {
 	return value.toLowerCase().includes(subValue.toLowerCase());
 };
+
+export const setMessageSessionStorage = (
+	message: Message,
+	conversationId: number
+) => {
+	sessionStorage.setItem(
+		`${conversationId}/messages/${message.id}`,
+		JSON.stringify(message)
+	);
+};
+
+export const getSessionStorage = (path: string) => sessionStorage.getItem(path);
+
+export const getAllMessageSessionStorage = (conversationId: number) => {
+	let messages: Message[] = [];
+
+	Object.keys(sessionStorage).filter((key) => key.match(`${conversationId}/.*`)).forEach((key) => {
+		const value = sessionStorage.getItem(key);
+		if (value) {
+			messages.push(JSON.parse(value));
+		}
+	});
+
+	return messages;
+};
+
+export const setMessageSessionStorageStatus = (
+	message: Message,
+	conversationId: number,
+	status: string
+) => {
+	message.status = status;
+	setMessageSessionStorage(message, conversationId);
+};
+
+export const gererateId = () => Math.random() * 1000000 + 1;

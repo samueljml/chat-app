@@ -2,10 +2,16 @@ import React, { useState, useEffect } from "react";
 import { api } from "../../api";
 import "../../App.css";
 import { ChatForm } from "../chat/form/ChatForm";
-import { Message } from "../message/Message";
+import { Message, MessageStatus } from "../message/Message";
 import { ConversationList } from "../conversation/ConversationInput";
 import { NewConversation } from "../conversation/new-conversation/NewConversation";
-import { isArraysDifferents, executePromise } from "../../common/Utils";
+import {
+	isArraysDifferents,
+	executePromise,
+	getAllMessageSessionStorage,
+	setMessageSessionStorage,
+	gererateId,
+} from "../../common/Utils";
 import { ChatTitle as ChatTitle } from "../chat/ChatTitle";
 import { ConversationSearch } from "../conversation/ConversationSearch";
 import { useParams } from "react-router-dom";
@@ -16,10 +22,12 @@ export interface ConversationMessageProps {
 }
 
 export interface Message {
+	id: number;
 	name: string;
 	imageUrl: string;
 	sendTime: string;
 	text: string;
+	status: string;
 }
 
 interface ApiProps {
@@ -83,8 +91,17 @@ export const MainPage = () => {
 		const [response, errors] = await executePromise(() => api.get(uri));
 
 		if (response && isArraysDifferents(response.data, data)) {
-			updateData(response.data);
 			setIsConversationLoading(false);
+			let contentData = response.data;
+
+			if (uri.includes("message")) {
+				contentData = [
+					...getAllMessageSessionStorage(selectedConversationId),
+					...contentData,
+				];
+			}
+
+			updateData(contentData);
 		}
 
 		if (errors) {
@@ -106,31 +123,86 @@ export const MainPage = () => {
 		}
 	};
 
+	const updateMessageStatus = (message: Message, status: string) => {
+		return messageContent
+			.filter((newMessage) => message === newMessage)
+			.forEach((msg: Message) => {
+				msg.status = status;
+				setMessageSessionStorage(msg, selectedConversationId);
+				return msg;
+			});
+	};
+
+	const onPostMessage = async (message: Message) => {
+		const messageUri = `/users/${userDataForTests.loggedUserId}/messages/${selectedConversationId}`;
+		const [response, errors] = await executePromise(() =>
+			api.post(messageUri, message)
+		);
+
+		if (response) {
+			setMessageContent(updateMessageStatus(message, "sent"));
+		}
+
+		if (errors) {
+			setMessageContent(updateMessageStatus(message, "failed"));
+			console.log(messageUri + " not found");
+		}
+	};
+
 	const getSelectedConversation = () => {
 		return conversations.filter(
 			({ id }) => id === selectedConversationId
 		)[0];
 	};
 
-	const onMessageSubmitted = (message: ConversationMessageProps) => {};
+	const onMessageSubmitted = (text: string) => {
+		const currentDate = new Date();
+		const message: Message = {
+			id: gererateId(),
+			name: userDataForTests.name,
+			imageUrl: userDataForTests.imageUrl,
+			text: text,
+			sendTime: `${currentDate.getHours().toString()}:
+				${currentDate.getMinutes().toString()}`,
+			status: "sending",
+		};
+		setMessageSessionStorage(message, selectedConversationId);
+		setMessageContent([message, ...messageContent]);
+		onPostMessage(message);
+	};
 
 	const requestData = () => {
-		showData({
-			data: conversations,
-			updateData: setConversations,
-			uri: `${uri.users}/${userDataForTests.loggedUserId}/${uri.contacts}`,
-		});
-		if (selectedConversationId !== noSelectedConversation) {
+		setInterval(() => {
 			showData({
-				data: messageContent,
-				updateData: setMessageContent,
-				uri: `${uri.users}/${userDataForTests.loggedUserId}/${uri.messages}/${selectedConversationId}`,
+				data: conversations,
+				updateData: setConversations,
+				uri: `${uri.users}/${userDataForTests.loggedUserId}/${uri.contacts}`,
 			});
-		}
+			if (selectedConversationId !== noSelectedConversation) {
+				showData({
+					data: messageContent,
+					updateData: setMessageContent,
+					uri: `${uri.users}/${userDataForTests.loggedUserId}/${uri.messages}/${selectedConversationId}`,
+				});
+			}
+		}, reloadInterval);
 	};
-	useEffect(() => {
-		setInterval(requestData, reloadInterval);
-	}, [conversations]);
+
+	const postSendingMessages = () => {
+		setInterval(async () => {
+			const messages = messageContent.filter(
+				({ status }) => status === MessageStatus.SENDING
+			);
+
+			for (const message of messages) {
+				await onPostMessage(message);
+			}
+		}, reloadInterval);
+	};
+
+	useEffect(postSendingMessages, []);
+
+	useEffect(requestData, [conversations]);
 
 	return (
 		<div id="chat-container">
@@ -156,8 +228,12 @@ export const MainPage = () => {
 			/>
 
 			<div id="chat-message-list">
-				{messageContent.map((msg) => (
-					<Message message={msg} userName={userDataForTests.name}/>
+				{messageContent.map((msg, index) => (
+					<Message
+						key={`${msg.sendTime}-${msg.id}`}
+						message={msg}
+						userName={userDataForTests.name}
+					/>
 				))}
 			</div>
 
