@@ -1,28 +1,28 @@
-import React, { useContext } from "react";
-import { Conversation } from "../main/MainPage";
+import { Dispatch, FormEvent, SetStateAction, useContext } from "react";
 import { SearchLoader } from "../content-loader/SearchLoader";
+import { MainPageContext } from "../context/MainPageContext";
 
 interface ConversationSearchProps {
-	inputValue: string;
-	setSearchInputValue: React.Dispatch<React.SetStateAction<string>>;
-	isConversationLoading: Boolean;
+	setSearchInputValue: Dispatch<SetStateAction<string>>;
 }
 
 export const ConversationSearch = ({
-	inputValue,
 	setSearchInputValue,
-	isConversationLoading,
 }: ConversationSearchProps) => {
+	const { isConversationLoading } = useContext(MainPageContext);
+
+	const handleInputOnChange = (event: FormEvent<HTMLInputElement>) =>
+		setSearchInputValue(event.currentTarget.value);
+
 	return (
 		<div id="search-container">
 			{isConversationLoading ? (
 				<SearchLoader />
 			) : (
 				<input
-					onChange={(e) => setSearchInputValue(e.target.value)}
+					onChange={handleInputOnChange}
 					type="text"
 					placeholder="Search"
-					value={inputValue}
 				/>
 			)}
 		</div>

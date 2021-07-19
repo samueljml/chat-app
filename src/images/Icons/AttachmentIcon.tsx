@@ -1,5 +1,3 @@
-import React from "react";
-
 export const AttachmentIcon = () => (
 	<div title="Add Attachment">
 		<svg

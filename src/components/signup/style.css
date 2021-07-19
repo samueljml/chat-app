@@ -91,9 +91,6 @@ p {
 
 #back-arrow {
 	cursor: pointer;
-}
-
-#back-arrow {
 	position: absolute;
 	left: 5px;
 	top: 5px;

@@ -1,5 +1,3 @@
-import React from "react";
-
 export const NoConversations = () => {
     return (
         <div id="no-coversation-layout">

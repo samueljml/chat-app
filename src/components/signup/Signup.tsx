@@ -1,10 +1,9 @@
-import React from "react";
 import "./style.css";
 import perfilIcon from "../../images/profiles/default.png";
 import backIcon from "../../images/Icons/icon-back-arrow.png";
 import { InputAttribute } from "../Form/Signin/FormSignIn";
 
-const inputAttributes: InputAttribute[] = [
+const inputAttributes: Array<InputAttribute> = [
 	{
 		id: "input-name",
 		type: "text",
@@ -19,7 +18,7 @@ export const SignUp = () => (
 			<img id="back-arrow" src={backIcon} alt="Icon back arrow" />
 
 			<h1>Create your account</h1>
-			<img src={perfilIcon} alt="contributors photo" />
+			<img src={perfilIcon} alt="contributors" />
 
 			{inputAttributes.map(
 				({ id, type, required, value }: InputAttribute) => (

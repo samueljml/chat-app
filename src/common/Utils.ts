@@ -1,5 +1,7 @@
-import { Conversation, Message } from "../components/main/MainPage";
-const _ = require("lodash");
+import { Conversation } from "../components/conversation/Conversation";
+import { Message } from "../components/message/Message";
+
+import { differenceWith, isEqual } from "lodash";
 
 export interface GenericObject {
 	[key: string]: any;
@@ -29,18 +31,12 @@ export const executePromise = async <R>(
 };
 
 export const isArraysDifferents = (
-	array1: Conversation[] | Message[],
-	array2: Conversation[] | Message[]
-) => _.differenceWith(array1, array2, _.isEqual).length > 0;
+	array1: Array<Conversation | Message>,
+	array2: Array<Conversation | Message>
+) => differenceWith(array1, array2, isEqual).length > 0;
 
-/**
- * Returns true if value contains the characters of the subValue. otherwise, returns false.
- * @param value
- * @param subValue
- */
-export const containsSubstring = (value: string, subValue: string) => {
-	return value.toLowerCase().includes(subValue.toLowerCase());
-};
+export const containsSubstring = (value: string, subValue: string) =>
+	value.toLowerCase().includes(subValue.toLowerCase());
 
 export const setMessageSessionStorage = (
 	message: Message,
@@ -55,7 +51,7 @@ export const setMessageSessionStorage = (
 export const getSessionStorage = (path: string) => sessionStorage.getItem(path);
 
 export const getAllMessageSessionStorage = (conversationId: number) => {
-	let messages: Message[] = [];
+	let messages: Array<Message> = [];
 
 	Object.keys(sessionStorage).filter((key) => key.match(`${conversationId}/.*`)).forEach((key) => {
 		const value = sessionStorage.getItem(key);
@@ -77,3 +73,8 @@ export const setMessageSessionStorageStatus = (
 };
 
 export const gererateId = () => Math.random() * 1000000 + 1;
+
+export const reloadInterval = 1500;
+
+export const showGenericError = (title: string, err: Error) =>
+	console.error(title, err);
