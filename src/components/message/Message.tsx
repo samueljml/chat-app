@@ -1,7 +1,18 @@
-import React from "react";
-import { ConversationMessageProps } from "../../components/main/MainPage";
-import defaultImage from "../../images/profiles/default.png";
+import { useContext } from "react";
+import { gererateId } from "../../common/Utils";
 import warnIcon from "../../images/Icons/warn.png";
+import defaultImage from "../../images/profiles/default.png";
+import { MainPageContext } from "../context/MainPageContext";
+import { User } from "../main/MainPage";
+
+export interface Message {
+	id: number;
+	name: string;
+	imageUrl: string;
+	sendTime: string;
+	text: string;
+	status: string;
+}
 
 export enum MessageStatus {
 	SENDING = "sending",
@@ -9,10 +20,25 @@ export enum MessageStatus {
 	FAILED = "failed",
 }
 
+export interface MessageProps {
+	message: Message;
+}
+
+export const createMessage = (text: string, {name, imageUrl}: User) => ({
+	id: gererateId(),
+	name,
+	imageUrl,
+	text,
+	sendTime: `${new Date().getHours().toString()}:
+	${new Date().getMinutes().toString()}`,
+	status: "sending",
+});
+
 const warnToMessage: string = "Not delivered";
 
-export const Message = ({ message, userName }: ConversationMessageProps) => {
-	const isMyMessage: boolean = userName === message.name;
+export const MessageItem = ({ message }: MessageProps) => {
+	const { user } = useContext(MainPageContext);
+	const isMyMessage: boolean = user.name === message.name;
 	const showMessageTime: boolean = message.status !== MessageStatus.SENDING;
 
 	return (
@@ -37,8 +63,12 @@ export const Message = ({ message, userName }: ConversationMessageProps) => {
 
 				<div className={`message-text ${message.status}`}>
 					{message.text}
-					{message.status === "failed" && (
-						<img className="warning-icon" src={warnIcon} />
+					{message.status === MessageStatus.FAILED && (
+						<img
+							className="warning-icon"
+							src={warnIcon}
+							alt="warning icon"
+						/>
 					)}
 				</div>
 

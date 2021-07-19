@@ -1,5 +1,5 @@
-import React from "react";
-
-// import './NewConversation.scss';
-
-export const NewConversation = () => <button>+</button>;
+export const NewConversation = () => (
+	<div id="new-message-container">
+		<button>+</button>
+	</div>
+);

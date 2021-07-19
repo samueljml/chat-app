@@ -1,4 +1,3 @@
-import React from "react";
 import "./style.css";
 import profileIcon from "../../images/profiles/default.png";
 import { FormSignIn } from "../Form/Signin/FormSignIn";
@@ -8,7 +7,7 @@ interface Contribuitor {
 	gitHubUrl: string;
 }
 
-const contribuitors: Contribuitor[] = [
+const contribuitors: Array<Contribuitor> = [
 	{
 		name: "Samuel",
 		gitHubUrl: "https://github.com/samueljml",
@@ -39,7 +38,7 @@ export const Initial = () => (
 							<a href={gitHubUrl}>
 								<img
 									src={profileIcon}
-									alt="contributors photo"
+									alt="contributors"
 								/>
 							</a>
 							<p className="name">{name}</p>

@@ -1,55 +1,104 @@
-import React, { useState } from "react";
-import { AttachmentIcon } from "../../../images/Icons/AttachmentIcon";
+import { ChangeEvent, useContext, useEffect, useState } from "react";
+import { api } from "../../../api";
+import {
+	executePromise,
+	reloadInterval,
+	setMessageSessionStorage,
+	showGenericError,
+} from "../../../common/Utils";
+import { MainPageContext } from "../../context/MainPageContext";
+import { MessageContext } from "../../context/MessageContext";
+import { createMessage, Message, MessageStatus } from "../../message/Message";
 
-const isMessageEmpty = (textMessage: any) => {
-	return adjustTextMessage(textMessage).length === 0;
-};
+export const ChatForm = () => {
+	const [inputValue, setInputValue] = useState("");
+	const { messageContent, setMessageContent } = useContext(MessageContext);
+	const { selectedConversation, user } = useContext(MainPageContext);
 
-const adjustTextMessage = (textMessage: any) => {
-	return textMessage.trim();
-};
+	const updateMessageSessionStorage = (message: Message) => {
+		if (selectedConversation) {
+			setMessageSessionStorage(message, selectedConversation.id);
+		}
+	};
 
-export const ChatForm = ({ selectedConversation, onMessageSubmitted }: any) => {
-	const [textMessage, setTextMessage] = useState("");
-	const disableButton: any = isMessageEmpty(textMessage);
-	let formContents: any = null;
-	let handleFormSubmit: any = null;
+	const updateMessageStatus = (message: Message, status: string) => {
+		const updatedMessage = messageContent
+			.filter((messageItem) => messageItem === message)
+			.map((messageItem) => ({
+				...messageItem,
+				status,
+			}))[0];
 
-	if (selectedConversation) {
-		formContents = (
-			<>
-				{/* <AttachmentIcon /> */}
-				<input
-					type="text"
-					placeholder="type a message"
-					value={textMessage}
-					onChange={(e) => {
-						setTextMessage(e.target.value);
-					}}
-				/>
-				<button
-					type="submit"
-					className="primary-button"
-					disabled={disableButton}
-				>
-					Send
-				</button>
-			</>
+		updateMessageSessionStorage(updatedMessage);
+	};
+
+	const onPostMessage = async (message: Message) => {
+		const messageUri = `/users/${user.id}/messages/${selectedConversation?.id}`;
+		const [response, error] = await executePromise(() =>
+			api.post(messageUri, message)
 		);
 
-		handleFormSubmit = (e: any) => {
-			e.preventDefault();
+		if (response) {
+			return updateMessageStatus(message, "sent");
+		}
 
-			if (!isMessageEmpty(textMessage)) {
-				onMessageSubmitted(textMessage);
-				setTextMessage("");
+		updateMessageStatus(message, "failed");
+		return showGenericError("Message", error as Error);
+	};
+
+	const postUnsentMessages = () => {
+		setInterval(async () => {
+			const messages = messageContent.filter(
+				({ status }) => status === MessageStatus.SENDING
+			);
+
+			for (const message of messages) {
+				await onPostMessage(message);
 			}
-		};
-	}
+		}, reloadInterval);
+	};
+
+	const onMessageSubmitted = (text: string, id: number) => {
+		const message = createMessage(text, user);
+		setMessageSessionStorage(message, id);
+		setMessageContent([message, ...messageContent]);
+		onPostMessage(message);
+	};
+
+	const handleButtonClick = () => {
+		if (selectedConversation) {
+			onMessageSubmitted(inputValue, selectedConversation.id);
+			setInputValue("");
+		}
+	};
+
+	const handleInputClick = (event: ChangeEvent<HTMLInputElement>) => {
+		setInputValue(event.target.value);
+	};
+
+	const handleButtonDisabled = inputValue.trim().length === 0;
+
+	useEffect(postUnsentMessages, [messageContent]);
 
 	return (
-		<form id="chat-form" onSubmit={handleFormSubmit}>
-			{formContents}
+		<form id="chat-form">
+			{selectedConversation && (
+				<>
+					<input
+						type="text"
+						placeholder="type a message"
+						value={inputValue}
+						onChange={handleInputClick}
+					/>
+					<button
+						type="submit"
+						className="primary-button"
+						disabled={handleButtonDisabled}
+						onClick={handleButtonClick}
+						value={"Send"}
+					></button>
+				</>
+			)}
 		</form>
 	);
 };

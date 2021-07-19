@@ -1,23 +1,32 @@
-import React from "react";
-import { Conversation, hasNoSelectedConversation } from "../main/MainPage";
+import { useContext } from "react";
+import { api } from "../../api";
+import { executePromise, showGenericError } from "../../common/Utils";
 import { TrashIcon } from "../../images/Icons/TrashIcon";
+import { MainPageContext } from "../context/MainPageContext";
 
-type onDeleteFn = () => void;
+const defaultTitle = "Chat aplication - Select a contact to chat with";
 
-interface ChatTitleProps {
-	conversation: Conversation;
-	onDelete: onDeleteFn;
-}
+export const ChatTitle = () => {
+	const { user, selectedConversation, setSelectedConversation } =
+		useContext(MainPageContext);
 
-export const ChatTitle = ({ conversation, onDelete }: ChatTitleProps) => {
-	const defaultTitle = "Chat aplication - Select a contact to chat with";
+	const handleClick = async () => {
+		const uri = `/users/${user.id}/contacts/${selectedConversation?.id}`;
+		const [response, error] = await executePromise(() => api.delete(uri));
+
+		if (response) {
+			return setSelectedConversation(null);
+		}
+
+		showGenericError("Conversation", error as Error)
+	};
 
 	return (
 		<div id="chat-title">
-			<span>{conversation ? conversation.title : defaultTitle}</span>
+			<span>{selectedConversation?.title || defaultTitle}</span>
 
-			{conversation && (
-				<div onClick={onDelete} title="Delete Conversation">
+			{selectedConversation && (
+				<div onClick={handleClick} title="Delete Conversation">
 					<TrashIcon />
 				</div>
 			)}

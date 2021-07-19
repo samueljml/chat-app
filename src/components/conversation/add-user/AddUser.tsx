@@ -1,20 +1,18 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { User } from "../user/User";
 import "./style.css";
 
-export interface userProps {
+export interface UserProps {
 	id: number;
 	name: string;
 	imageUrl: null;
 }
 
-const noUsers: userProps[] = [];
+const noUsers: Array<UserProps> = [];
 
 export const AddUser = () => {
 	const [inputValue, setInputValue] = useState("");
-	const [users, setUsers] = useState(noUsers);
-
-	const getUsersByName = (value: string) => {};
+	const [users] = useState(noUsers);
 
 	return (
 		<div className="container">
@@ -26,12 +24,12 @@ export const AddUser = () => {
 					type="text"
 					value={inputValue}
 				/>
-				<button onClick={(e) => getUsersByName(inputValue)}>
+				<button>
 					Search
 				</button>
 			</div>
 			<div className="users-list">
-				{users.map(({ id, name, imageUrl }: userProps) => (
+				{users.map(({ id, name, imageUrl }: UserProps) => (
 					<User id={id} imageUrl={imageUrl} name={name} />
 				))}
 			</div>

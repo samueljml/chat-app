@@ -1,0 +1,93 @@
+{
+    "users": [{
+            "id": 1,
+            "imageUrl": "",
+            "imageAlt": "Fabio",
+            "title": "Fabio",
+            "createdAt": "Oct 20",
+            "latestMessageText": {
+                "name": "Samuel",
+                "imageUrl": "url432423",
+                "sendTime": "June 22",
+                "text": "Eu também!"
+            }
+        },
+        {
+            "id": 2,
+            "imageUrl": "",
+            "imageAlt": "Emerson",
+            "title": "Emerson",
+            "createdAt": "Oct 20",
+            "latestMessageText": {
+                "name": "Samuel",
+                "imageUrl": "url432423",
+                "sendTime": "June 22",
+                "text": "Eu também!"
+            }
+        }
+    ],
+    "contacts": [{
+            "id": 1,
+            "imageUrl": "",
+            "imageAlt": "Fabio Umpierre",
+            "title": "Fabio Umpierre",
+            "createdAt": "set 15",
+            "latestMessageText": {
+                "id": 1,
+                "name": "Samuel",
+                "imageUrl": "url432423",
+                "sendTime": "set 15",
+                "text": "Blz",
+                "status": "Sent"
+            }
+        },
+        {
+            "id": 2,
+            "imageUrl": "",
+            "imageAlt": "Emerson",
+            "title": "Emerson",
+            "createdAt": "Oct 20",
+            "latestMessageText": {
+                "id": 2,
+                "name": "Samuel",
+                "imageUrl": "url432423",
+                "sendTime": "June 22",
+                "text": "Eu também!",
+                "status": "Sent"
+            }
+        }
+    ],
+    "messages": [{
+            "id": 2,
+            "name": "Samuel",
+            "imageUrl": "",
+            "sendTime": "13:14:15Z",
+            "text": "Eu também!",
+            "status": "sent"
+        },
+        {
+            "id": 2,
+            "name": "Fabio",
+            "imageUrl": "",
+            "sendTime": "13:15:15Z",
+            "text": "Tudo e você?",
+            "status": "sent"
+        },
+        {
+            "id": 3,
+            "name": "Samuel",
+            "imageUrl": "",
+            "sendTime": "13:16:15Z",
+            "text": "Olá, tudo bem?",
+            "status": "sent"
+        },
+        {
+            "id": 4,
+            "name": "Fabio",
+            "imageUrl": "",
+            "sendTime": "13:16:18Z",
+            "text": "Olá",
+            "status": "sent"
+        }
+    ]
+}
