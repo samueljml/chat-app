@@ -3,8 +3,9 @@ import { api } from "../../../api";
 import {
 	executePromise,
 	reloadInterval,
-	setMessageSessionStorage,
+	saveMessageSessionStorage,
 	showGenericError,
+	updateMessageSessionStorage,
 } from "../../../common/Utils";
 import { MainPageContext } from "../../context/MainPageContext";
 import { MessageContext } from "../../context/MessageContext";
@@ -15,12 +16,6 @@ export const ChatForm = () => {
 	const { messageContent, setMessageContent } = useContext(MessageContext);
 	const { selectedConversation, user } = useContext(MainPageContext);
 
-	const updateMessageSessionStorage = (message: Message) => {
-		if (selectedConversation) {
-			setMessageSessionStorage(message, selectedConversation.id);
-		}
-	};
-
 	const updateMessageStatus = (message: Message, status: string) => {
 		const updatedMessage = messageContent
 			.filter((messageItem) => messageItem === message)
@@ -29,7 +24,12 @@ export const ChatForm = () => {
 				status,
 			}))[0];
 
-		updateMessageSessionStorage(updatedMessage);
+		if (selectedConversation && updatedMessage) {
+			updateMessageSessionStorage(
+				updatedMessage,
+				selectedConversation.id
+			);
+		}
 	};
 
 	const onPostMessage = async (message: Message) => {
@@ -60,7 +60,7 @@ export const ChatForm = () => {
 
 	const onMessageSubmitted = (text: string, id: number) => {
 		const message = createMessage(text, user);
-		setMessageSessionStorage(message, id);
+		saveMessageSessionStorage(message, id);
 		setMessageContent([message, ...messageContent]);
 		onPostMessage(message);
 	};
