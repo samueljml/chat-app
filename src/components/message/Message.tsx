@@ -1,7 +1,8 @@
 import { useContext } from "react";
-import { gererateId } from "../../common/Utils";
+import { gererateId, updateMessageSessionStorage } from "../../common/Utils";
 import warnIcon from "../../images/Icons/warn.png";
 import defaultImage from "../../images/profiles/default.png";
+import { TrashIcon } from "../../images/Icons/TrashIcon";
 import { MainPageContext } from "../context/MainPageContext";
 import { User } from "../main/MainPage";
 
@@ -24,7 +25,7 @@ export interface MessageProps {
 	message: Message;
 }
 
-export const createMessage = (text: string, {name, imageUrl}: User) => ({
+export const createMessage = (text: string, { name, imageUrl }: User) => ({
 	id: gererateId(),
 	name,
 	imageUrl,
@@ -37,18 +38,29 @@ export const createMessage = (text: string, {name, imageUrl}: User) => ({
 const warnToMessage: string = "Not delivered";
 
 export const MessageItem = ({ message }: MessageProps) => {
-	const { user } = useContext(MainPageContext);
-	const isMyMessage: boolean = user.name === message.name;
-	const showMessageTime: boolean = message.status !== MessageStatus.SENDING;
+	const { user, selectedConversation } = useContext(MainPageContext);
+	const isMyMessage = user.name === message.name;
+	const showMessageTime = message.status !== MessageStatus.SENDING;
+	const hasMessageFailed = message.status === MessageStatus.FAILED;
+
+	const handleClick = () => {
+		if (selectedConversation) {
+			updateMessageSessionStorage(
+				{
+					...message,
+					status: hasMessageFailed
+						? MessageStatus.SENDING
+						: message.status,
+				},
+				selectedConversation.id
+			);
+		}
+	};
 
 	return (
 		<div
 			id="message-block"
-			onClick={() => {
-				if (message.status === MessageStatus.FAILED) {
-					message.status = MessageStatus.SENDING;
-				}
-			}}
+			onClick={handleClick}
 			className={`message-row ${
 				isMyMessage ? "my-message" : "your-message"
 			}`}
@@ -70,6 +82,8 @@ export const MessageItem = ({ message }: MessageProps) => {
 							alt="warning icon"
 						/>
 					)}
+
+					<TrashIcon />
 				</div>
 
 				{showMessageTime && (
