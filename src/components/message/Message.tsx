@@ -41,7 +41,7 @@ export const MessageItem = ({ message }: MessageProps) => {
 	const { user, selectedConversation } = useContext(MainPageContext);
 	const isMyMessage: boolean = user.name === message.name;
 	const showMessageTime: boolean = message.status !== MessageStatus.SENDING;
-	const [isOptionsEnable, setIsOptionsEnable] = useState(false);
+	const [isMessageFocused, setIsMessageFocused] = useState(false);
 
 	const handleClick = () => {
 		if (selectedConversation) {
@@ -50,10 +50,6 @@ export const MessageItem = ({ message }: MessageProps) => {
 			}
 			updateMessageSessionStorage(message, selectedConversation.id);
 		}
-	};
-
-	const handleOnFocus = () => {
-		setIsOptionsEnable(true);
 	};
 
 	return (
@@ -74,7 +70,8 @@ export const MessageItem = ({ message }: MessageProps) => {
 
 				<div
 					className={`message-text ${message.status}`}
-					onFocus={handleOnFocus}
+					onFocus={() => setIsMessageFocused(true)}
+					onBlur={() => setIsMessageFocused(false)}
 				>
 					{message.text}
 					{message.status === MessageStatus.FAILED && (
@@ -84,7 +81,10 @@ export const MessageItem = ({ message }: MessageProps) => {
 							alt="warning icon"
 						/>
 					)}
-					<TrashIcon isVisible={isOptionsEnable}/>
+
+					{isMessageFocused && (
+						<TrashIcon />
+					)}
 				</div>
 
 				{showMessageTime && (
