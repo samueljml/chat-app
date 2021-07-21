@@ -49,7 +49,7 @@ export const MessageList = () => {
 		}, reloadInterval);
 	};
 
-	useEffect(requestData, [selectedConversation, messageContent]);
+	useEffect(requestData, [selectedConversation?.id, JSON.stringify(messageContent)]);
 
 	return (
 		<div id="chat-message-list">
