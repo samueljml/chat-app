@@ -2,7 +2,7 @@ import { useContext, useEffect } from "react";
 import { api } from "../../../api";
 import {
 	executePromise,
-	getAllMessageSessionStorage,
+	getAllMessagesSessionStorage,
 	isArraysDifferents,
 	reloadInterval,
 	showGenericError,
@@ -34,7 +34,7 @@ export const MessageList = () => {
 
 			if (response && isArraysDifferents(response.data, messageContent)) {
 				return setMessageContent([
-					...getAllMessageSessionStorage(conversation.id),
+					...getAllMessagesSessionStorage(conversation.id),
 					...response.data,
 				]);
 			}
@@ -49,7 +49,7 @@ export const MessageList = () => {
 		}, reloadInterval);
 	};
 
-	useEffect(requestData, [selectedConversation, messageContent]);
+	useEffect(requestData, [selectedConversation?.id, JSON.stringify(messageContent)]);
 
 	return (
 		<div id="chat-message-list">

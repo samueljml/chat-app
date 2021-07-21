@@ -38,38 +38,41 @@ export const isArraysDifferents = (
 export const containsSubstring = (value: string, subValue: string) =>
 	value.toLowerCase().includes(subValue.toLowerCase());
 
-export const setMessageSessionStorage = (
+export const saveMessageSessionStorage = async (
 	message: Message,
 	conversationId: number
 ) => {
-	sessionStorage.setItem(
-		`${conversationId}/messages/${message.id}`,
-		JSON.stringify(message)
+	const messages: Array<Message> = [
+		message,
+		...getAllMessagesSessionStorage(conversationId),
+	];
+
+	saveSessionStorage(`messages-${conversationId}`, messages);
+};
+
+const saveSessionStorage = (key: string, value: Array<Message>) =>
+	sessionStorage.setItem(key, JSON.stringify(value));
+
+export const getAllMessagesSessionStorage = (
+	conversationId: number
+): Array<Message> => {
+	const storagedConversationMessages = sessionStorage.getItem(
+		`messages-${conversationId}`
 	);
+
+	return storagedConversationMessages
+		? JSON.parse(storagedConversationMessages)
+		: [];
 };
 
-export const getSessionStorage = (path: string) => sessionStorage.getItem(path);
-
-export const getAllMessageSessionStorage = (conversationId: number) => {
-	let messages: Array<Message> = [];
-
-	Object.keys(sessionStorage).filter((key) => key.match(`${conversationId}/.*`)).forEach((key) => {
-		const value = sessionStorage.getItem(key);
-		if (value) {
-			messages.push(JSON.parse(value));
-		}
-	});
-
-	return messages;
-};
-
-export const setMessageSessionStorageStatus = (
-	message: Message,
-	conversationId: number,
-	status: string
+export const updateMessageSessionStorage = (
+	newMessage: Message,
+	conversationId: number
 ) => {
-	message.status = status;
-	setMessageSessionStorage(message, conversationId);
+	const messages = getAllMessagesSessionStorage(conversationId);
+	const messageIndex = messages.findIndex(({ id }) => id === newMessage.id);
+	messages[messageIndex] = newMessage;
+	saveSessionStorage(`messages-${conversationId}`, messages);
 };
 
 export const gererateId = () => Math.random() * 1000000 + 1;
