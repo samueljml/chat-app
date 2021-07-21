@@ -98,6 +98,7 @@ img.warning-icon {
 
 .message-text {
 	position: relative;
+	transition: 0.5s ease;
 	padding: 9px 14px;
 	font-size: 1.6rem;
 	margin-bottom: 5px;
@@ -235,6 +236,9 @@ img.warning-icon {
 }
 
 .message-text .trash-logo {
+	display: block;
+	visibility: hidden;
+	stroke: #000000;
 	position: absolute;
 	width: 22px;
 	margin: 9px 14px;
@@ -242,7 +246,17 @@ img.warning-icon {
 	top: 0px;
 }
 
+.my-message .message-content .message-text:hover {
+	padding-right: 43px;
+}
+
+.message-text:hover .trash-logo {
+	visibility: visible;
+	stroke: #000000;
+}
+
 .trash-logo {
+	display: block;
 	stroke: #0048aa;
 	cursor: pointer;
 }
