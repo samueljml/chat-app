@@ -200,39 +200,44 @@ img.warning-icon {
 	overflow-y: scroll;
 }
 
-#chat-form {
+.chat-form {
 	display: flex;
 	align-items: center;
 	grid-area: chat-form;
 	background: #eee;
 	border-radius: 0 0 10px 0;
 	border-top: 1px solid darken(#eee, 12.16);
-	padding-left: 42px;
+	padding-left: 22px;
 	padding-right: 22px;
 }
 
-#chat-form input {
+.chat-form input {
 	flex: 1 0;
-	outline: none;
-	padding: 15px;
-	border: 2px solid #dddddd;
-	border-right: none;
-	color: #333300;
-	border-radius: 6px 0 0 6px;
-	font-size: 1.4rem;
-	margin-left: 15px;
+    outline: none;
+    padding: 15px;
+    border: 2px solid #dddddd;
+    border-right: none;
+    color: #333300;
+    border-radius: 6px 0 0 6px;
+    font-size: 1.4rem;
 }
 
-#chat-form button {
-	height: 51px;
+.chat-form button {
 	flex: 0 0 90px;
+	height: 51px;
+	color: white;
+	border: 1px solid #000000;
 	border-radius: 0 6px 6px 0;
+	background: rgb(30, 86, 163);
+}
+
+.chat-form button:enabled {
+	cursor: pointer;
+	background: #0048aa;
 }
 .primary-button:disabled {
-	cursor: pointer;
-	color: white;
-	background: #0048aa;
-	border: 1px solid #000000;
+	cursor: auto;
+	opacity: 0.95;
 }
 
 .trash-logo {

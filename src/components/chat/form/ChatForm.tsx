@@ -81,7 +81,7 @@ export const ChatForm = () => {
 	useEffect(postUnsentMessages, [messageContent]);
 
 	return (
-		<form id="chat-form">
+		<form className="chat-form">
 			{selectedConversation && (
 				<>
 					<input
@@ -95,8 +95,7 @@ export const ChatForm = () => {
 						className="primary-button"
 						disabled={handleButtonDisabled}
 						onClick={handleButtonClick}
-						value={"Send"}
-					></button>
+					>Send</button>
 				</>
 			)}
 		</form>
