@@ -26,11 +26,11 @@ export const Initial = () => (
 		<div className="container-content flex-row">
 			<div className="container-about flex-column">
 				<h2>About</h2>
-				<p>
+				<h3>
 					Simple chat project in React. CondoChat allows a connection
 					and communication between two users in an easy and intuitive
 					way! Create an account and start to chat now!
-				</p>
+				</h3>
 				<h2>Contributors</h2>
 				<div className="row">
 					{contribuitors.map(({ name, gitHubUrl }: Contribuitor) => (
