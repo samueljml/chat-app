@@ -18,6 +18,8 @@ const contribuitors: Array<Contribuitor> = [
 	},
 ];
 
+//TODO change text color to white
+
 export const Initial = () => (
 	<div className="container">
 		<div className="container-title">
