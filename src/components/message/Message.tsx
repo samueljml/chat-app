@@ -84,7 +84,7 @@ export const MessageItem = ({ message }: MessageProps) => {
 							alt="warning icon"
 						/>
 					)}
-					<TrashIcon />
+					<TrashIcon isVisible={isOptionsEnable}/>
 				</div>
 
 				{showMessageTime && (
