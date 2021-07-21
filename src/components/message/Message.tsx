@@ -41,7 +41,6 @@ export const MessageItem = ({ message }: MessageProps) => {
 	const { user, selectedConversation } = useContext(MainPageContext);
 	const isMyMessage: boolean = user.name === message.name;
 	const showMessageTime: boolean = message.status !== MessageStatus.SENDING;
-	const [isMessageFocused, setIsMessageFocused] = useState(false);
 
 	const handleClick = () => {
 		if (selectedConversation) {
@@ -68,11 +67,7 @@ export const MessageItem = ({ message }: MessageProps) => {
 					/>
 				)}
 
-				<div
-					className={`message-text ${message.status}`}
-					onFocus={() => setIsMessageFocused(true)}
-					onBlur={() => setIsMessageFocused(false)}
-				>
+				<div className={`message-text ${message.status}`}>
 					{message.text}
 					{message.status === MessageStatus.FAILED && (
 						<img
@@ -82,9 +77,7 @@ export const MessageItem = ({ message }: MessageProps) => {
 						/>
 					)}
 
-					{isMessageFocused && (
-						<TrashIcon />
-					)}
+					<TrashIcon />
 				</div>
 
 				{showMessageTime && (

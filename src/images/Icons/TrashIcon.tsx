@@ -1,12 +1,6 @@
-import React from "react";
-
-interface TrashIconProps {
-	isVisible?: boolean;
-}
-
-export const TrashIcon = ({isVisible}: TrashIconProps) => (
+export const TrashIcon = () => (
 	<svg
-		className={`trash-logo ${isVisible ? "enable" : "disable"}`}
+		className={`trash-logo`}
 		enableBackground="new 0 0 500 500"
 		version="1.1"
 		viewBox="0 0 500 500"
