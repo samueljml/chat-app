@@ -2,6 +2,7 @@ import { Conversation } from "../components/conversation/Conversation";
 import { Message } from "../components/message/Message";
 
 import { differenceWith, isEqual } from "lodash";
+import { AxiosResponse } from "axios";
 
 export interface GenericObject {
 	[key: string]: any;
@@ -75,9 +76,18 @@ export const updateMessageSessionStorage = (
 	saveSessionStorage(`messages-${conversationId}`, messages);
 };
 
+export const deleteMessageSessionStorage = (
+	message: Message,
+	conversationId: number
+) => {
+	const messages = getAllMessagesSessionStorage(conversationId);
+	messages.splice(messages.findIndex(({ id }) => id === message.id));
+	saveSessionStorage(`messages-${conversationId}`, messages);
+};
+
 export const gererateId = () => Math.random() * 1000000 + 1;
 
 export const reloadInterval = 1500;
 
-export const showGenericError = (title: string, err: Error) =>
+export const showGenericError = (title: string, err: Error | AxiosResponse | GenericObject) =>
 	console.error(title, err);

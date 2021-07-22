@@ -1,8 +1,15 @@
 import { useContext } from "react";
-import { gererateId, updateMessageSessionStorage } from "../../common/Utils";
+import { api } from "../../api";
+import {
+	deleteMessageSessionStorage,
+	executePromise,
+	gererateId,
+	showGenericError,
+	updateMessageSessionStorage,
+} from "../../common/Utils";
+import { TrashIcon } from "../../images/Icons/TrashIcon";
 import warnIcon from "../../images/Icons/warn.png";
 import defaultImage from "../../images/profiles/default.png";
-import { TrashIcon } from "../../images/Icons/TrashIcon";
 import { MainPageContext } from "../context/MainPageContext";
 import { User } from "../main/MainPage";
 
@@ -43,6 +50,9 @@ export const MessageItem = ({ message }: MessageProps) => {
 	const showMessageTime = message.status !== MessageStatus.SENDING;
 	const hasMessageFailed = message.status === MessageStatus.FAILED;
 
+	const isMessageInDataBase = (status: string) =>
+		status === MessageStatus.SENT;
+
 	const handleClick = () => {
 		if (selectedConversation) {
 			updateMessageSessionStorage(
@@ -54,6 +64,25 @@ export const MessageItem = ({ message }: MessageProps) => {
 				},
 				selectedConversation.id
 			);
+		}
+	};
+
+	const deleteMessage = async () => {
+		const uri = `users/${user.id}/contacts/${selectedConversation?.id}/messages/${message.id}`;
+		const [, error] = await executePromise(() => api.delete(uri));
+
+		if (error) {
+			showGenericError("Delete Message", error);
+		}
+	};
+
+	const handleClickTrash = () => {
+		if (isMessageInDataBase(message.status) && isMyMessage) {
+			return deleteMessage();
+		}
+
+		if (selectedConversation) {
+			deleteMessageSessionStorage(message, selectedConversation.id);
 		}
 	};
 
@@ -83,7 +112,9 @@ export const MessageItem = ({ message }: MessageProps) => {
 						/>
 					)}
 
-					<TrashIcon />
+					<div onClick={handleClickTrash}>
+						<TrashIcon />
+					</div>
 				</div>
 
 				{showMessageTime && (
