@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect } from "react";
 import { api } from "../../../api";
 import {
 	containsSubstring,
@@ -18,9 +18,13 @@ interface ConversationListProps {
 export const ConversationList = ({
 	searchInputValue,
 }: ConversationListProps) => {
-	const [conversations, setConversations] = useState<Array<Conversation>>([]);
-	const { setIsConversationLoading, isConversationLoading, user } =
-		useContext(MainPageContext);
+	const {
+		conversations,
+		setConversations,
+		setIsConversationLoading,
+		isConversationLoading,
+		user,
+	} = useContext(MainPageContext);
 
 	const showConversations = async (uri: string) => {
 		const [response, error] = await executePromise(() => api.get(uri));
@@ -44,7 +48,7 @@ export const ConversationList = ({
 	useEffect(requestData, [JSON.stringify(conversations)]);
 
 	return (
-		<div id="conversation-list">
+		<div className="conversation-list">
 			{isConversationLoading ? (
 				<ContactLoader />
 			) : (

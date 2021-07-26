@@ -88,9 +88,8 @@ export const MessageItem = ({ message }: MessageProps) => {
 
 	return (
 		<div
-			id="message-block"
 			onClick={handleClick}
-			className={`message-row ${
+			className={`"message-block" message-row ${
 				isMyMessage ? "my-message" : "your-message"
 			}`}
 		>

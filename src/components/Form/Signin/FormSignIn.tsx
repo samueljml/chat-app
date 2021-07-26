@@ -28,7 +28,7 @@ export const FormSignIn = () => (
 		)}
 
 		<div className="inputbox flex-column">
-			<input type="button" id="btn-signin" value="Sign in" />
+			<input type="button" className="btn-signin" value="Sign in" />
 		</div>
 	</form>
 );

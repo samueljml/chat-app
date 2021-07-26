@@ -15,7 +15,7 @@ export const ConversationSearch = ({
 		setSearchInputValue(event.currentTarget.value);
 
 	return (
-		<div id="search-container">
+		<div className="search-container">
 			{isConversationLoading ? (
 				<SearchLoader />
 			) : (

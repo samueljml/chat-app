@@ -51,7 +51,7 @@ export const saveMessageSessionStorage = async (
 	saveSessionStorage(`messages-${conversationId}`, messages);
 };
 
-const saveSessionStorage = (key: string, value: Array<Message>) =>
+const saveSessionStorage = (key: string, value: Array<Message> | string) =>
 	sessionStorage.setItem(key, JSON.stringify(value));
 
 export const getAllMessagesSessionStorage = (
@@ -89,5 +89,26 @@ export const gererateId = () => Math.random() * 1000000 + 1;
 
 export const reloadInterval = 1500;
 
-export const showGenericError = (title: string, err: Error | AxiosResponse | GenericObject) =>
-	console.error(title, err);
+export const showGenericError = (
+	title: string,
+	err: Error | AxiosResponse | GenericObject
+) => console.error(title, err);
+
+export const saveUserSessionStorage = async (
+	myUserId: number,
+	userId: number
+) => {
+	saveSessionStorage(`user-${myUserId}-adding-${userId}`, `${userId}`);
+};
+
+export const getUserSessionStorage = (myUserId: number, userId: number) => {
+	const addingUserId = sessionStorage.getItem(
+		`user-${myUserId}-adding-${userId}`
+	);
+
+	return addingUserId || "";
+};
+
+export const deleteUserSessionStorage = (myUserId: number, userId: number) => {
+	sessionStorage.removeItem(`user-${myUserId}-adding-${userId}`);
+};
