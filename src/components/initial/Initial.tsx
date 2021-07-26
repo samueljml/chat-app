@@ -52,7 +52,7 @@ export const Initial = () => (
 				<div className="container-sign-up">
 					<h2>Don't have an account? Create now!</h2>
 					<div className="inputbox">
-						<input type="button" id="btn-signup" value="Sign up" />
+						<input type="button" className="btn-signup" value="Sign up" />
 					</div>
 				</div>
 			</div>

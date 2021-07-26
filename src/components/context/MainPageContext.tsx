@@ -17,6 +17,10 @@ interface MainPageContextData {
 	setSelectedConversation: Dispatch<SetStateAction<optionalConversation>>;
 	isConversationLoading: boolean;
 	setIsConversationLoading: Dispatch<SetStateAction<boolean>>;
+	isAddUserActive: boolean;
+	setIsAddUserActive: Dispatch<SetStateAction<boolean>>;
+	conversations: Array<Conversation>;
+	setConversations: Dispatch<Array<Conversation>>;
 }
 
 interface LoaderProviderProps {
@@ -38,16 +42,22 @@ export const MainPageProvider = ({ children }: LoaderProviderProps) => {
 		useState<optionalConversation>(null);
 	const [user, setUser] = useState<User>(defaultUserForTests);
 	const [isConversationLoading, setIsConversationLoading] = useState(true);
+	const [isAddUserActive, setIsAddUserActive] = useState(false);
+	const [conversations, setConversations] = useState<Array<Conversation>>([]);
 
 	return (
 		<MainPageContext.Provider
 			value={{
 				user,
 				setUser,
-				selectedConversation: selectedConversation,
-				setSelectedConversation: setSelectedConversation,
-				isConversationLoading: isConversationLoading,
-				setIsConversationLoading: setIsConversationLoading,
+				selectedConversation,
+				setSelectedConversation,
+				isConversationLoading,
+				setIsConversationLoading,
+				isAddUserActive,
+				setIsAddUserActive,
+				conversations,
+				setConversations,
 			}}
 		>
 			{children}

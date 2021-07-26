@@ -89,7 +89,7 @@ p {
 	max-width: 250pt;
 }
 
-#back-arrow {
+.back-arrow {
 	cursor: pointer;
 	position: absolute;
 	left: 5px;

@@ -52,7 +52,7 @@ export const MessageList = () => {
 	useEffect(requestData, [selectedConversation?.id, JSON.stringify(messageContent)]);
 
 	return (
-		<div id="chat-message-list">
+		<div className="chat-message-list">
 			{messageContent.map((msg) => (
 				<MessageItem key={`${msg.sendTime}-${msg.id}`} message={msg} />
 			))}

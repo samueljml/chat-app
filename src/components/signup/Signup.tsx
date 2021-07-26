@@ -15,7 +15,7 @@ const inputAttributes: Array<InputAttribute> = [
 export const SignUp = () => (
 	<div className="container">
 		<form className="form">
-			<img id="back-arrow" src={backIcon} alt="Icon back arrow" />
+			<img className="back-arrow" src={backIcon} alt="Icon back arrow" />
 
 			<h1>Create your account</h1>
 			<img src={perfilIcon} alt="contributors" />

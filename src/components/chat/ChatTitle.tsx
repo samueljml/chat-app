@@ -22,7 +22,7 @@ export const ChatTitle = () => {
 	};
 
 	return (
-		<div id="chat-title">
+		<div className="chat-title">
 			<span>{selectedConversation?.title || defaultTitle}</span>
 
 			{selectedConversation && (
