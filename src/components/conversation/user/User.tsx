@@ -1,12 +1,10 @@
-import { useEffect } from "react";
-import { useContext, useState } from "react";
-import { setInterval } from "timers";
+import { useContext, useEffect, useState } from "react";
 import { api } from "../../../api";
 import {
 	deleteUserSessionStorage,
 	executePromise,
 	getAllUsersSessionStorage,
-	saveUsersSessionStorage,
+	saveUsersSessionStorage
 } from "../../../common/Utils";
 import perfilIcon from "../../../images/profiles/default.png";
 import { MainPageContext } from "../../context/MainPageContext";
@@ -57,7 +55,7 @@ export const UserItem = ({ id, name, imageUrl, userName }: User) => {
 
 	useEffect(() => {
 		const users = getAllUsersSessionStorage(user.id);
-		if (users.find(({ id }) => id === user.id)) {
+		if (users.find((userItem) => userItem.id === user.id)) {
 			setButtonState(ButtonState.ADDING);
 		}
 	}, []);
