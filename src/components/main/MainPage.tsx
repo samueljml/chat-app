@@ -3,6 +3,7 @@ import "../../App.css";
 import { ChatTitle } from "../chat/ChatTitle";
 import { ChatForm } from "../chat/form/ChatForm";
 import { MessageProvider } from "../context/MessageContext";
+import { AddUser } from "../conversation/add-user/AddUser";
 import { ConversationSearch } from "../conversation/ConversationSearch";
 import { ConversationList } from "../conversation/list/ConversationList";
 import { NewConversation } from "../conversation/new-conversation/NewConversation";
@@ -20,10 +21,11 @@ export const MainPage = () => {
 	const [inputSearchValue, setInputSearchValue] = useState("");
 
 	return (
-		<div id="chat-container">
+		<div className="chat-container">
 			<ConversationSearch setSearchInputValue={setInputSearchValue} />
 			<ConversationList searchInputValue={inputSearchValue} />
 			<NewConversation />
+			<AddUser />
 			<ChatTitle />
 			<MessageProvider>
 				<MessageList />

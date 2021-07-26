@@ -1,10 +1,83 @@
+import { useEffect } from "react";
+import { useContext, useState } from "react";
+import { setInterval } from "timers";
+import { api } from "../../../api";
+import {
+	deleteUserSessionStorage,
+	executePromise,
+	getAllUsersSessionStorage,
+	saveUsersSessionStorage,
+} from "../../../common/Utils";
 import perfilIcon from "../../../images/profiles/default.png";
-import { UserProps } from "../add-user/AddUser";
+import { MainPageContext } from "../../context/MainPageContext";
+import { User } from "../../main/MainPage";
 
-export const User = ({ name }: UserProps) => (
-	<div className="user-container">
-		<img src={perfilIcon} alt="user photo" />
-		<p id="username">{name}</p>
-		<button>Invite</button>
-	</div>
-);
+enum ButtonState {
+	NOT_ADDED = "not-added",
+	ADDING = "adding",
+	ADDED = "added",
+}
+
+export const UserItem = ({ id, name, imageUrl, userName }: User) => {
+	const [buttonState, setButtonState] = useState(ButtonState.NOT_ADDED);
+	const { user } = useContext(MainPageContext);
+
+	const addUserToContacts = async () => {
+		const [response] = await executePromise(() =>
+			api.post(`/user/${user.id}/contact/${id}`)
+		);
+
+		if (response) {
+			return setButtonState(ButtonState.ADDED);
+		}
+
+		deleteUserSessionStorage(user.id);
+	};
+
+	const updateButtonState = () => {
+		setButtonState(
+			buttonState === ButtonState.NOT_ADDED
+				? ButtonState.ADDING
+				: ButtonState.NOT_ADDED
+		);
+
+		saveUsersSessionStorage(user);
+	};
+
+	const handleClick = () => {
+		if (buttonState !== ButtonState.ADDED) {
+			updateButtonState();
+
+			if (buttonState === ButtonState.ADDING) {
+				return addUserToContacts();
+			}
+			deleteUserSessionStorage(user.id);
+		}
+	};
+
+	useEffect(() => {
+		const users = getAllUsersSessionStorage(user.id);
+		if (users.find(({ id }) => id === user.id)) {
+			setButtonState(ButtonState.ADDING);
+		}
+	}, []);
+
+	return (
+		<div className={`user-container ${buttonState}`}>
+			<div className="user-info">
+				<img src={imageUrl || perfilIcon} alt="user photo" />
+				<div className="text-block">
+					<p id="name">{name}</p>
+					<p id="username">{userName}</p>
+				</div>
+			</div>
+
+			<input
+				className={`add-user ${buttonState}`}
+				type="Submit"
+				value="+"
+				onClick={handleClick}
+			/>
+		</div>
+	);
+};

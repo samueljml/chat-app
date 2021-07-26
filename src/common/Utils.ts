@@ -3,6 +3,7 @@ import { Message } from "../components/message/Message";
 
 import { differenceWith, isEqual } from "lodash";
 import { AxiosResponse } from "axios";
+import { User } from "../components/main/MainPage";
 
 export interface GenericObject {
 	[key: string]: any;
@@ -51,7 +52,7 @@ export const saveMessageSessionStorage = async (
 	saveSessionStorage(`messages-${conversationId}`, messages);
 };
 
-const saveSessionStorage = (key: string, value: Array<Message>) =>
+const saveSessionStorage = (key: string, value: Array<Message | User>) =>
 	sessionStorage.setItem(key, JSON.stringify(value));
 
 export const getAllMessagesSessionStorage = (
@@ -91,3 +92,23 @@ export const reloadInterval = 1500;
 
 export const showGenericError = (title: string, err: Error | AxiosResponse | GenericObject) =>
 	console.error(title, err);
+
+export const saveUsersSessionStorage = async (user: User) => {
+	const users: Array<User> = [user, ...getAllUsersSessionStorage(user.id)];
+
+	saveSessionStorage(`users-${user.id}`, users);
+};
+
+export const getAllUsersSessionStorage = (userId: number): Array<User> => {
+	const storagedOnAddingUsers = sessionStorage.getItem(`users-${userId}`);
+
+	return storagedOnAddingUsers ? JSON.parse(storagedOnAddingUsers) : [];
+};
+
+export const deleteUserSessionStorage = (
+	userId: number
+) => {
+	const users = getAllMessagesSessionStorage(userId);
+	users.splice(users.findIndex(({ id }) => id === userId));
+	saveSessionStorage(`users-${userId}`, users);
+};
