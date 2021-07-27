@@ -7,6 +7,7 @@ import {
 	reloadInterval,
 	showGenericError,
 } from "../../../common/Utils";
+import { MessageLoader } from "../../content-loader/MessageLoader";
 import { MainPageContext } from "../../context/MainPageContext";
 import { MessageContext } from "../../context/MessageContext";
 import { Conversation } from "../../conversation/Conversation";
@@ -18,7 +19,7 @@ interface MessageListResponse {
 
 export const MessageList = () => {
 	const { selectedConversation } = useContext(MainPageContext);
-	const { messageContent, setMessageContent, setIsLoading } =
+	const { messageContent, setMessageContent, isLoading, setIsLoading } =
 		useContext(MessageContext);
 
 	const showMessages = async (
@@ -26,12 +27,13 @@ export const MessageList = () => {
 		conversation: Conversation | null
 	) => {
 		if (conversation) {
+			setIsLoading(true);
 			const [response, error] = await executePromise<MessageListResponse>(
 				() => api.get(uri)
 			);
 
 			setIsLoading(false);
-
+			
 			if (response && isArraysDifferents(response.data, messageContent)) {
 				return setMessageContent([
 					...getAllMessagesSessionStorage(conversation.id),
@@ -53,9 +55,16 @@ export const MessageList = () => {
 
 	return (
 		<div id="chat-message-list">
-			{messageContent.map((msg) => (
-				<MessageItem key={`${msg.sendTime}-${msg.id}`} message={msg} />
-			))}
+			{isLoading ? (
+				<MessageLoader />
+			) : (
+				messageContent.map((msg) => (
+					<MessageItem
+						key={`${msg.sendTime}-${msg.id}`}
+						message={msg}
+					/>
+				))
+			)}
 		</div>
 	);
 };
