@@ -58,7 +58,7 @@ export const UserItem = ({ id, name, imageUrl, userName }: User) => {
 		if (users.find((userItem) => userItem.id === user.id)) {
 			setButtonState(ButtonState.ADDING);
 		}
-	}, []);
+	}, [buttonState]);
 
 	return (
 		<div className={`user-container ${buttonState}`}>
@@ -70,12 +70,10 @@ export const UserItem = ({ id, name, imageUrl, userName }: User) => {
 				</div>
 			</div>
 
-			<input
+			<button
 				className={`add-user ${buttonState}`}
-				type="Submit"
-				value="+"
 				onClick={handleClick}
-			/>
+			><span>x</span></button>
 		</div>
 	);
 };

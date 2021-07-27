@@ -47,12 +47,12 @@ export const MainPageProvider = ({ children }: LoaderProviderProps) => {
 			value={{
 				user,
 				setUser,
-				selectedConversation: selectedConversation,
-				setSelectedConversation: setSelectedConversation,
-				isConversationLoading: isConversationLoading,
-				setIsConversationLoading: setIsConversationLoading,
-				isAddUserActive: isAddUserActive,
-				setIsAddUserActive: setIsAddUserActive,
+				selectedConversation,
+				setSelectedConversation,
+				isConversationLoading,
+				setIsConversationLoading,
+				isAddUserActive,
+				setIsAddUserActive,
 			}}
 		>
 			{children}
