@@ -5,11 +5,8 @@ import { Message } from "../message/Message";
 
 export interface Conversation {
 	id: number;
+	name: string;
 	imageUrl: string;
-	imageAlt: string;
-	title: string;
-	createdAt: string;
-	latestMessageText: Message;
 }
 
 interface ConversationProps {
@@ -17,7 +14,7 @@ interface ConversationProps {
 }
 
 export const ConversationItem = ({ conversation }: ConversationProps) => {
-	const { id, imageUrl, imageAlt, title, latestMessageText } = conversation;
+	const { id, imageUrl, name } = conversation;
 	const { selectedConversation, setSelectedConversation } =
 		useContext(MainPageContext);
 	const isActive: boolean = id === selectedConversation?.id;
@@ -33,11 +30,11 @@ export const ConversationItem = ({ conversation }: ConversationProps) => {
 			className={`conversation ${isActive && "active"}`}
 			onClick={handleClick}
 		>
-			<img src={imageUrl || defaultImage} alt={imageAlt} />
-			<div className="title-text">{title}</div>
-			<div className="created-date">{latestMessageText.sendTime}</div>
+			<img src={imageUrl || defaultImage} alt={name} />
+			<div className="title-text">{name}</div>
+			<div className="created-date"></div>
 			<div className="conversation-message">
-				{latestMessageText.text || <strong>No messages</strong>}
+				<strong>No messages</strong>
 			</div>
 		</div>
 	);

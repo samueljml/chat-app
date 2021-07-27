@@ -17,8 +17,10 @@ export const AddUser = () => {
 		);
 
 		if (response) {
-			setUsers(response.data);
+			return setUsers([response.data]);
 		}
+
+		setUsers([]);
 	};
 
 	const handleKeyDown = ({

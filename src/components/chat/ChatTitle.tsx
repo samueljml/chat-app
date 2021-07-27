@@ -18,12 +18,12 @@ export const ChatTitle = () => {
 			return setSelectedConversation(null);
 		}
 
-		showGenericError("Conversation", error as Error)
+		showGenericError("Conversation", error as Error);
 	};
 
 	return (
 		<div id="chat-title">
-			<span>{selectedConversation?.title || defaultTitle}</span>
+			<span>{selectedConversation?.name || defaultTitle}</span>
 
 			{selectedConversation && (
 				<div onClick={handleClick} title="Delete Conversation">
