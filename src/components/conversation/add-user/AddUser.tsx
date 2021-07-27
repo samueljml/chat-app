@@ -1,6 +1,7 @@
 import { useContext, useState } from "react";
 import { api } from "../../../api";
 import { executePromise } from "../../../common/Utils";
+import { UsersLoader } from "../../content-loader/UsersLoader";
 import { MainPageContext } from "../../context/MainPageContext";
 import { User } from "../../main/MainPage";
 import { UserItem } from "../user/User";
@@ -10,11 +11,14 @@ export const AddUser = () => {
 	const [inputValue, setInputValue] = useState("");
 	const { isAddUserActive, setIsAddUserActive } = useContext(MainPageContext);
 	const [users, setUsers] = useState<Array<User>>([]);
+	const [isLoading, setIsLoading] = useState(false);
 
 	const showUsers = async (name: string) => {
 		const [response] = await executePromise(() =>
 			api.get(`user/search/${name}`)
 		);
+
+		setIsLoading(false);
 
 		if (response) {
 			return setUsers([response.data]);
@@ -29,6 +33,7 @@ export const AddUser = () => {
 	}: React.KeyboardEvent<HTMLInputElement>) => {
 		const textValue = currentTarget.value.trim();
 		if (key === "Enter" && textValue) {
+			setIsLoading(true);
 			showUsers(textValue);
 		}
 	};
@@ -51,9 +56,11 @@ export const AddUser = () => {
 				/>
 			</div>
 			<div className="users-list">
-				{users.map((user: User) => (
-					<UserItem {...user} />
-				))}
+				{isLoading ? (
+					<UsersLoader />
+				) : (
+					users.map((user: User) => <UserItem {...user} />)
+				)}
 			</div>
 		</div>
 	);
