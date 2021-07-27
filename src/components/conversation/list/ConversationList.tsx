@@ -41,7 +41,7 @@ export const ConversationList = ({
 
 	const requestData = () => {
 		setInterval(() => {
-			showConversations(`users/${user.id}/contacts`);
+			showConversations(`user/${user.id}/contacts`);
 		}, reloadInterval);
 	};
 
