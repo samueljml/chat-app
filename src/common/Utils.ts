@@ -52,7 +52,7 @@ export const saveMessageSessionStorage = async (
 	saveSessionStorage(`messages-${conversationId}`, messages);
 };
 
-const saveSessionStorage = (key: string, value: Array<Message | User>) =>
+const saveSessionStorage = (key: string, value: Array<Message> | string) =>
 	sessionStorage.setItem(key, JSON.stringify(value));
 
 export const getAllMessagesSessionStorage = (
@@ -90,25 +90,26 @@ export const gererateId = () => Math.random() * 1000000 + 1;
 
 export const reloadInterval = 1500;
 
-export const showGenericError = (title: string, err: Error | AxiosResponse | GenericObject) =>
-	console.error(title, err);
+export const showGenericError = (
+	title: string,
+	err: Error | AxiosResponse | GenericObject
+) => console.error(title, err);
 
-export const saveUsersSessionStorage = async (user: User) => {
-	const users: Array<User> = [user, ...getAllUsersSessionStorage(user.id)];
-
-	saveSessionStorage(`users-${user.id}`, users);
-};
-
-export const getAllUsersSessionStorage = (userId: number): Array<User> => {
-	const storagedOnAddingUsers = sessionStorage.getItem(`users-${userId}`);
-
-	return storagedOnAddingUsers ? JSON.parse(storagedOnAddingUsers) : [];
-};
-
-export const deleteUserSessionStorage = (
+export const saveUserSessionStorage = async (
+	myUserId: number,
 	userId: number
 ) => {
-	const users = getAllMessagesSessionStorage(userId);
-	users.splice(users.findIndex(({ id }) => id === userId));
-	saveSessionStorage(`users-${userId}`, users);
+	saveSessionStorage(`user-${myUserId}-adding-${userId}`, `${userId}`);
+};
+
+export const getUserSessionStorage = (myUserId: number, userId: number) => {
+	const addingUserId = sessionStorage.getItem(
+		`user-${myUserId}-adding-${userId}`
+	);
+
+	return addingUserId || "";
+};
+
+export const deleteUserSessionStorage = (myUserId: number, userId: number) => {
+	sessionStorage.removeItem(`user-${myUserId}-adding-${userId}`);
 };

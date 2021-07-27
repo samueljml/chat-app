@@ -3,8 +3,8 @@ import { api } from "../../../api";
 import {
 	deleteUserSessionStorage,
 	executePromise,
-	getAllUsersSessionStorage,
-	saveUsersSessionStorage
+	getUserSessionStorage,
+	saveUserSessionStorage,
 } from "../../../common/Utils";
 import perfilIcon from "../../../images/profiles/default.png";
 import { MainPageContext } from "../../context/MainPageContext";
@@ -18,47 +18,58 @@ enum ButtonState {
 
 export const UserItem = ({ id, name, imageUrl, userName }: User) => {
 	const [buttonState, setButtonState] = useState(ButtonState.NOT_ADDED);
-	const { user } = useContext(MainPageContext);
+	const { user, isAddUserActive, conversations } =
+		useContext(MainPageContext);
 
-	const addUserToContacts = async () => {
+	const addUserToContacts = async (userId: string) => {
 		const [response] = await executePromise(() =>
-			api.post(`/user/${user.id}/contact/${id}`)
+			api.post(`/user/${user.id}/contact/${userId}`)
 		);
 
 		if (response) {
-			return setButtonState(ButtonState.ADDED);
+			setButtonState(ButtonState.ADDED);
+			deleteUserSessionStorage(user.id, id);
 		}
-
-		deleteUserSessionStorage(user.id);
 	};
 
-	const updateButtonState = () => {
+	const toggleState = () => {
 		setButtonState(
 			buttonState === ButtonState.NOT_ADDED
 				? ButtonState.ADDING
 				: ButtonState.NOT_ADDED
 		);
-
-		saveUsersSessionStorage(user);
 	};
 
 	const handleClick = () => {
 		if (buttonState !== ButtonState.ADDED) {
-			updateButtonState();
-
-			if (buttonState === ButtonState.ADDING) {
-				return addUserToContacts();
-			}
-			deleteUserSessionStorage(user.id);
+			toggleState();
 		}
 	};
 
-	useEffect(() => {
-		const users = getAllUsersSessionStorage(user.id);
-		if (users.find((userItem) => userItem.id === user.id)) {
-			setButtonState(ButtonState.ADDING);
+	const updateButtonState = () => {
+		if (buttonState === ButtonState.ADDING) {
+			saveUserSessionStorage(user.id, id);
+			addUserToContacts(`${id}`);
 		}
-	}, [buttonState]);
+
+		if(buttonState === ButtonState.NOT_ADDED) {
+			deleteUserSessionStorage(user.id, id);
+		}
+	};
+
+	useEffect(updateButtonState, [buttonState, isAddUserActive]);
+
+	useEffect(() => {
+		if (conversations.find((userItem) => userItem.id === id)) {
+			return setButtonState(ButtonState.ADDED);
+		}
+
+		const userId = getUserSessionStorage(user.id, id);
+			if (userId) {
+				toggleState();
+				addUserToContacts(userId);
+			}
+	}, []);
 
 	return (
 		<div className={`user-container ${buttonState}`}>
