@@ -31,6 +31,7 @@ body {
 
 .conversation {
 	cursor: pointer;
+	height: 91px;
 	display: grid;
 	grid-template-columns: 40px 1fr max-content;
 	grid-gap: 10px;
@@ -38,6 +39,19 @@ body {
 	font-size: 1.3rem;
 	border-bottom: 1px solid #003781;
 	padding: 20px 20px 20px 15px;
+	transition: all ease-in;
+}
+
+.conversation.state-disable {
+	cursor: wait;
+	transition-duration: 0.7s;
+	padding: 0;
+	height: 0px;
+}
+
+.conversation.state-disable > * {
+	transition-duration: 0.5s;
+	opacity: 0;
 }
 
 .conversation.active,

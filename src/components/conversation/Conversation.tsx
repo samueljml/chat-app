@@ -27,6 +27,7 @@ export const ConversationItem = ({ conversation }: ConversationProps) => {
 
 	return (
 		<div
+			id={`${id}`}
 			className={`conversation ${isActive && "active"}`}
 			onClick={handleClick}
 		>
