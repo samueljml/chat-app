@@ -29,13 +29,14 @@ export const ConversationList = ({
 	const showConversations = async (uri: string) => {
 		const [response, error] = await executePromise(() => api.get(uri));
 
+		setIsConversationLoading(false);
+
 		if (response && isArraysDifferents(response.data, conversations)) {
 			setConversations(response.data);
-			setIsConversationLoading(false);
 		}
 
 		if (error) {
-			showGenericError("Conversations", error as Error)
+			showGenericError("Conversations", error as Error);
 		}
 	};
 
@@ -53,8 +54,8 @@ export const ConversationList = ({
 				<ContactLoader />
 			) : (
 				conversations
-					.filter(({ title }: Conversation) =>
-						containsSubstring(title, searchInputValue)
+					.filter(({ name }: Conversation) =>
+						containsSubstring(name, searchInputValue)
 					)
 					.map((conversation: Conversation) => {
 						return (
