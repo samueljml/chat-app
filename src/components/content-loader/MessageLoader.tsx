@@ -6,7 +6,7 @@ export const MessageLoader = () => (
 		width={685}
 		height={300}
 		viewBox="0 0 685 300"
-		style={{overflow:"scroll"}}
+		style={{overflow:"scroll", cursor:"wait"}}
 		backgroundColor="#f3f3f3"
 		foregroundColor="#c2c2c2"
 	>

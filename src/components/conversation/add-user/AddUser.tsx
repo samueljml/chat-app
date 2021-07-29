@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { api } from "../../../api";
 import { executePromise } from "../../../common/Utils";
 import { UsersLoader } from "../../content-loader/UsersLoader";
@@ -10,6 +10,7 @@ import "./style.css";
 export const AddUser = () => {
 	const [inputValue, setInputValue] = useState("");
 	const { isAddUserActive, setIsAddUserActive } = useContext(MainPageContext);
+	const [state, setState] = useState("");
 	const [users, setUsers] = useState<Array<User>>([]);
 	const [isLoading, setIsLoading] = useState(false);
 
@@ -38,10 +39,21 @@ export const AddUser = () => {
 		}
 	};
 
-	const handleClick = () => setIsAddUserActive(false);
+	const handleClick = () => {
+		setState("")
+		setTimeout(() => {
+			setIsAddUserActive(false);
+		}, 700);
+	};
+
+	useEffect(() => {
+		if (isAddUserActive) {
+			setState("active");
+		}
+	}, [isAddUserActive]);
 
 	return (
-		<div className={`container-add-user ${isAddUserActive && "active"}`}>
+		<div className={`container-add-user ${state}`}>
 			<div className="search-container">
 				<h2>Adding new user</h2>
 				<button onClick={handleClick}>x</button>
