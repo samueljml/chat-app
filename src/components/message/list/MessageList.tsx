@@ -18,25 +18,23 @@ interface MessageListResponse {
 }
 
 export const MessageList = () => {
-	const { selectedConversation } = useContext(MainPageContext);
+	const { selectedConversation, user } = useContext(MainPageContext);
 	const { messageContent, setMessageContent, isLoading, setIsLoading } =
 		useContext(MessageContext);
 
-	const showMessages = async (
-		uri: string,
-		conversation: Conversation | null
-	) => {
-		if (conversation) {
-			setIsLoading(true);
+	const showMessages = async (uri: string) => {
+		if (selectedConversation) {
 			const [response, error] = await executePromise<MessageListResponse>(
 				() => api.get(uri)
 			);
 
 			setIsLoading(false);
-			
+
 			if (response && isArraysDifferents(response.data, messageContent)) {
+				console.log(response.data);
+				
 				return setMessageContent([
-					...getAllMessagesSessionStorage(conversation.id),
+					...getAllMessagesSessionStorage(selectedConversation.id),
 					...response.data,
 				]);
 			}
@@ -47,20 +45,29 @@ export const MessageList = () => {
 
 	const requestData = () => {
 		setInterval(() => {
-			showMessages("messages/", selectedConversation);
+			showMessages(
+				`/user/${user.id}/contacts/${selectedConversation?.id}/messages`
+			);
 		}, reloadInterval);
 	};
 
-	useEffect(requestData, [selectedConversation?.id, JSON.stringify(messageContent)]);
+	useEffect(() => {
+		setMessageContent([]);
+		if (selectedConversation) {
+			requestData();
+			return setIsLoading(true);
+		}
+		setIsLoading(false);
+	}, [selectedConversation]);
 
 	return (
 		<div id="chat-message-list">
 			{isLoading ? (
 				<MessageLoader />
 			) : (
-				messageContent.map((msg) => (
+				messageContent.map((msg, index) => (
 					<MessageItem
-						key={`${msg.sendTime}-${msg.id}`}
+						key={msg ? `${msg.sendTime}-${msg.id}` : index}
 						message={msg}
 					/>
 				))
