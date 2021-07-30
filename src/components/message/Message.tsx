@@ -102,7 +102,11 @@ export const MessageItem = ({ message }: MessageProps) => {
 					/>
 				)}
 
-				<div className={`message-text ${message.status}`}>
+				<div
+					className={`message-text ${
+						message.status || MessageStatus.SENT
+					}`}
+				>
 					{message.text}
 					{message.status === MessageStatus.FAILED && (
 						<img
@@ -117,12 +121,16 @@ export const MessageItem = ({ message }: MessageProps) => {
 					</div>
 				</div>
 
-				{showMessageTime && (
-					<div className="message-time">
-						{message.status === MessageStatus.SENT
-							? message.sendTime
-							: warnToMessage}
-					</div>
+				{message.status ? (
+					showMessageTime && (
+						<div className="message-time">
+							{message.status === MessageStatus.SENT
+								? message.sendTime
+								: warnToMessage}
+						</div>
+					)
+				) : (
+					<div className="message-time">{message.sendTime}</div>
 				)}
 			</div>
 		</div>
