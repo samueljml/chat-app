@@ -22,7 +22,6 @@
 .container-add-user:not(.active) {
 	min-height: 0px;
 	height: 0px;
-	border: none;
 	opacity: 0;
 }
 
@@ -40,13 +39,17 @@ h2 {
 	padding: 25px;
 }
 
-.search-container > button {
+.container-add-user > .search-container > button {
 	display: flex;
-	position: absolute;
-	font-size: 25pt;
-	font-family: monospace, Courier, sans-serif;
-	right: -23px;
-	top: -23px;
+	color: white;
+    position: absolute;
+    line-height: 17px;
+    background-color: #0048aa;
+    font-size: 35px;
+    border: #000 3px solid;
+    font-family: monospace, Courier, sans-serif;
+    right: -27px;
+    top: -27px;
 }
 
 .search-container > input {
