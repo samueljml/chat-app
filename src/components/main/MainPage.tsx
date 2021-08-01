@@ -1,5 +1,8 @@
 import { useContext, useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import { api } from "../../api";
 import "../../App.css";
+import { executePromise } from "../../common/Utils";
 import { ChatTitle } from "../chat/ChatTitle";
 import { ChatForm } from "../chat/form/ChatForm";
 import { MainPageContext } from "../context/MainPageContext";
@@ -18,9 +21,37 @@ export interface User {
 	imageUrl: string;
 }
 
+interface UserProps {
+	data: User;
+}
+
+interface UserId {
+	loggedUserId: string;
+}
+
 export const MainPage = () => {
 	const [inputSearchValue, setInputSearchValue] = useState("");
-	const { isAddUserActive } = useContext(MainPageContext);
+	const { isAddUserActive, setUser, user } = useContext(MainPageContext);
+	let { loggedUserId } = useParams<UserId>();
+
+	const showUser = async () => {
+		const uri = `/user/${loggedUserId}`;
+
+		const [response] = await executePromise<UserProps>(() => api.get(uri));
+
+		if (response) {
+			setUser(response.data);
+		}
+	};
+
+	const handle = () => {
+		showUser();
+	};
+
+	useEffect(handle, []);
+
+	console.log(user);
+	
 
 	return (
 		<div className="chat-container">

@@ -42,11 +42,11 @@ export const ConversationList = ({
 
 	const requestData = () => {
 		setInterval(() => {
-			showConversations(`user/${user.id}/contacts`);
+			showConversations(`user/${user?.id}/contacts`);
 		}, reloadInterval);
 	};
 
-	useEffect(requestData, []);
+	useEffect(requestData, [user]);
 
 	return (
 		<div id="conversation-list">
