@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import { api } from "../../api";
-import { executePromise, showGenericError } from "../../common/Utils";
+import { executePromise, firstLetterUpperCase, showGenericError } from "../../common/Utils";
 import { TrashIcon } from "../../images/Icons/TrashIcon";
 import { MainPageContext } from "../context/MainPageContext";
 
@@ -41,7 +41,7 @@ export const ChatTitle = () => {
 
 	return (
 		<div id="chat-title">
-			<span>{selectedConversation?.name || defaultTitle}</span>
+			<span>{selectedConversation ? firstLetterUpperCase(selectedConversation.name) : defaultTitle}</span>
 
 			{selectedConversation && (
 				<div onClick={handleClick} title="Delete Conversation">

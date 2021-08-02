@@ -31,15 +31,13 @@ export const MessageList = () => {
 			setIsLoading(false);
 
 			if (response && isArraysDifferents(response.data, messageContent)) {
-				console.log(response.data);
-				
 				return setMessageContent([
-					...getAllMessagesSessionStorage(selectedConversation.id),
 					...response.data,
+					...getAllMessagesSessionStorage(selectedConversation.id),
 				]);
 			}
 
-			showGenericError("Message List", error as Error);
+			// showGenericError("Message List", error as Error);
 		}
 	};
 
@@ -57,6 +55,7 @@ export const MessageList = () => {
 			requestData();
 			return setIsLoading(true);
 		}
+
 		setIsLoading(false);
 	}, [selectedConversation]);
 

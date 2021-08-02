@@ -20,6 +20,7 @@ export interface Message {
 	sendTime: string;
 	text: string;
 	status: string;
+	sentByUserId?: number;
 }
 
 export enum MessageStatus {
@@ -46,7 +47,8 @@ const warnToMessage: string = "Not delivered";
 
 export const MessageItem = ({ message }: MessageProps) => {
 	const { user, selectedConversation } = useContext(MainPageContext);
-	const isMyMessage = user.name === message.name;
+	const isMyMessage = message.sentByUserId === user.id;	
+	
 	const showMessageTime = message.status !== MessageStatus.SENDING;
 	const hasMessageFailed = message.status === MessageStatus.FAILED;
 
@@ -116,9 +118,9 @@ export const MessageItem = ({ message }: MessageProps) => {
 						/>
 					)}
 
-					<div onClick={handleClickTrash}>
+					{/* <div onClick={handleClickTrash}>
 						<TrashIcon />
-					</div>
+					</div> */}
 				</div>
 
 				{message.status ? (

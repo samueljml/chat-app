@@ -25,7 +25,7 @@
 	opacity: 0;
 }
 
-h2 {
+.search-container > h2 {
 	color: white;
 	font-size: 20pt;
 	font-weight: bold;
@@ -45,7 +45,7 @@ h2 {
     position: absolute;
     line-height: 17px;
     background-color: #0048aa;
-    font-size: 35px;
+    font-size: 25px;
     border: #000 3px solid;
     font-family: monospace, Courier, sans-serif;
     right: -27px;

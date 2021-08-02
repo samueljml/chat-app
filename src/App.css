@@ -262,14 +262,14 @@ img.warning-icon {
 	top: 0px;
 }
 
-.my-message .message-content .message-text:hover {
+/* .my-message .message-content .message-text:hover {
 	padding-right: 43px;
 }
 
 .my-message .message-content .message-text:hover .trash-logo {
 	visibility: visible;
 	stroke: #000000;
-}
+} */
 
 .trash-logo {
 	stroke: #0048aa;
@@ -294,10 +294,10 @@ img.warning-icon {
 
 #new-message-container {
 	display: grid;
-	grid: 40px / 40px;
+	grid: 50px / 40px;
 	align-content: center;
 	grid-area: new-message-container;
-	grid-template-columns: 1fr 3.5fr;
+	grid-template-columns: 15fr 3.5fr;
 	background: #0048aa;
 	border-top: 1px solid #000c1c;
 	border-radius: 0 0 0 10px;

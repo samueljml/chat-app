@@ -1,7 +1,9 @@
 import { ChangeEvent, useContext, useEffect, useState } from "react";
 import { api } from "../../../api";
 import {
+	deleteMessageSessionStorage,
 	executePromise,
+	getAllMessagesSessionStorage,
 	reloadInterval,
 	saveMessageSessionStorage,
 	showGenericError,
@@ -17,12 +19,17 @@ export const ChatForm = () => {
 	const { selectedConversation, user } = useContext(MainPageContext);
 
 	const updateMessageStatus = (message: Message, status: string) => {
-		const updatedMessage = messageContent
-			.filter((messageItem) => messageItem === message)
-			.map((messageItem) => ({
-				...messageItem,
-				status,
-			}))[0];
+		let updatedMessage;
+		if (selectedConversation) {
+			updatedMessage = getAllMessagesSessionStorage(
+				selectedConversation.id
+			)
+				.filter((messageItem) => messageItem.id === message.id)
+				.map((messageItem) => ({
+					...messageItem,
+					status,
+				}))[0];
+		}
 
 		if (selectedConversation && updatedMessage) {
 			updateMessageSessionStorage(
@@ -38,12 +45,12 @@ export const ChatForm = () => {
 			api.post(messageUri, message)
 		);
 
-		if (response) {
-			return updateMessageStatus(message, "sent");
+		if (response && selectedConversation) {
+			return deleteMessageSessionStorage(message, selectedConversation.id);
 		}
 
 		updateMessageStatus(message, "failed");
-		return showGenericError("Message", error as Error);
+		// return showGenericError("Message", error as Error);
 	};
 
 	const postUnsentMessages = () => {
@@ -59,7 +66,7 @@ export const ChatForm = () => {
 	const onMessageSubmitted = (text: string, id: number) => {
 		const message = createMessage(text, user);
 		saveMessageSessionStorage(message, id);
-		setMessageContent([message, ...messageContent]);
+		setMessageContent([...messageContent, message]);
 		onPostMessage(message);
 	};
 

@@ -50,9 +50,6 @@ export const MainPage = () => {
 
 	useEffect(handle, []);
 
-	console.log(user);
-	
-
 	return (
 		<div className="chat-container">
 			<ConversationSearch setSearchInputValue={setInputSearchValue} />
@@ -63,7 +60,7 @@ export const MainPage = () => {
 			<MessageProvider>
 				<MessageList />
 				<ChatForm />
-			</MessageProvider>
+			</MessageProvider>	
 		</div>
 	);
 };

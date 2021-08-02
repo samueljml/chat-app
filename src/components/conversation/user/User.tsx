@@ -52,7 +52,7 @@ export const UserItem = ({ id, name, imageUrl, userName }: User) => {
 			addUserToContacts(`${id}`);
 		}
 
-		if(buttonState === ButtonState.NOT_ADDED) {
+		if (buttonState === ButtonState.NOT_ADDED) {
 			deleteUserSessionStorage(user.id, id);
 		}
 	};
@@ -65,10 +65,10 @@ export const UserItem = ({ id, name, imageUrl, userName }: User) => {
 		}
 
 		const userId = getUserSessionStorage(user.id, id);
-			if (userId) {
-				toggleState();
-				addUserToContacts(userId);
-			}
+		if (userId) {
+			toggleState();
+			addUserToContacts(userId);
+		}
 	}, []);
 
 	return (
@@ -81,10 +81,9 @@ export const UserItem = ({ id, name, imageUrl, userName }: User) => {
 				</div>
 			</div>
 
-			<button
-				className={`add-user ${buttonState}`}
-				onClick={handleClick}
-			><span>+</span></button>
+			<button className={`add-user ${buttonState}`} onClick={handleClick}>
+				<span>+</span>
+			</button>
 		</div>
 	);
 };

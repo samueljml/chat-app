@@ -36,7 +36,7 @@ export const ConversationList = ({
 		}
 
 		if (error) {
-			showGenericError("Conversations", error as Error);
+			// showGenericError("Conversations", error as Error);
 		}
 	};
 

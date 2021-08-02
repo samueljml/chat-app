@@ -36,10 +36,7 @@ export const Initial = () => (
 					{contribuitors.map(({ name, gitHubUrl }: Contribuitor) => (
 						<div className="contibutor">
 							<a href={gitHubUrl}>
-								<img
-									src={profileIcon}
-									alt="contributors"
-								/>
+								<img src={profileIcon} alt="contributors" />
 							</a>
 							<p className="name">{name}</p>
 						</div>
@@ -50,7 +47,10 @@ export const Initial = () => (
 			<div className="container-acess flex-column">
 				<FormSignIn />
 				<div className="container-sign-up">
-					<h2>Don't have an account? Create now!</h2>
+					<div>
+						<h2>Don't have an account?</h2>
+						<h2>Create now!</h2>
+					</div>
 					<div className="inputbox">
 						<input type="button" id="btn-signup" value="Sign up" />
 					</div>
