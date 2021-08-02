@@ -31,7 +31,7 @@ interface UserId {
 
 export const MainPage = () => {
 	const [inputSearchValue, setInputSearchValue] = useState("");
-	const { isAddUserActive, setUser, user } = useContext(MainPageContext);
+	const { isAddUserActive, setUser, selectedConversation } = useContext(MainPageContext);
 	let { loggedUserId } = useParams<UserId>();
 
 	const showUser = async () => {
@@ -58,7 +58,7 @@ export const MainPage = () => {
 			{isAddUserActive && <AddUser />}
 			<ChatTitle />
 			<MessageProvider>
-				<MessageList />
+				{selectedConversation && <MessageList />}
 				<ChatForm />
 			</MessageProvider>	
 		</div>
