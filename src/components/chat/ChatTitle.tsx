@@ -11,19 +11,19 @@ export const ChatTitle = () => {
 		useContext(MainPageContext);
 
 	const handleClick = async () => {
-		const uri = `/users/${user.id}/contacts/${selectedConversation?.id}`;
+		const uri = `user/${user.id}/contact/${selectedConversation?.id}`;
 		const [response, error] = await executePromise(() => api.delete(uri));
 
 		if (response) {
 			return setSelectedConversation(null);
 		}
 
-		showGenericError("Conversation", error as Error)
+		showGenericError("Conversation", error as Error);
 	};
 
 	return (
 		<div className="chat-title">
-			<span>{selectedConversation?.title || defaultTitle}</span>
+			<span>{selectedConversation?.name || defaultTitle}</span>
 
 			{selectedConversation && (
 				<div onClick={handleClick} title="Delete Conversation">

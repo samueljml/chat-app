@@ -29,32 +29,33 @@ export const ConversationList = ({
 	const showConversations = async (uri: string) => {
 		const [response, error] = await executePromise(() => api.get(uri));
 
+		setIsConversationLoading(false);
+
 		if (response && isArraysDifferents(response.data, conversations)) {
 			setConversations(response.data);
-			setIsConversationLoading(false);
 		}
 
 		if (error) {
-			showGenericError("Conversations", error as Error)
+			showGenericError("Conversations", error as Error);
 		}
 	};
 
 	const requestData = () => {
 		setInterval(() => {
-			showConversations(`users/${user.id}/contacts`);
+			showConversations(`user/${user.id}/contacts`);
 		}, reloadInterval);
 	};
 
 	useEffect(requestData, [JSON.stringify(conversations)]);
 
 	return (
-		<div className="conversation-list">
+		<div id="conversation-list">
 			{isConversationLoading ? (
 				<ContactLoader />
 			) : (
 				conversations
-					.filter(({ title }: Conversation) =>
-						containsSubstring(title, searchInputValue)
+					.filter(({ name }: Conversation) =>
+						containsSubstring(name, searchInputValue)
 					)
 					.map((conversation: Conversation) => {
 						return (

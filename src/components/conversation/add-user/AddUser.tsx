@@ -13,12 +13,14 @@ export const AddUser = () => {
 
 	const showUsers = async (name: string) => {
 		const [response] = await executePromise(() =>
-			api.get(`/user/search/${name}`)
+			api.get(`user/search/${name}`)
 		);
 
 		if (response) {
-			setUsers(response.data);
+			return setUsers([response.data]);
 		}
+
+		setUsers([]);
 	};
 
 	const handleKeyDown = ({
