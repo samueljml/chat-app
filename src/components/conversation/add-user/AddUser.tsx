@@ -53,6 +53,7 @@ export const AddUser = () => {
 					value={inputValue}
 					onKeyPress={handleKeyDown}
 					placeholder="Search a user"
+					autoComplete="off"
 				/>
 			</div>
 			<div className="users-list">
