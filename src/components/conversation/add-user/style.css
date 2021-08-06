@@ -11,7 +11,7 @@
 	background-color: #0048aa;
 	border-radius: 10px;
 	border: #000 4px solid;
-	transition: 0.7s all ease-in;
+	transition: 0.7s all ease;
 }
 
 .container-add-user.active {
@@ -24,10 +24,6 @@
 	height: 0px;
 	border: none;
 	opacity: 0;
-}
-
-.container-add-user:not(.active)::after {
-	display: none;
 }
 
 h2 {
