@@ -46,7 +46,7 @@ export const ConversationList = ({
 		}, reloadInterval);
 	};
 
-	useEffect(requestData, [JSON.stringify(conversations)]);
+	useEffect(requestData, []);
 
 	return (
 		<div id="conversation-list">

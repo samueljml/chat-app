@@ -84,7 +84,7 @@ export const UserItem = ({ id, name, imageUrl, userName }: User) => {
 			<button
 				className={`add-user ${buttonState}`}
 				onClick={handleClick}
-			><span>x</span></button>
+			><span>+</span></button>
 		</div>
 	);
 };

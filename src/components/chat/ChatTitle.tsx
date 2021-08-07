@@ -7,15 +7,33 @@ import { MainPageContext } from "../context/MainPageContext";
 const defaultTitle = "Chat aplication - Select a contact to chat with";
 
 export const ChatTitle = () => {
-	const { user, selectedConversation, setSelectedConversation } =
-		useContext(MainPageContext);
+	const {
+		user,
+		selectedConversation,
+		setSelectedConversation,
+		conversations,
+		setConversations,
+	} = useContext(MainPageContext);
 
 	const handleClick = async () => {
 		const uri = `user/${user.id}/contact/${selectedConversation?.id}`;
-		const [response, error] = await executePromise(() => api.delete(uri));
+		const [, error] = await executePromise(() => api.delete(uri));
 
-		if (response) {
-			return setSelectedConversation(null);
+		if (selectedConversation) {
+			const conversation = document.getElementById(
+				`${selectedConversation.id}`
+			);
+			conversation?.classList.add("state-disable");
+			
+			setTimeout(() => {
+				setSelectedConversation(null);
+				return setConversations(
+					[...conversations].filter(
+						(conv) => conv.id !== selectedConversation.id
+					)
+				);
+				 
+			}, 700);
 		}
 
 		showGenericError("Conversation", error as Error);
