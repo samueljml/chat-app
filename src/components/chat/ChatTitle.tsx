@@ -16,7 +16,7 @@ export const ChatTitle = () => {
 	} = useContext(MainPageContext);
 
 	const handleClick = async () => {
-		const uri = `user/${user.id}/contact/${selectedConversation?.id}`;
+		const uri = `user/${user?.id}/contact/${selectedConversation?.id}`;
 		const [, error] = await executePromise(() => api.delete(uri));
 
 		if (selectedConversation) {

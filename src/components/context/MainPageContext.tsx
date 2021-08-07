@@ -9,10 +9,11 @@ import { Conversation } from "../conversation/Conversation";
 import { User } from "../main/MainPage";
 
 type optionalConversation = Conversation | null;
+type optionalUser = User | undefined;
 
 interface MainPageContextData {
-	user: User;
-	setUser: Dispatch<SetStateAction<User>>;
+	user: optionalUser;
+	setUser: Dispatch<SetStateAction<optionalUser>>;
 	selectedConversation: optionalConversation;
 	setSelectedConversation: Dispatch<SetStateAction<optionalConversation>>;
 	isConversationLoading: boolean;
@@ -27,20 +28,12 @@ interface LoaderProviderProps {
 	children: ReactNode;
 }
 
-const defaultUserForTests = {
-	id: 1,
-	name: "Samuel",
-	imageUrl: "",
-	userName: "samueljml",
-	email: "",
-};
-
 export const MainPageContext = createContext({} as MainPageContextData);
 
 export const MainPageProvider = ({ children }: LoaderProviderProps) => {
 	const [selectedConversation, setSelectedConversation] =
 		useState<optionalConversation>(null);
-	const [user, setUser] = useState<User>(defaultUserForTests);
+	const [user, setUser] = useState<optionalUser>();
 	const [isConversationLoading, setIsConversationLoading] = useState(true);
 	const [isAddUserActive, setIsAddUserActive] = useState(false);
 	const [conversations, setConversations] = useState<Array<Conversation>>([]);
