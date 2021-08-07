@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import "../../App.css";
 import { ChatTitle } from "../chat/ChatTitle";
 import { ChatForm } from "../chat/form/ChatForm";
+import { MainPageContext } from "../context/MainPageContext";
 import { MessageProvider } from "../context/MessageContext";
 import { AddUser } from "../conversation/add-user/AddUser";
 import { ConversationSearch } from "../conversation/ConversationSearch";
@@ -19,13 +20,14 @@ export interface User {
 
 export const MainPage = () => {
 	const [inputSearchValue, setInputSearchValue] = useState("");
+	const { isAddUserActive } = useContext(MainPageContext);
 
 	return (
 		<div className="chat-container">
 			<ConversationSearch setSearchInputValue={setInputSearchValue} />
 			<ConversationList searchInputValue={inputSearchValue} />
 			<NewConversation />
-			<AddUser />
+			{isAddUserActive && <AddUser />}
 			<ChatTitle />
 			<MessageProvider>
 				<MessageList />

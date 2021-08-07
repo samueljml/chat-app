@@ -1,11 +1,9 @@
 import { ChangeEvent, useContext, useEffect, useState } from "react";
 import { api } from "../../../api";
 import {
-	executePromise,
-	reloadInterval,
-	saveMessageSessionStorage,
+	executePromise, saveMessageSessionStorage,
 	showGenericError,
-	updateMessageSessionStorage,
+	updateMessageSessionStorage
 } from "../../../common/Utils";
 import { MainPageContext } from "../../context/MainPageContext";
 import { MessageContext } from "../../context/MessageContext";
@@ -33,7 +31,7 @@ export const ChatForm = () => {
 	};
 
 	const onPostMessage = async (message: Message) => {
-		const messageUri = `/users/${user.id}/messages/${selectedConversation?.id}`;
+		const messageUri = `/user/${user.id}/contacts/${selectedConversation?.id}/messages`;
 		const [response, error] = await executePromise(() =>
 			api.post(messageUri, message)
 		);
@@ -47,15 +45,13 @@ export const ChatForm = () => {
 	};
 
 	const postUnsentMessages = () => {
-		setInterval(async () => {
-			const messages = messageContent.filter(
-				({ status }) => status === MessageStatus.SENDING
-			);
+		const messages = messageContent.filter(
+			({ status }) => status === MessageStatus.SENDING
+		);
 
-			for (const message of messages) {
-				await onPostMessage(message);
-			}
-		}, reloadInterval);
+		for (const message of messages) {
+			onPostMessage(message);
+		}
 	};
 
 	const onMessageSubmitted = (text: string, id: number) => {
@@ -78,7 +74,7 @@ export const ChatForm = () => {
 
 	const handleButtonDisabled = inputValue.trim().length === 0;
 
-	useEffect(postUnsentMessages, [messageContent]);
+	useEffect(postUnsentMessages, []);
 
 	return (
 		<form className="chat-form">
@@ -95,7 +91,9 @@ export const ChatForm = () => {
 						className="primary-button"
 						disabled={handleButtonDisabled}
 						onClick={handleButtonClick}
-					>Send</button>
+					>
+						Send
+					</button>
 				</>
 			)}
 		</form>
