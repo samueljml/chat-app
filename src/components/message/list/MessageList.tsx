@@ -30,10 +30,9 @@ export const MessageList = () => {
 			setIsLoading(false);
 
 			if (response && isArraysDifferents(response.data, messageContent)) {
-				console.log(response.data);
 				
 				return setMessageContent([
-					...getAllMessagesSessionStorage(selectedConversation.id),
+					...getAllMessagesSessionStorage(selectedConversation.id).slice().reverse(),
 					...response.data,
 				]);
 			}
