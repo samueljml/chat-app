@@ -1,8 +1,7 @@
+import { AxiosResponse } from "axios";
+import { differenceWith, isEqual } from "lodash";
 import { Conversation } from "../components/conversation/Conversation";
 import { Message } from "../components/message/Message";
-
-import { differenceWith, isEqual } from "lodash";
-import { AxiosResponse } from "axios";
 
 export interface GenericObject {
 	[key: string]: any;
@@ -112,3 +111,6 @@ export const getUserSessionStorage = (myUserId: number, userId: number) => {
 export const deleteUserSessionStorage = (myUserId: number, userId: number) => {
 	sessionStorage.removeItem(`user-${myUserId}-adding-${userId}`);
 };
+
+export const firstLetterUpperCase = (text: string) =>
+	text.substring(0, 1).toUpperCase() + text.substring(1);

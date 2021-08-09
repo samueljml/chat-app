@@ -8,12 +8,12 @@ export const App = () => {
 	return (
 		<Router>
 			<Switch>
-				<Route exact path="/initial" component={Initial} />
+				<Route exact path="/" component={Initial} />
 				<Route exact path="/signUp" component={SignUp} />
 				<MainPageProvider>
 					<Route
 						exact
-						path="/users/:loggedUserId/contacts"
+						path="/users/:loggedUserId"
 						component={MainPage}
 					/>
 				</MainPageProvider>

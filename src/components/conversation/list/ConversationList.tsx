@@ -49,7 +49,7 @@ export const ConversationList = ({
 	useEffect(requestData, [user]);
 
 	return (
-		<div id="conversation-list">
+		<div className="conversation-list">
 			{isConversationLoading ? (
 				<ContactLoader />
 			) : (

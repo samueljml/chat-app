@@ -1,4 +1,5 @@
 import { useContext } from "react";
+import { firstLetterUpperCase } from "../../common/Utils";
 import defaultImage from "../../images/profiles/default.png";
 import { MainPageContext } from "../context/MainPageContext";
 
@@ -31,7 +32,7 @@ export const ConversationItem = ({ conversation }: ConversationProps) => {
 			onClick={handleClick}
 		>
 			<img src={imageUrl || defaultImage} alt={name} />
-			<div className="title-text">{name}</div>
+			<div className="title-text">{firstLetterUpperCase(name)}</div>
 			<div className="created-date"></div>
 			<div className="conversation-message">
 				<strong>No messages</strong>
