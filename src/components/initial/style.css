@@ -21,9 +21,22 @@
 	border-top-right-radius: 10px;
 }
 
+.contibutor img {
+	-webkit-filter: invert(100%); /* Safari/Chrome */
+	filter: invert(100%);
+}
+
+.container-form h2, .container-sign-up h2 {
+	color: black;
+}
+
 .container-about {
 	background-color: #0048aa;
 	border-bottom-left-radius: 10px;
+}
+
+.container-about > * {
+	color: white;
 }
 
 .container-acess {
@@ -104,7 +117,7 @@ h3 {
 }
 
 .container-acess h2 {
-	font-size: 25pt;
+	font-size: 24pt;
 }
 
 p {

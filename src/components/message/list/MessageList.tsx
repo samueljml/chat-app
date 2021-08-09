@@ -59,7 +59,7 @@ export const MessageList = () => {
 	}, [selectedConversation]);
 
 	return (
-		<div id="chat-message-list">
+		<div className="chat-message-list">
 			{isLoading ? (
 				<MessageLoader />
 			) : (
