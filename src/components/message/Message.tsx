@@ -20,6 +20,7 @@ export interface Message {
 	sendTime: string;
 	text: string;
 	status: string;
+	sentByUserId?: number;
 }
 
 export enum MessageStatus {
@@ -32,7 +33,7 @@ export interface MessageProps {
 	message: Message;
 }
 
-export const createMessage = (text: string, { name, imageUrl }: User) => ({
+export const createMessage = (text: string, { name, imageUrl, id }: User) => ({
 	id: gererateId(),
 	name,
 	imageUrl,
@@ -40,13 +41,14 @@ export const createMessage = (text: string, { name, imageUrl }: User) => ({
 	sendTime: `${new Date().getHours().toString()}:
 	${new Date().getMinutes().toString()}`,
 	status: "sending",
+	sentByUserId: id,
 });
 
 const warnToMessage: string = "Not delivered";
 
 export const MessageItem = ({ message }: MessageProps) => {
 	const { user, selectedConversation } = useContext(MainPageContext);
-	const isMyMessage = user.name === message.name;
+	const isMyMessage = message.sentByUserId === user.id;
 	const showMessageTime = message.status !== MessageStatus.SENDING;
 	const hasMessageFailed = message.status === MessageStatus.FAILED;
 
