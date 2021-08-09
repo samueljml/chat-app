@@ -44,8 +44,8 @@ export const saveMessageSessionStorage = async (
 	conversationId: number
 ) => {
 	const messages: Array<Message> = [
-		message,
 		...getAllMessagesSessionStorage(conversationId),
+		message,
 	];
 
 	saveSessionStorage(`messages-${conversationId}`, messages);

@@ -1,7 +1,8 @@
 import { ChangeEvent, useContext, useEffect, useState } from "react";
 import { api } from "../../../api";
 import {
-	executePromise, saveMessageSessionStorage,
+	deleteMessageSessionStorage,
+	executePromise, getAllMessagesSessionStorage, saveMessageSessionStorage,
 	showGenericError,
 	updateMessageSessionStorage
 } from "../../../common/Utils";
@@ -15,12 +16,17 @@ export const ChatForm = () => {
 	const { selectedConversation, user } = useContext(MainPageContext);
 
 	const updateMessageStatus = (message: Message, status: string) => {
-		const updatedMessage = messageContent
-			.filter((messageItem) => messageItem === message)
-			.map((messageItem) => ({
-				...messageItem,
-				status,
-			}))[0];
+		let updatedMessage;
+		if (selectedConversation) {
+			updatedMessage = getAllMessagesSessionStorage(
+				selectedConversation.id
+			)
+				.filter((messageItem) => messageItem.id === message.id)
+				.map((messageItem) => ({
+					...messageItem,
+					status,
+				}))[0];
+		}
 
 		if (selectedConversation && updatedMessage) {
 			updateMessageSessionStorage(
@@ -37,7 +43,7 @@ export const ChatForm = () => {
 		);
 
 		if (response) {
-			return updateMessageStatus(message, "sent");
+			return deleteMessageSessionStorage(message, selectedConversation.id);
 		}
 
 		updateMessageStatus(message, "failed");
