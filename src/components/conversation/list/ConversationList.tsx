@@ -46,7 +46,7 @@ export const ConversationList = ({
 		}, reloadInterval);
 	};
 
-	useEffect(requestData, [user]);
+	useEffect(requestData, [user, requestData, showConversations]);
 
 	return (
 		<div className="conversation-list">

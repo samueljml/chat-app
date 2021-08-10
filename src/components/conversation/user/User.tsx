@@ -21,17 +21,6 @@ export const UserItem = ({ id, name, imageUrl, userName }: User) => {
 	const { user, isAddUserActive, conversations } =
 		useContext(MainPageContext);
 
-	const addUserToContacts = async (userId: string) => {
-		const [response] = await executePromise(() =>
-			api.post(`/user/${user.id}/contact/${userId}`)
-		);
-
-		if (response) {
-			setButtonState(ButtonState.ADDED);
-			deleteUserSessionStorage(user.id, id);
-		}
-	};
-
 	const toggleState = () => {
 		setButtonState(
 			buttonState === ButtonState.NOT_ADDED
@@ -49,42 +38,66 @@ export const UserItem = ({ id, name, imageUrl, userName }: User) => {
 	const updateButtonState = () => {
 		if (buttonState === ButtonState.ADDING) {
 			saveUserSessionStorage(user.id, id);
-			addUserToContacts(`${id}`);
+			// addUserToContacts(`${id}`);
 		}
 
-		if(buttonState === ButtonState.NOT_ADDED) {
+		if (buttonState === ButtonState.NOT_ADDED) {
 			deleteUserSessionStorage(user.id, id);
 		}
 	};
 
-	useEffect(updateButtonState, [buttonState, isAddUserActive]);
+	useEffect(updateButtonState, [
+		updateButtonState,
+		buttonState,
+		isAddUserActive,
+		id,
+		user.id,
+	]);
 
 	useEffect(() => {
+		const addUserToContacts = async (userId: string) => {
+			const [response] = await executePromise(() =>
+				api.post(`/user/${user.id}/contact/${userId}`)
+			);
+
+			if (response) {
+				setButtonState(ButtonState.ADDED);
+				deleteUserSessionStorage(user.id, id);
+			}
+		};
+
+		const toggleStateTeste = () => {
+			setButtonState(
+				buttonState === ButtonState.NOT_ADDED
+					? ButtonState.ADDING
+					: ButtonState.NOT_ADDED
+			);
+		};
+
 		if (conversations.find((userItem) => userItem.id === id)) {
 			return setButtonState(ButtonState.ADDED);
 		}
 
 		const userId = getUserSessionStorage(user.id, id);
-			if (userId) {
-				toggleState();
-				addUserToContacts(userId);
-			}
-	}, []);
+		if (userId) {
+			toggleStateTeste();
+			addUserToContacts(userId);
+		}
+	}, [conversations, user.id, id, buttonState]);
 
 	return (
 		<div className={`user-container ${buttonState}`}>
 			<div className="user-info">
-				<img src={imageUrl || perfilIcon} alt="user photo" />
+				<img src={imageUrl || perfilIcon} alt="user" />
 				<div className="text-block">
 					<p className="name">{name}</p>
 					<p className="username">{userName}</p>
 				</div>
 			</div>
 
-			<button
-				className={`add-user ${buttonState}`}
-				onClick={handleClick}
-			><span>+</span></button>
+			<button className={`add-user ${buttonState}`} onClick={handleClick}>
+				<span>+</span>
+			</button>
 		</div>
 	);
 };
