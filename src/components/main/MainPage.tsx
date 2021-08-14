@@ -35,21 +35,21 @@ export const MainPage = () => {
 		useContext(MainPageContext);
 	let { loggedUserId } = useParams<UserId>();
 
-	const showUser = async () => {
-		const uri = `/user/${loggedUserId}`;
+	useEffect(() => {
+		const showUser = async () => {
+			const uri = `/user/${loggedUserId}`;
 
-		const [response] = await executePromise<UserProps>(() => api.get(uri));
+			const [response] = await executePromise<UserProps>(() =>
+				api.get(uri)
+			);
 
-		if (response) {
-			setUser(response.data);
-		}
-	};
+			if (response) {
+				setUser(response.data);
+			}
+		};
 
-	const handle = () => {
 		showUser();
-	};
-
-	useEffect(handle, []);
+	}, [loggedUserId, setUser]);
 
 	return (
 		<div className="chat-container">

@@ -80,7 +80,7 @@ export const ChatForm = () => {
 
 	const handleButtonDisabled = inputValue.trim().length === 0;
 
-	useEffect(postUnsentMessages, []);
+	useEffect(postUnsentMessages);
 
 	return (
 		<form className="chat-form">

@@ -3,9 +3,7 @@ import { api } from "../../../api";
 import {
 	executePromise,
 	getAllMessagesSessionStorage,
-	isArraysDifferents,
-	reloadInterval,
-	showGenericError
+	isArraysDifferents, showGenericError
 } from "../../../common/Utils";
 import { MessageLoader } from "../../content-loader/MessageLoader";
 import { MainPageContext } from "../../context/MainPageContext";
@@ -21,42 +19,45 @@ export const MessageList = () => {
 	const { messageContent, setMessageContent, isLoading, setIsLoading } =
 		useContext(MessageContext);
 
-	const showMessages = async (uri: string) => {
-		if (selectedConversation) {
-			const [response, error] = await executePromise<MessageListResponse>(
-				() => api.get(uri)
-			);
-
-			setIsLoading(false);
-
-			if (response && isArraysDifferents(response.data, messageContent)) {
-				
-				return setMessageContent([
-					...getAllMessagesSessionStorage(selectedConversation.id).slice().reverse(),
-					...response.data,
-				]);
-			}
-
-			showGenericError("Message List", error as Error);
-		}
-	};
-
-	const requestData = () => {
-		setInterval(() => {
-			showMessages(
-				`/user/${user.id}/contacts/${selectedConversation?.id}/messages`
-			);
-		}, reloadInterval);
-	};
-
 	useEffect(() => {
-		setMessageContent([]);
+		const showMessages = async () => {
+			const uri = `/user/${user.id}/contacts/${selectedConversation?.id}/messages`;
+			if (selectedConversation) {
+				const [response, error] =
+					await executePromise<MessageListResponse>(() =>
+						api.get(uri)
+					);
+
+				setIsLoading(false);
+
+				if (
+					response &&
+					isArraysDifferents(response.data, messageContent)
+				) {
+					return setMessageContent([
+						...getAllMessagesSessionStorage(selectedConversation.id)
+							.slice()
+							.reverse(),
+						...response.data,
+					]);
+				}
+
+				showGenericError("Message List", error as Error);
+			}
+		};
+
 		if (selectedConversation) {
-			requestData();
+			showMessages();
 			return setIsLoading(true);
 		}
 		setIsLoading(false);
-	}, [selectedConversation]);
+	}, [
+		selectedConversation,
+		setMessageContent,
+		setIsLoading,
+		messageContent,
+		user.id,
+	]);
 
 	return (
 		<div className="chat-message-list">
