@@ -1,7 +1,7 @@
 import { AxiosResponse } from "axios";
 import { differenceWith, isEqual } from "lodash";
-import { Conversation } from "../components/conversation/Conversation";
-import { Message } from "../components/message/Message";
+import { Conversation } from "components/conversation/Conversation";
+import { Message } from "components/message/Message";
 
 export interface GenericObject {
 	[key: string]: any;

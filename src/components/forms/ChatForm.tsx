@@ -1,14 +1,20 @@
 import { ChangeEvent, useContext, useEffect, useState } from "react";
-import { api } from "../../../api";
+import { api } from "server/api";
 import {
 	deleteMessageSessionStorage,
-	executePromise, getAllMessagesSessionStorage, saveMessageSessionStorage,
+	executePromise,
+	getAllMessagesSessionStorage,
+	saveMessageSessionStorage,
 	showGenericError,
-	updateMessageSessionStorage
-} from "../../../common/Utils";
-import { MainPageContext } from "../../context/MainPageContext";
-import { MessageContext } from "../../context/MessageContext";
-import { createMessage, Message, MessageStatus } from "../../message/Message";
+	updateMessageSessionStorage,
+} from "common/Utils";
+import { MainPageContext } from "contexts/MainPageContext";
+import { MessageContext } from "contexts/MessageContext";
+import {
+	createMessage,
+	Message,
+	MessageStatus,
+} from "components/message/Message";
 
 export const ChatForm = () => {
 	const [inputValue, setInputValue] = useState("");
@@ -43,7 +49,10 @@ export const ChatForm = () => {
 		);
 
 		if (response) {
-			return deleteMessageSessionStorage(message, selectedConversation.id);
+			return deleteMessageSessionStorage(
+				message,
+				selectedConversation.id
+			);
 		}
 
 		updateMessageStatus(message, "failed");

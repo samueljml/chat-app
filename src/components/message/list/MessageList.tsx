@@ -1,14 +1,15 @@
 import { useContext, useEffect } from "react";
-import { api } from "../../../api";
+import { api } from "server/api";
 import {
 	executePromise,
 	getAllMessagesSessionStorage,
-	isArraysDifferents, showGenericError
-} from "../../../common/Utils";
-import { MessageLoader } from "../../content-loader/MessageLoader";
-import { MainPageContext } from "../../context/MainPageContext";
-import { MessageContext } from "../../context/MessageContext";
-import { Message, MessageItem } from "../Message";
+	isArraysDifferents,
+	showGenericError,
+} from "common/Utils";
+import { MainPageContext } from "contexts/MainPageContext";
+import { MessageContext } from "contexts/MessageContext";
+import { MessageLoader } from "components/loader/MessageLoader";
+import { Message, MessageItem } from "components/message/Message";
 
 interface MessageListResponse {
 	data: Array<Message>;

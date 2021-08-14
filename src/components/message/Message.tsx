@@ -1,17 +1,17 @@
 import { useContext } from "react";
-import { api } from "../../api";
+import { api } from "server/api";
 import {
 	deleteMessageSessionStorage,
 	executePromise,
 	gererateId,
 	showGenericError,
 	updateMessageSessionStorage,
-} from "../../common/Utils";
-import { TrashIcon } from "../../images/Icons/TrashIcon";
-import warnIcon from "../../images/Icons/warn.png";
-import defaultImage from "../../images/profiles/default.png";
-import { MainPageContext } from "../context/MainPageContext";
-import { User } from "../main/MainPage";
+} from "common/Utils";
+import { TrashIcon } from "assets/TrashIcon";
+import warnIcon from "assets/warn.png";
+import defaultImage from "assets/default.png";
+import { MainPageContext } from "contexts/MainPageContext";
+import { User } from "pages/main/MainPage";
 
 export interface Message {
 	id: number;

@@ -1,14 +1,14 @@
 import { useContext, useEffect, useState } from "react";
-import { api } from "../../../api";
+import { api } from "server/api";
 import {
 	deleteUserSessionStorage,
 	executePromise,
 	getUserSessionStorage,
 	saveUserSessionStorage,
-} from "../../../common/Utils";
-import perfilIcon from "../../../images/profiles/default.png";
-import { MainPageContext } from "../../context/MainPageContext";
-import { User } from "../../main/MainPage";
+} from "common/Utils";
+import perfilIcon from "assets/default.png";
+import { MainPageContext } from "contexts/MainPageContext";
+import { User } from "pages/main/MainPage";
 
 enum ButtonState {
 	NOT_ADDED = "not-added",

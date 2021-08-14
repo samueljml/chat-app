@@ -1,6 +1,6 @@
 import { Dispatch, FormEvent, SetStateAction, useContext } from "react";
-import { SearchLoader } from "../content-loader/SearchLoader";
-import { MainPageContext } from "../context/MainPageContext";
+import { SearchLoader } from "components/loader/SearchLoader";
+import { MainPageContext } from "contexts/MainPageContext";
 
 interface ConversationSearchProps {
 	setSearchInputValue: Dispatch<SetStateAction<string>>;

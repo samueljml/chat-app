@@ -1,7 +1,7 @@
 import "./style.css";
-import perfilIcon from "../../images/profiles/default.png";
-import backIcon from "../../images/Icons/icon-back-arrow.png";
-import { InputAttribute } from "../Form/Signin/FormSignIn";
+import perfilIcon from "assets/default.png";
+import backIcon from "assets/icon-back-arrow.png";
+import { InputAttribute } from "components/forms/FormSignIn";
 
 const inputAttributes: Array<InputAttribute> = [
 	{

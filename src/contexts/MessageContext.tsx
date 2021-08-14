@@ -5,7 +5,7 @@ import {
 	SetStateAction,
 	useState,
 } from "react";
-import { Message } from "../message/Message";
+import { Message } from "components/message/Message";
 
 interface MessageContextData {
 	messageContent: Array<Message>;

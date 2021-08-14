@@ -1,6 +1,6 @@
 import "./style.css";
-import profileIcon from "../../images/profiles/default.png";
-import { FormSignIn } from "../Form/Signin/FormSignIn";
+import profileIcon from "assets/default.png";
+import { FormSignIn } from "components/forms/FormSignIn";
 
 interface Contribuitor {
 	name: string;
