@@ -38,7 +38,6 @@ export const UserItem = ({ id, name, imageUrl, userName }: User) => {
 	const updateButtonState = () => {
 		if (buttonState === ButtonState.ADDING) {
 			saveUserSessionStorage(user.id, id);
-			// addUserToContacts(`${id}`);
 		}
 
 		if (buttonState === ButtonState.NOT_ADDED) {
@@ -55,9 +54,9 @@ export const UserItem = ({ id, name, imageUrl, userName }: User) => {
 	]);
 
 	useEffect(() => {
-		const addUserToContacts = async (userId: string) => {
+		const addUserToContacts = async (userToAddId: string) => {
 			const [response] = await executePromise(() =>
-				api.post(`/user/${user.id}/contact/${userId}`)
+				api.post(`/user/${user.id}/contact/${userToAddId}`)
 			);
 
 			if (response) {
@@ -66,21 +65,12 @@ export const UserItem = ({ id, name, imageUrl, userName }: User) => {
 			}
 		};
 
-		const toggleStateTeste = () => {
-			setButtonState(
-				buttonState === ButtonState.NOT_ADDED
-					? ButtonState.ADDING
-					: ButtonState.NOT_ADDED
-			);
-		};
-
 		if (conversations.find((userItem) => userItem.id === id)) {
 			return setButtonState(ButtonState.ADDED);
 		}
 
 		const userId = getUserSessionStorage(user.id, id);
 		if (userId) {
-			toggleStateTeste();
 			addUserToContacts(userId);
 		}
 	}, [conversations, user.id, id, buttonState]);
