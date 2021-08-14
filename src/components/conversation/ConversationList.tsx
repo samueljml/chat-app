@@ -1,15 +1,15 @@
 import { useContext, useEffect } from "react";
-import { api } from "../../../api";
 import {
 	containsSubstring,
 	executePromise,
 	isArraysDifferents,
 	reloadInterval,
 	showGenericError,
-} from "../../../common/Utils";
-import { ContactLoader } from "../../content-loader/ContactLoader";
-import { MainPageContext } from "../../context/MainPageContext";
-import { Conversation, ConversationItem } from "../Conversation";
+} from "common/Utils";
+import { MainPageContext } from "contexts/MainPageContext";
+import { Conversation, ConversationItem } from "./Conversation";
+import { api } from "server/api";
+import { ContactLoader } from "components/loader/ContactLoader";
 
 interface ConversationListProps {
 	searchInputValue: string;

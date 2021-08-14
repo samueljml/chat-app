@@ -1,8 +1,8 @@
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import { MainPageProvider } from "./components/context/MainPageContext";
-import { Initial } from "./components/initial/Initial";
-import { MainPage } from "./components/main/MainPage";
-import { SignUp } from "./components/signup/Signup";
+import { MainPageProvider } from "./contexts/MainPageContext";
+import { Initial } from "./pages/initial/Initial";
+import { MainPage } from "./pages/main/MainPage";
+import { SignUp } from "./pages/signup/Signup";
 
 export const App = () => {
 	return (

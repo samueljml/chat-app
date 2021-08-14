@@ -1,7 +1,7 @@
 import { useContext } from "react";
-import { firstLetterUpperCase } from "../../common/Utils";
-import defaultImage from "../../images/profiles/default.png";
-import { MainPageContext } from "../context/MainPageContext";
+import { firstLetterUpperCase } from "common/Utils";
+import defaultImage from "assets/default.png";
+import { MainPageContext } from "contexts/MainPageContext";
 
 export interface Conversation {
 	id: number;

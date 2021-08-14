@@ -1,11 +1,11 @@
 import { useContext, useEffect, useState } from "react";
-import { api } from "../../../api";
-import { executePromise } from "../../../common/Utils";
-import { UsersLoader } from "../../content-loader/UsersLoader";
-import { MainPageContext } from "../../context/MainPageContext";
-import { User } from "../../main/MainPage";
-import { UserItem } from "../user/User";
+import { api } from "server/api";
+import { executePromise } from "common/Utils";
+import { MainPageContext } from "contexts/MainPageContext";
+import { User } from "pages/main/MainPage";
 import "./style.css";
+import { UsersLoader } from "components/loader/UsersLoader";
+import { UserItem } from "components/user/User";
 
 export const AddUser = () => {
 	const [inputValue, setInputValue] = useState("");
@@ -40,7 +40,7 @@ export const AddUser = () => {
 	};
 
 	const handleClick = () => {
-		setState("")
+		setState("");
 		setTimeout(() => {
 			setIsAddUserActive(false);
 		}, 700);

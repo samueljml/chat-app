@@ -1,6 +1,6 @@
 import { useContext } from "react";
-import { MainPageContext } from "../../context/MainPageContext";
-import defaultImage from "../../../images/profiles/default.png";
+import { MainPageContext } from "contexts/MainPageContext";
+import defaultImage from "assets/default.png";
 
 export const NewConversation = () => {
 	const { setIsAddUserActive, user } = useContext(MainPageContext);

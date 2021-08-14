@@ -5,8 +5,8 @@ import {
 	SetStateAction,
 	useState,
 } from "react";
-import { Conversation } from "../conversation/Conversation";
-import { User } from "../main/MainPage";
+import { Conversation } from "components/conversation/Conversation";
+import { User } from "pages/main/MainPage";
 
 type optionalConversation = Conversation | null;
 type optionalUser = User | undefined;

@@ -1,17 +1,17 @@
 import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { api } from "../../api";
-import "../../App.css";
-import { executePromise } from "../../common/Utils";
-import { ChatTitle } from "../chat/ChatTitle";
-import { ChatForm } from "../chat/form/ChatForm";
-import { MainPageContext } from "../context/MainPageContext";
-import { MessageProvider } from "../context/MessageContext";
-import { AddUser } from "../conversation/add-user/AddUser";
-import { ConversationSearch } from "../conversation/ConversationSearch";
-import { ConversationList } from "../conversation/list/ConversationList";
-import { NewConversation } from "../conversation/new-conversation/NewConversation";
-import { MessageList } from "../message/list/MessageList";
+import { api } from "server/api";
+import "App.css";
+import { executePromise } from "common/Utils";
+import { ChatTitle } from "components/chat/ChatTitle";
+import { ChatForm } from "components/forms/ChatForm";
+import { MainPageContext } from "contexts/MainPageContext";
+import { AddUser } from "components/user/add-user/AddUser";
+import { ConversationSearch } from "components/conversation/ConversationSearch";
+import { ConversationList } from "components/conversation/ConversationList";
+import { NewConversation } from "components/conversation/NewConversation";
+import { MessageList } from "components/message/list/MessageList";
+import { MessageProvider } from "contexts/MessageContext";
 
 export interface User {
 	id: number;

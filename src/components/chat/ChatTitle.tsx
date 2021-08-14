@@ -1,8 +1,12 @@
 import { useContext } from "react";
-import { api } from "../../api";
-import { executePromise, firstLetterUpperCase, showGenericError } from "../../common/Utils";
-import { TrashIcon } from "../../images/Icons/TrashIcon";
-import { MainPageContext } from "../context/MainPageContext";
+import { api } from "server/api";
+import {
+	executePromise,
+	firstLetterUpperCase,
+	showGenericError,
+} from "common/Utils";
+import { TrashIcon } from "assets/TrashIcon";
+import { MainPageContext } from "contexts/MainPageContext";
 
 const defaultTitle = "Chat aplication - Select a contact to chat with";
 
@@ -24,7 +28,7 @@ export const ChatTitle = () => {
 				`${selectedConversation.id}`
 			);
 			conversation?.classList.add("state-disable");
-			
+
 			setTimeout(() => {
 				setSelectedConversation(null);
 				return setConversations(
@@ -32,7 +36,6 @@ export const ChatTitle = () => {
 						(conv) => conv.id !== selectedConversation.id
 					)
 				);
-				 
 			}, 700);
 		}
 
@@ -41,7 +44,11 @@ export const ChatTitle = () => {
 
 	return (
 		<div className="chat-title">
-			<span>{selectedConversation ? firstLetterUpperCase(selectedConversation.name) : defaultTitle}</span>
+			<span>
+				{selectedConversation
+					? firstLetterUpperCase(selectedConversation.name)
+					: defaultTitle}
+			</span>
 
 			{selectedConversation && (
 				<div onClick={handleClick} title="Delete Conversation">
