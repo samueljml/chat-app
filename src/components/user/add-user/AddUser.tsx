@@ -6,6 +6,7 @@ import { User } from "pages/main/MainPage";
 import "./style.css";
 import { UsersLoader } from "components/loader/UsersLoader";
 import { UserItem } from "components/user/User";
+import { addUser } from "common/strings.json";
 
 export const AddUser = () => {
 	const [inputValue, setInputValue] = useState("");
@@ -55,8 +56,8 @@ export const AddUser = () => {
 	return (
 		<div className={`container-add-user ${state}`}>
 			<div className="search-container">
-				<h2>Adding new user</h2>
-				<button onClick={handleClick}>x</button>
+				<h2>{addUser.title}</h2>
+				<button onClick={handleClick}>{addUser.button}</button>
 
 				<input
 					onChange={(e) => setInputValue(e.target.value)}

@@ -1,0 +1,54 @@
+{
+	"initial": {
+		"title": "CondoChat",
+		"contribuitors": [
+			{
+				"name": "Samuel",
+				"gitHubUrl": "https://github.com/samueljml"
+			},
+			{
+				"name": "Fabio",
+				"gitHubUrl": "https://github.com/FabioUmpierre"
+			}
+		],
+		"about": {
+			"title": "about",
+			"contributors": "Contributors",
+			"content": "Simple chat project in React. CondoChat allows a connection\nand communication between two users in an easy and intuitive\nway! Create an account and start to chat now!"
+		},
+		"signup": "Don't have an account? Create now!"
+	},
+	"signup": {
+		"title": "Create your account",
+		"inputs": [
+			{
+				"id": "input-name",
+				"type": "text",
+				"required": true,
+				"value": "Name"
+			}
+		],
+		"signIn": "Already have an account?"
+	},
+	"conversationItem": {
+		"message": { "default": "No messages" }
+	},
+	"newConversation": {
+		"button": "+"
+	},
+	"addUser": {
+		"title": "Adding new user",
+		"button": "x"
+	},
+	"chatTitle": {
+		"title": {
+			"default": "defaultTitle"
+		}
+	},
+	"messageItem": {
+		"warning": "Not delivered"
+	},
+	"chatForm": {
+		"button": "Send"
+	}
+}

@@ -1,26 +1,18 @@
-import "./style.css";
 import perfilIcon from "assets/default.png";
 import backIcon from "assets/icon-back-arrow.png";
+import { signup } from "common/strings.json";
 import { InputAttribute } from "components/forms/FormSignIn";
-
-const inputAttributes: Array<InputAttribute> = [
-	{
-		id: "input-name",
-		type: "text",
-		required: true,
-		value: "Name",
-	},
-];
+import "./style.css";
 
 export const SignUp = () => (
 	<div className="container">
 		<form className="form">
 			<img className="back-arrow" src={backIcon} alt="Icon back arrow" />
 
-			<h1>Create your account</h1>
+			<h1>{signup.title}</h1>
 			<img src={perfilIcon} alt="contributors" />
 
-			{inputAttributes.map(
+			{signup.inputs.map(
 				({ id, type, required, value }: InputAttribute) => (
 					<div className="inputbox">
 						<input id={id} type={type} required={required} />
@@ -33,7 +25,7 @@ export const SignUp = () => (
 				<input type="button" value="Continue" />
 			</div>
 
-			<p>Already have an account?</p>
+			<p>{signup.signIn}</p>
 		</form>
 	</div>
 );

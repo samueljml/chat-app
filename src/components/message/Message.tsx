@@ -12,6 +12,7 @@ import warnIcon from "assets/warn.png";
 import defaultImage from "assets/default.png";
 import { MainPageContext } from "contexts/MainPageContext";
 import { User } from "pages/main/MainPage";
+import { messageItem } from "common/strings.json";
 
 export interface Message {
 	id: number;
@@ -43,8 +44,6 @@ export const createMessage = (text: string, { name, imageUrl, id }: User) => ({
 	status: "sending",
 	sentByUserId: id,
 });
-
-const warnToMessage: string = "Not delivered";
 
 export const MessageItem = ({ message }: MessageProps) => {
 	const { user, selectedConversation } = useContext(MainPageContext);
@@ -127,7 +126,7 @@ export const MessageItem = ({ message }: MessageProps) => {
 						<div className="message-time">
 							{message.status === MessageStatus.SENT
 								? message.sendTime
-								: warnToMessage}
+								: messageItem.warning}
 						</div>
 					)
 				) : (

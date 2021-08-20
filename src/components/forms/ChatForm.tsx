@@ -15,6 +15,7 @@ import {
 	Message,
 	MessageStatus,
 } from "components/message/Message";
+import { chatForm } from "common/strings.json";
 
 export const ChatForm = () => {
 	const [inputValue, setInputValue] = useState("");
@@ -107,7 +108,7 @@ export const ChatForm = () => {
 						disabled={handleButtonDisabled}
 						onClick={handleButtonClick}
 					>
-						Send
+						{chatForm.button}
 					</button>
 				</>
 			)}

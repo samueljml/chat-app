@@ -1,7 +1,8 @@
-import { useContext } from "react";
-import { firstLetterUpperCase } from "common/Utils";
 import defaultImage from "assets/default.png";
+import { firstLetterUpperCase } from "common/Utils";
 import { MainPageContext } from "contexts/MainPageContext";
+import { useContext } from "react";
+import { conversationItem } from "common/strings.json";
 
 export interface Conversation {
 	id: number;
@@ -35,7 +36,7 @@ export const ConversationItem = ({ conversation }: ConversationProps) => {
 			<div className="title-text">{firstLetterUpperCase(name)}</div>
 			<div className="created-date"></div>
 			<div className="conversation-message">
-				<strong>No messages</strong>
+				<strong>{conversationItem.message.default}</strong>
 			</div>
 		</div>
 	);

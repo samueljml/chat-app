@@ -7,8 +7,7 @@ import {
 } from "common/Utils";
 import { TrashIcon } from "assets/TrashIcon";
 import { MainPageContext } from "contexts/MainPageContext";
-
-const defaultTitle = "Chat aplication - Select a contact to chat with";
+import { chatTitle } from "common/strings.json";
 
 export const ChatTitle = () => {
 	const {
@@ -47,7 +46,7 @@ export const ChatTitle = () => {
 			<span>
 				{selectedConversation
 					? firstLetterUpperCase(selectedConversation.name)
-					: defaultTitle}
+					: chatTitle.title.default}
 			</span>
 
 			{selectedConversation && (
