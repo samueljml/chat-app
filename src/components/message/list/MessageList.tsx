@@ -9,11 +9,8 @@ import {
 import { MainPageContext } from "contexts/MainPageContext";
 import { MessageContext } from "contexts/MessageContext";
 import { MessageLoader } from "components/loader/MessageLoader";
-import { Message, MessageItem } from "components/message/Message";
-
-interface MessageListResponse {
-	data: Array<Message>;
-}
+import { MessageItem } from "components/message/Message";
+import { MessageListResponse } from "interfaces/interfaces";
 
 export const MessageList = () => {
 	const { selectedConversation, user } = useContext(MainPageContext);

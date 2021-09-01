@@ -1,11 +1,8 @@
 import profileIcon from "assets/default.png";
 import { initial } from "common/strings.json";
 import { FormSignIn } from "components/forms/FormSignIn";
+import { Contribuitor } from "interfaces/interfaces";
 import "./style.css";
-interface Contribuitor {
-	name: string;
-	gitHubUrl: string;
-}
 
 export const Initial = () => (
 	<div className="container">

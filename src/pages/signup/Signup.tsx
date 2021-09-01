@@ -1,7 +1,7 @@
 import perfilIcon from "assets/default.png";
 import backIcon from "assets/icon-back-arrow.png";
 import { signup } from "common/strings.json";
-import { InputAttribute } from "components/forms/FormSignIn";
+import { InputAttribute } from "interfaces/interfaces";
 import "./style.css";
 
 export const SignUp = () => (

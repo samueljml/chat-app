@@ -1,18 +1,9 @@
 import { AxiosResponse } from "axios";
+import { Conversation, GenericObject, Message } from "interfaces/interfaces";
 import { differenceWith, isEqual } from "lodash";
-import { Conversation } from "components/conversation/Conversation";
-import { Message } from "components/message/Message";
-
-export interface GenericObject {
-	[key: string]: any;
-}
+import { ExecutedPromiseResponse } from "types/types";
 
 export const isAFunction = (v: unknown) => typeof v === "function";
-
-export type ExecutedPromiseResponse<R> = [
-	data: R | null,
-	error: GenericObject | null
-];
 
 export const executePromise = async <R>(
 	promiseFn: () => Promise<R>,

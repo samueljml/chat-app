@@ -1,9 +1,4 @@
-export interface InputAttribute {
-	id: string;
-	type: string;
-	required: boolean;
-	value: string;
-}
+import { InputAttribute } from "interfaces/interfaces";
 
 const inputAttributes: Array<InputAttribute> = [
 	{

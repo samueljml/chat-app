@@ -8,7 +8,7 @@ import {
 } from "common/Utils";
 import perfilIcon from "assets/default.png";
 import { MainPageContext } from "contexts/MainPageContext";
-import { User } from "pages/main/MainPage";
+import { User } from "interfaces/interfaces";
 
 enum ButtonState {
 	NOT_ADDED = "not-added",

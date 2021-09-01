@@ -3,16 +3,7 @@ import { firstLetterUpperCase } from "common/Utils";
 import { MainPageContext } from "contexts/MainPageContext";
 import { useContext } from "react";
 import { conversationItem } from "common/strings.json";
-
-export interface Conversation {
-	id: number;
-	name: string;
-	imageUrl: string;
-}
-
-interface ConversationProps {
-	conversation: Conversation;
-}
+import { ConversationProps } from "interfaces/interfaces";
 
 export const ConversationItem = ({ conversation }: ConversationProps) => {
 	const { id, imageUrl, name } = conversation;
