@@ -12,22 +12,7 @@ import { ConversationList } from "components/conversation/ConversationList";
 import { NewConversation } from "components/conversation/NewConversation";
 import { MessageList } from "components/message/list/MessageList";
 import { MessageProvider } from "contexts/MessageContext";
-
-export interface User {
-	id: number;
-	name: string;
-	userName: string;
-	email: string;
-	imageUrl: string;
-}
-
-interface UserProps {
-	data: User;
-}
-
-interface UserId {
-	loggedUserId: string;
-}
+import { UserId, UserProps } from "interfaces/interfaces";
 
 export const MainPage = () => {
 	const [inputSearchValue, setInputSearchValue] = useState("");

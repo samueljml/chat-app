@@ -1,5 +1,4 @@
-import { ChangeEvent, useContext, useEffect, useState } from "react";
-import { api } from "server/api";
+import { chatForm } from "common/strings.json";
 import {
 	deleteMessageSessionStorage,
 	executePromise,
@@ -8,14 +7,12 @@ import {
 	showGenericError,
 	updateMessageSessionStorage,
 } from "common/Utils";
+import { createMessage } from "components/message/Message";
 import { MainPageContext } from "contexts/MainPageContext";
 import { MessageContext } from "contexts/MessageContext";
-import {
-	createMessage,
-	Message,
-	MessageStatus,
-} from "components/message/Message";
-import { chatForm } from "common/strings.json";
+import { Message, MessageStatus } from "interfaces/interfaces";
+import { ChangeEvent, useContext, useEffect, useState } from "react";
+import { api } from "server/api";
 
 export const ChatForm = () => {
 	const [inputValue, setInputValue] = useState("");

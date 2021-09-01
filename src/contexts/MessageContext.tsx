@@ -1,23 +1,7 @@
+import { Message, MessageContextData, MessageProviderProps } from "interfaces/interfaces";
 import {
-	createContext,
-	Dispatch,
-	ReactNode,
-	SetStateAction,
-	useState,
+	createContext, useState
 } from "react";
-import { Message } from "components/message/Message";
-
-interface MessageContextData {
-	messageContent: Array<Message>;
-	setMessageContent: Dispatch<SetStateAction<Array<Message>>>;
-
-	isLoading: boolean;
-	setIsLoading: Dispatch<SetStateAction<boolean>>;
-}
-
-interface MessageProviderProps {
-	children: ReactNode;
-}
 
 export const MessageContext = createContext({} as MessageContextData);
 

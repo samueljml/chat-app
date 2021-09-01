@@ -1,4 +1,3 @@
-import { useContext, useEffect } from "react";
 import {
 	containsSubstring,
 	executePromise,
@@ -6,14 +5,12 @@ import {
 	reloadInterval,
 	showGenericError,
 } from "common/Utils";
-import { MainPageContext } from "contexts/MainPageContext";
-import { Conversation, ConversationItem } from "./Conversation";
-import { api } from "server/api";
 import { ContactLoader } from "components/loader/ContactLoader";
-
-interface ConversationListProps {
-	searchInputValue: string;
-}
+import { MainPageContext } from "contexts/MainPageContext";
+import { useContext, useEffect } from "react";
+import { api } from "server/api";
+import { Conversation, ConversationListProps } from "interfaces/interfaces";
+import { ConversationItem } from "components/conversation/Conversation";
 
 export const ConversationList = ({
 	searchInputValue,

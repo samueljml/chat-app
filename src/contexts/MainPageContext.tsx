@@ -1,32 +1,8 @@
+import { Conversation, LoaderProviderProps, MainPageContextData } from "interfaces/interfaces";
 import {
-	createContext,
-	Dispatch,
-	ReactNode,
-	SetStateAction,
-	useState,
+	createContext, useState
 } from "react";
-import { Conversation } from "components/conversation/Conversation";
-import { User } from "pages/main/MainPage";
-
-type optionalConversation = Conversation | null;
-type optionalUser = User | undefined;
-
-interface MainPageContextData {
-	user: optionalUser;
-	setUser: Dispatch<SetStateAction<optionalUser>>;
-	selectedConversation: optionalConversation;
-	setSelectedConversation: Dispatch<SetStateAction<optionalConversation>>;
-	isConversationLoading: boolean;
-	setIsConversationLoading: Dispatch<SetStateAction<boolean>>;
-	isAddUserActive: boolean;
-	setIsAddUserActive: Dispatch<SetStateAction<boolean>>;
-	conversations: Array<Conversation>;
-	setConversations: Dispatch<Array<Conversation>>;
-}
-
-interface LoaderProviderProps {
-	children: ReactNode;
-}
+import { optionalConversation, optionalUser } from "types/types";
 
 export const MainPageContext = createContext({} as MainPageContextData);
 

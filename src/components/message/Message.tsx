@@ -11,28 +11,8 @@ import { TrashIcon } from "assets/TrashIcon";
 import warnIcon from "assets/warn.png";
 import defaultImage from "assets/default.png";
 import { MainPageContext } from "contexts/MainPageContext";
-import { User } from "pages/main/MainPage";
 import { messageItem } from "common/strings.json";
-
-export interface Message {
-	id: number;
-	name: string;
-	imageUrl: string;
-	sendTime: string;
-	text: string;
-	status: string;
-	sentByUserId?: number;
-}
-
-export enum MessageStatus {
-	SENDING = "sending",
-	SENT = "sent",
-	FAILED = "failed",
-}
-
-export interface MessageProps {
-	message: Message;
-}
+import { MessageProps, MessageStatus, User } from "interfaces/interfaces";
 
 export const createMessage = (text: string, { name, imageUrl, id }: User) => ({
 	id: gererateId(),

@@ -2,11 +2,11 @@ import { useContext, useEffect, useState } from "react";
 import { api } from "server/api";
 import { executePromise } from "common/Utils";
 import { MainPageContext } from "contexts/MainPageContext";
-import { User } from "pages/main/MainPage";
 import "./style.css";
 import { UsersLoader } from "components/loader/UsersLoader";
 import { UserItem } from "components/user/User";
 import { addUser } from "common/strings.json";
+import { User } from "interfaces/interfaces";
 
 export const AddUser = () => {
 	const [inputValue, setInputValue] = useState("");
